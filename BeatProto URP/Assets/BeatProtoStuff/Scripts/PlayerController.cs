@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     private bool grounded;
     private bool floating;
+   
 
     public float moveSpeed;
     public float jumpSpeed;
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour
     public float floatGravityFactor;
     public float fallGravityFactor;
 
+
+    public bool jumpTestBool = false;
 
     private void Awake()
     {
@@ -101,22 +104,32 @@ public class PlayerController : MonoBehaviour
 
     private void Jump() 
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        //BASE JUMP
+        /*if (Input.GetKeyDown(KeyCode.Space))
         { 
             playerRB.velocity = new Vector2(playerRB.velocity.x, jumpSpeed);
             grounded = false;
+        }*/
+
+
+        //TEST STUFF BELOW
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (jumpTestBool)
+            {
+                playerRB.velocity = new Vector2(moveSpeed, jumpSpeed);
+                grounded = false;
+            }
+            else if (!jumpTestBool)
+            {
+                playerRB.velocity = new Vector2(-moveSpeed, jumpSpeed);
+                grounded = false;
+            }
         }
     }
 
-    private void GravityToggle (float gravScale)
-    {
-        playerRB.gravityScale = gravScale;
-    }
-
-    private void FlipPlayerSprite(bool shouldFlip) 
-    {
-        playerSprite.flipX = shouldFlip;
-    }
+    
 
     private void Float() 
     {
@@ -126,6 +139,18 @@ public class PlayerController : MonoBehaviour
         }
         else
             floating = false;
+    }
+
+    
+
+    private void GravityToggle(float gravScale)
+    {
+        playerRB.gravityScale = gravScale;
+    }
+
+    private void FlipPlayerSprite(bool shouldFlip)
+    {
+        playerSprite.flipX = shouldFlip;
     }
 
     private void HandleGravity() 
@@ -147,4 +172,6 @@ public class PlayerController : MonoBehaviour
     {
         grounded = ground;
     }
+
+   
 }
