@@ -190,6 +190,8 @@ public class PlayerController : MonoBehaviour
         {
             if (canGrab) //if the player can grab (i.e. are in range of a wall)
             {
+                allowHoriz = true;
+                horizontalDisableTimer = defaultHorizontalTime;
                 grabbing = true; //vv important bool - controls what movement is allowed while grabbing. See Update() for all functionality.
                 playerRB.velocity = Vector2.zero; //Stop the player from moving
                 playerRB.Sleep(); //disable playerRB so that the player does not fall. Wanted to use gravity, but there was constant overlap with other things.
