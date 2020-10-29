@@ -8,7 +8,7 @@ public class PlayerWallCheck : MonoBehaviour
     {
         if (collision.gameObject.tag == "Wall")
         {
-           // PlayerController.pController.SetGrab(true);
+            PlayerController.pController.SetGrabPossible(true);
         }
     }
 
@@ -16,7 +16,9 @@ public class PlayerWallCheck : MonoBehaviour
     {
         if (collision.gameObject.tag == "Wall")
         {
-           // PlayerController.pController.SetGrab(false);
+            PlayerController.pController.SetGrabPossible(false);
+
+            PlayerController.pController.SetGrabState(false);
         }
     }
 }

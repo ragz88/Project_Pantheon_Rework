@@ -7,11 +7,26 @@ public class PlayerGroundCheck : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Platform")
+        if (collision)
         {
             PlayerController.pController.SetGrounded(true);
         }
+    }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision)
+        {
+            PlayerController.pController.SetGrounded(true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision)
+        {
+            PlayerController.pController.SetGrounded(false);
+        }
     }
 
 }
