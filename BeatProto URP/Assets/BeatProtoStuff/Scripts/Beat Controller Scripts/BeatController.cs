@@ -29,7 +29,7 @@ public class BeatController: MonoBehaviour
     /// <summary>
     /// Sets the boolean associated with the given beat index to true in the activeBeats array
     /// </summary>
-    public void ActivateBeat(int beatIndex)
+    /*public void ActivateBeat(int beatIndex)
     {
         activeBeats[beatIndex] = true;
     }
@@ -40,6 +40,17 @@ public class BeatController: MonoBehaviour
     public void DeactivateBeat(int beatIndex)
     {
         activeBeats[beatIndex] = false;
+    }*/
+
+    /// <summary>
+    /// Sets all beats in our activeBeats array to false
+    /// </summary>
+    public void ClearActiveBeats()
+    {
+        for (int i = 0; i < activeBeats.Length; i++)
+        {
+            activeBeats[i] = false;
+        }
     }
 
 }
