@@ -62,7 +62,9 @@ public class BeatTimingManager : MonoBehaviour
     void Start()
     {
         //currentBPM = currentSong.BPM;
-        beatLength = currentSong.BPM / 60;
+
+        // We convert to Beats per second, then to seconds
+        beatLength = 1/(currentSong.BPM / 60);
     }
 
     // Update is called once per frame
@@ -125,5 +127,14 @@ public class BeatTimingManager : MonoBehaviour
     public void RestartBeat()
     {
 
+    }
+
+    /// <summary>
+    /// Returns the current beat number within the beat cycle present in this level.
+    /// </summary>
+    /// <returns>Current beat number in the current beat cycle</returns>
+    public int GetBeatNumber()
+    {
+        return currentBeatNumber;
     }
 }
