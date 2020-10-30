@@ -42,6 +42,10 @@ public class PlayerController : MonoBehaviour
     public float defaultHorizontalTime;
 
 
+    //Animation Stuff (consider moving?) 
+    private Animator playerAnimator;
+
+
     private void Awake()
     {
         if (pController == null)
@@ -103,10 +107,15 @@ public class PlayerController : MonoBehaviour
         if (playerRB.velocity.x > 0)
         {
             FlipPlayerSprite(false);
+
+            if (grounded)
+                playerAnimator.SetTrigger("walking");
         }
         else if (playerRB.velocity.x < 0)
         {
             FlipPlayerSprite(true);
+            if (grounded)
+                playerAnimator.SetTrigger("walking");
         }
 
         //horizontal movement is disabled for a short time after a wall jump. Below code handles that. See "HorizontalMovement()" for explanation
@@ -120,6 +129,8 @@ public class PlayerController : MonoBehaviour
             allowHoriz = true;
             horizontalDisableTimer = defaultHorizontalTime;
         }
+
+        
     }
 
     //Gets all the player GameObject information needed.
@@ -144,6 +155,7 @@ public class PlayerController : MonoBehaviour
         {
             playerRB = player.GetComponent<Rigidbody2D>(); // finds the players Rigidbody
             playerSprite = player.GetComponentInChildren<SpriteRenderer>(); //finds the players SpriteRenderer
+            playerAnimator = player.GetComponent<Animator>();
         }
     }
 
@@ -170,6 +182,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             playerRB.velocity = new Vector2(playerRB.velocity.x, jumpSpeed);
+            playerAnimator.SetTrigger("jumping");
             grounded = false;
         }
     }
@@ -195,6 +208,8 @@ public class PlayerController : MonoBehaviour
                 grabbing = true; //vv important bool - controls what movement is allowed while grabbing. See Update() for all functionality.
                 playerRB.velocity = Vector2.zero; //Stop the player from moving
                 playerRB.Sleep(); //disable playerRB so that the player does not fall. Wanted to use gravity, but there was constant overlap with other things.
+
+                playerAnimator.SetTrigger("grabbing");
             }
         }
     }
@@ -230,10 +245,14 @@ public class PlayerController : MonoBehaviour
         if (!grounded && playerRB.velocity.y < 0 && !floating) //if the player is falling, gravity should be higher for impact
         {
             GravityToggle(fallGravityFactor);
+            playerAnimator.SetTrigger("falling");
         }
         else if (!grounded && playerRB.velocity.y < 0 && floating) //if the player is floating, gravity should be very low
         {
+            float playerY = Mathf.Clamp(playerRB.velocity.y, -0.5f, 20); //This, and next line slows the player Y down. Because if the player has been falling,
+            playerRB.velocity = new Vector2(playerRB.velocity.x, playerY); // even though gravity gets set lower, they will maintain a high fall speed
             GravityToggle(floatGravityFactor);
+            playerAnimator.SetTrigger("floating");
         }
         else if (grounded || grabbing) //gravity should be reset to normal when grounded or grabbing
             GravityToggle(1);
@@ -253,5 +272,6 @@ public class PlayerController : MonoBehaviour
     {
         grabbing = isGrabbing;
     }
+
 }
 
