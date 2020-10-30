@@ -5,6 +5,7 @@ using UnityEngine;
 public class BeatInput : MonoBehaviour
 {
 
+
     // Defines whether the user's inputs (and lack thereof) affect the construction of a beat pattern or not.
     bool editMode = false;
 
