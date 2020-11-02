@@ -26,7 +26,6 @@ public class BeatInput : MonoBehaviour
     bool startedOnZero = false;
 
     int currentBeat = -1;
-    bool inputPresentThisBeat = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +36,8 @@ public class BeatInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        // TEMPORARY INTERACTION FOR TESTING
+        if (Input.GetKeyDown(KeyCode.F))
         {
             OpenEditor();
         }
@@ -61,7 +61,8 @@ public class BeatInput : MonoBehaviour
                     }
                 }
 
-                if (Input.GetKeyDown(KeyCode.F))  // CHANGE TO SING BUTTON!!!!!!!!!!!!!!!!
+                // Gets user input, activating the current beat if it is present.
+                if (Input.GetButtonDown("Sing"))  
                 {
                     beatController.activeBeats[currentBeat] = true;
                 }
@@ -93,9 +94,16 @@ public class BeatInput : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Opens the editing UI, allowing the player to enter in a beat pattern.
+    /// </summary>
     public void OpenEditor()
     {
         editMode = true;
+
+        // We check if the editor opened while the beat was on the first block - in this case, we'll wait for a cycle to give the
+        // player a chance to prepare before having to enter anything in.
         if ((BeatTimingManager.btmInstance.GetBeatNumber() % beatController.activeBeats.Length) == 0)
         {
             startedOnZero = true;
@@ -111,6 +119,11 @@ public class BeatInput : MonoBehaviour
         inputBeatUI.UpdateInteractableState(false);
     }
 
+
+    /// <summary>
+    /// To be run after the player has had a chance to enter a pattern. Once the final editable beat is passed, the UI will close and that
+    /// beat pattern will be locked in.
+    /// </summary>
     public void CloseEditor()
     {
         editMode = false;
