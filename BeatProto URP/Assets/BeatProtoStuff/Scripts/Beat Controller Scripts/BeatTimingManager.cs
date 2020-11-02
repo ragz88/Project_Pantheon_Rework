@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 /// <summary>
 /// Keeps track of how long we are into the current song/beat collection, which beat we're currently on and fires the OnBeat events
 /// of various beat controllers at the appropriate time.
@@ -77,18 +76,6 @@ public class BeatTimingManager : MonoBehaviour
             beatTimer = beatTimer - beatLength;  // We don't want to reset to 0 - then any milliseconds difference between 
                                                  // the timer and beatLength will be lost, resulting in a compounding time shift
 
-            // Activate all the onBeat events for our currently present BeatControllers
-            for (int i = 0; i < beatControllers.Length; i++)
-            {
-                // First we'll check if this specific beat controller is meant to fire on this beat, based on the settings the player
-                // has locked into it.
-                // The % (mod) function allows for various beat controllers' activeBeats arrays to be different lengths.
-                // Note that they must still be a multiple of the total number of beats from the current song
-                if (beatControllers[i].activeBeats[currentBeatNumber % beatControllers[i].activeBeats.Length])
-                {
-                    beatControllers[i].OnBeat.Invoke();
-                }
-            }
 
             // We also want to increase the current beat counter - or cycle it back to 0 if we've completed an entire cycle of beats.
             // We subtract 1 due to the array's 0 index
@@ -99,6 +86,19 @@ public class BeatTimingManager : MonoBehaviour
             else
             {
                 currentBeatNumber++;
+            }
+
+            // Finally, we activate all the onBeat events for our currently present BeatControllers
+            for (int i = 0; i < beatControllers.Length; i++)
+            {
+                // First we'll check if this specific beat controller is meant to fire on this beat, based on the settings the player
+                // has locked into it.
+                // The % (mod) function allows for various beat controllers' activeBeats arrays to be different lengths.
+                // Note that they must still be a multiple of the total number of beats from the current song
+                if (beatControllers[i].activeBeats[currentBeatNumber % beatControllers[i].activeBeats.Length])
+                {
+                    beatControllers[i].OnBeat.Invoke();
+                }
             }
         }
 
