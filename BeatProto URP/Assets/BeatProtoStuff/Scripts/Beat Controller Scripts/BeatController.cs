@@ -9,6 +9,15 @@ using UnityEngine.Events;
 /// </summary>
 public class BeatController: MonoBehaviour
 {
+    /// <summary>
+    /// Defines which elements in the environment this controller is linked to. Important for detecting if the player has found a 
+    /// feasible solution, and for playing the correct sounds with those elements.
+    /// </summary>
+    public BeatElementColour controllerColour;
+    
+    /// <summary>
+    /// This array represents which beats the user has defined as active - and thus on these beats the OnBeat event will fire.
+    /// </summary> 
     public bool[] activeBeats;
     
     /// <summary>
@@ -20,10 +29,7 @@ public class BeatController: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            OnBeat.Invoke();
-        }
+        
     }
 
     /// <summary>

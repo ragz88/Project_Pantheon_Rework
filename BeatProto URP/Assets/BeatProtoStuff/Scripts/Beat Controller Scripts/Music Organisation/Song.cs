@@ -14,4 +14,15 @@ public class Song : ScriptableObject
     /// The total number of beats in a single cycle for the initial puzzle section.
     /// </summary>
     public int totalBeatNum = 8;
+
+    /// <summary>
+    /// Allows us to access and play the specific beat sounds designed for the puzzle portion of the level.
+    /// </summary>
+    public BeatSoundCollection[] beatSoundCollections;
+
+    /// <summary>
+    /// A collection of possible solutions to the current level (beat setups that would feasibly allow the player to progress
+    /// through the level's platforming phase).
+    /// </summary>
+    public MusicalSolution[] possibleSolutions;
 }
