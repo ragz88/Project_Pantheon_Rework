@@ -9,26 +9,35 @@ using UnityEngine.UI;
 /// </summary>
 public class BeatUI : MonoBehaviour
 {
+    [Tooltip("The BeatController whose information this UI should represent.")]
     /// <summary>
     /// The BeatController whose information this UI should represent.
     /// </summary>
     public BeatController beatController;
-    
+
+
+    [Tooltip("The images used to display the beat blocks for a specific beat controller.")]
     /// <summary>
     /// The images used to display the beat blocks for a specific beat controller
     /// </summary>
     public Image[] beatBlockImages;
 
+
+    [Tooltip("This should be set to true when the player opens the editor interface.")]
     /// <summary>
     /// This should be set to true when the player opens the editor interface
     /// </summary>
     public bool UIVisible = false;
 
+
+    [Tooltip("Sprite to be show if a beat in a beat pattern is filled - ie. the OnBeat event for this beat WILL fire.")]
     /// <summary>
     /// Sprite to be show if a beat in a beat pattern is filled - ie. the OnBeat event for this beat WILL fire
     /// </summary>
     public Sprite activeBeatSprite;
 
+
+    [Tooltip("Sprite to be show if a beat in a beat pattern is empty - ie. the OnBeat event for this beat WON'T fire.")]
     /// <summary>
     /// Sprite to be show if a beat in a beat pattern is empty - ie. the OnBeat event for this beat WON'T fire
     /// </summary>

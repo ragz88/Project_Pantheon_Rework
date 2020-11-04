@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Video;
 
 /// <summary>
 /// This class will instantiate an Audio Source each time a beat controller fires on an active beat. 
@@ -9,22 +9,29 @@ using UnityEngine;
 /// </summary>
 public class BeatSoundPlayer : MonoBehaviour
 {
+    [Tooltip("The Beat Sound Collection Scriptable Object which stores all the sounds this player can potentially play.")]
     /// <summary>
     /// The Beat Sound Collection Scriptable Object which stores all the sounds this player can potentially play.
     /// </summary>
     public BeatSoundCollection soundCollection;
 
+
+    [Tooltip("Prefab for an audiosource which will destroy itself after it's completed playing it's clip \n (to be spawned each time a beat controller identifies an active beat).")]
     /// <summary>
     /// Prefab for an audiosource which will destroy itself after it's completed playing it's clip.
     /// To be spawned each time a beat controller identifies an active beat.
     /// </summary>
     public GameObject decayingAudioSource;
 
+
+    [Tooltip("Defines the way in which we select the next sound to play on an active beat. See BeatSoundOrder for details")]
     /// <summary>
     /// Defines the way in which we select the next sound to play on an active beat.
     /// </summary>
     public BeatSoundOrder soundOrder;
 
+
+    [Tooltip("Visible for testing, no need to edit")]
     [SerializeField]
     // Stores the index of the last sound the player played - used to calculate which sound should come next
     private int currentSoundIndex = 0;
@@ -38,18 +45,25 @@ public class BeatSoundPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            NextSoundIndex();
-            PlayCurrentSound();
-        }
+        
+    }
+
+
+    /// <summary>
+    /// This will calculate the index of the next sound that should be played from the given sound collection, using the soundOrder
+    /// ruleset given, and then play the respective sound using a decaying audioSource.
+    /// </summary>
+    public void OnActiveBeat()
+    {
+        NextSoundIndex();
+        PlayCurrentSound();
     }
 
 
     /// <summary>
     /// Considers the sound order settings and changes the currentSoundIndex to a new value based on the chosen ruelset.
     /// </summary>
-    public void NextSoundIndex()
+    private void NextSoundIndex()
     {
         switch (soundOrder)
         {
@@ -58,7 +72,7 @@ public class BeatSoundPlayer : MonoBehaviour
                 break;
 
             case BeatSoundOrder.IndexLink:
-
+                CalculateIndexLinkValue();
                 break;
 
             case BeatSoundOrder.PsuedoRandom:
@@ -71,6 +85,14 @@ public class BeatSoundPlayer : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Sets our current sound index to the current beat number of our Beat Timing Manager
+    /// </summary>
+    private void CalculateIndexLinkValue()
+    {
+        currentSoundIndex = BeatTimingManager.btmInstance.GetBeatNumber() % soundCollection.beatSounds.Length;
+    }
 
     /// <summary>
     /// Update the currentSoundIndex based on the Cycle BeatSoundOrder rules (Mouseover BeatSoundOrder.Cycle for details).

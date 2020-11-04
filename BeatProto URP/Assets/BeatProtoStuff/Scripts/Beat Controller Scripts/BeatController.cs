@@ -9,17 +9,22 @@ using UnityEngine.Events;
 /// </summary>
 public class BeatController: MonoBehaviour
 {
+    [Tooltip("Defines which elements in the environment this controller is linked to. Important for detecting if the player has found a feasible solution, and for playing the correct sounds with those elements.")]
     /// <summary>
     /// Defines which elements in the environment this controller is linked to. Important for detecting if the player has found a 
     /// feasible solution, and for playing the correct sounds with those elements.
     /// </summary>
     public BeatElementColour controllerColour;
-    
+
+
+    [Tooltip("This array represents which beats the user has defined as active - and thus on these beats the OnBeat event will fire.")]
     /// <summary>
     /// This array represents which beats the user has defined as active - and thus on these beats the OnBeat event will fire.
     /// </summary> 
     public bool[] activeBeats;
-    
+
+
+    [Tooltip("The set of actions that should happen each time a beat is present and fires off (add elements of this beat controller's type here).")]
     /// <summary>
     /// The set of actions that should happen each time a beat is present and fires off for elements of this beat controller's type
     /// </summary>
@@ -31,22 +36,6 @@ public class BeatController: MonoBehaviour
     {
         
     }
-
-    /// <summary>
-    /// Sets the boolean associated with the given beat index to true in the activeBeats array
-    /// </summary>
-    /*public void ActivateBeat(int beatIndex)
-    {
-        activeBeats[beatIndex] = true;
-    }
-
-    /// <summary>
-    /// Sets the boolean associated with the given beat index to false in the activeBeats array
-    /// </summary>
-    public void DeactivateBeat(int beatIndex)
-    {
-        activeBeats[beatIndex] = false;
-    }*/
 
     /// <summary>
     /// Sets all beats in our activeBeats array to false
