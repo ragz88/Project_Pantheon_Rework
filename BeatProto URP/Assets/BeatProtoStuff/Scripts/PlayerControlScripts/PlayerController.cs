@@ -179,17 +179,19 @@ public class PlayerController : MonoBehaviour
 
     private void Jump() //BASE JUMP - simply sets a Y vel while maintaining X vel
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+       
+        if (Input.GetButtonDown("Jump"))
         {
             playerRB.velocity = new Vector2(playerRB.velocity.x, jumpSpeed);
             playerAnimator.SetTrigger("jumping");
             grounded = false;
         }
+
     }
 
     private void PlayerFloat() //Allows the player to float down. See "GravityHandler()" for exact functionality 
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetButton("Sing"))
         {
             floating = true;
         }
@@ -199,7 +201,7 @@ public class PlayerController : MonoBehaviour
 
     private void GrabWall() //Allows the player to grab a wall, if they are in range.
     {
-        if (Input.GetKey(KeyCode.E)) 
+        if (Input.GetButton("HoldWall")) 
         {
             if (canGrab) //if the player can grab (i.e. are in range of a wall)
             {
@@ -216,13 +218,13 @@ public class PlayerController : MonoBehaviour
 
     private void JumpFromWall() //Allows the player to wall jump if they are currently grabbing a wall. 
     {
-        if (Input.GetKeyDown(KeyCode.Space) && hitDirection == 1) //hitdirection == 1 is the same as LEFT, i.e wall is on PCs left, so they jump right
+        if (Input.GetButtonDown("Jump") && hitDirection == 1) //hitdirection == 1 is the same as LEFT, i.e wall is on PCs left, so they jump right
         {
             allowHoriz = false; //stop horizontal movement input - see var declaration and HorizontalMovement () for more info.
             playerRB.WakeUp(); //re-activated playerRB because grabbing wall deactivates it
             playerRB.velocity = new Vector2(moveSpeed, jumpSpeed); //jump right and up
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && hitDirection == 0) //hitdirection == 1 is the same as RIGHT, i.e wall is on PCs right, so they jump left
+        else if (Input.GetButtonDown("Jump") && hitDirection == 0) //hitdirection == 1 is the same as RIGHT, i.e wall is on PCs right, so they jump left
         {
             allowHoriz = false; //stop horizontal movement input - see var declaration and HorizontalMovement () for more info.
             playerRB.WakeUp(); //re-activated playerRB because grabbing wall deactivates it

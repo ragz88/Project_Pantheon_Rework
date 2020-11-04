@@ -8,11 +8,14 @@ using UnityEngine;
 /// </summary>
 public class BeatTimingManager : MonoBehaviour
 {
+    [Tooltip("The Song Scriptable Object associated with the current level.")]
     /// <summary>
     /// The Song Scriptable Object associated with the current level
     /// </summary>
     public Song currentSong;
 
+
+    [Tooltip("Array of BeatControllers - each associated with one type of beat-controlled element within the level.")]
     /// <summary>
     /// Array of BeatControllers - each associated with one type of beat-controlled element within the level.
     /// </summary>

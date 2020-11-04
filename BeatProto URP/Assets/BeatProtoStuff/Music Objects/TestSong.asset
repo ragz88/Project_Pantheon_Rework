@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BPM: 120
   totalBeatNum: 8
+  beatSoundCollections:
+  - {fileID: 11400000, guid: ff5385edc46bf4e4dad47e87b97404dd, type: 2}
+  - {fileID: 11400000, guid: ff5385edc46bf4e4dad47e87b97404dd, type: 2}
+  possibleSolutions:
+  - {fileID: 11400000, guid: 29a48708f99992a4da32091425d18df3, type: 2}
+  - {fileID: 11400000, guid: 29a48708f99992a4da32091425d18df3, type: 2}

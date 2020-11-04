@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class BeatInput : MonoBehaviour
 {
+    [Tooltip("The beat controller which will be changed by this input console. Essentially, which type of environmental assets we want this input console to affect.")]
     /// <summary>
     /// The beat controller which will be changed by this input console. Essentially, which type of environmental assets we want
     /// this input console to affect.
     /// </summary>
     public BeatController beatController;
 
+    [Tooltip("To be shown when the player opens the beat input menu for this BeatInput's specific controller.")]
     /// <summary>
-    /// To be shown when the player opens the beat input menu
+    /// To be shown when the player opens the beat input menu for this BeatInput's specific controller.
     /// </summary>
     public BeatUI inputBeatUI;
     
