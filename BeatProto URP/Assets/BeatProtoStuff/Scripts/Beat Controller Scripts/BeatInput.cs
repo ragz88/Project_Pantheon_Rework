@@ -29,6 +29,10 @@ public class BeatInput : MonoBehaviour
 
     int currentBeat = -1;
 
+    //new variables for Micky. Seperating the UI from the Beat Input console.
+    bool playerInRange = false;
+    public SpriteRenderer inputPossibleSprite;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +45,8 @@ public class BeatInput : MonoBehaviour
         // TEMPORARY INTERACTION FOR TESTING
         if (Input.GetKeyDown(KeyCode.F))
         {
-            OpenEditor();
+            if (playerInRange)
+                OpenEditor();
         }
 
         if (editMode)
@@ -133,5 +138,15 @@ public class BeatInput : MonoBehaviour
 
         inputBeatUI.UpdateInteractableState(false);
         inputBeatUI.UIVisible = false;
+    }
+
+    public void SetPlayerInRange(bool inRange) 
+    {
+        playerInRange = inRange;
+    }
+
+    public void TogglePossibleInputImage(bool inputState) 
+    {
+        inputPossibleSprite.enabled = inputState;
     }
 }

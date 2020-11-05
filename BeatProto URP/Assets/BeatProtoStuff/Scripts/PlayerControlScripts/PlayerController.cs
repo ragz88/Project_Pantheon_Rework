@@ -41,6 +41,10 @@ public class PlayerController : MonoBehaviour
     private float horizontalDisableTimer;
     public float defaultHorizontalTime;
 
+    //Singing variables
+    private bool singing = false;
+    private PlayerSingControl singCont;
+
 
     //Animation Stuff (consider moving?) 
     private Animator playerAnimator;
@@ -73,6 +77,13 @@ public class PlayerController : MonoBehaviour
 
             if (!grounded)
                 PlayerFloat();
+        }
+
+        Sing();
+
+        if (singing) 
+        {
+            singCont.ActiveSing();
         }
 
         GrabWall(); //grab wall if possible
@@ -156,7 +167,18 @@ public class PlayerController : MonoBehaviour
             playerRB = player.GetComponent<Rigidbody2D>(); // finds the players Rigidbody
             playerSprite = player.GetComponentInChildren<SpriteRenderer>(); //finds the players SpriteRenderer
             playerAnimator = player.GetComponent<Animator>();
+            singCont = player.GetComponentInChildren<PlayerSingControl>();
         }
+    }
+
+    private void Sing() 
+    {
+        if (Input.GetButton("Sing"))
+        {
+            singing = true;
+        }
+        else
+            singing = false;
     }
 
 
@@ -257,7 +279,7 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetTrigger("floating");
         }
         else if (grounded || grabbing) //gravity should be reset to normal when grounded or grabbing
-            GravityToggle(1);
+            GravityToggle(2);
     }
 
     public void SetGrounded(bool ground) //Function that sets whether the player is grounded. See "PlayerGroundCheck" script
