@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c72109f2cda44ae47bdeb15c89c608cb, type: 3}
+  m_Name: Solution 2
+  m_EditorClassIdentifier: 
+  solutionComposition: {fileID: 8300000, guid: e8edf5f5b7caeac4f903d8fea3573791, type: 3}
+  solutionCompositionIntro: {fileID: 8300000, guid: e8edf5f5b7caeac4f903d8fea3573791, type: 3}
+  correctPatterns:
+  - name: ' Beat Pattern'
+    beatColour: 0
+    pattern: 01010101
+  - name: ' Beat Pattern'
+    beatColour: 1
+    pattern: 0101010101010101

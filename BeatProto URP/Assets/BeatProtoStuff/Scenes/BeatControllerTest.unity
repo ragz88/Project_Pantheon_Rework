@@ -176,6 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 470311721}
   - component: {fileID: 470311720}
+  - component: {fileID: 470311722}
   m_Layer: 0
   m_Name: RedBeatController
   m_TagString: Untagged
@@ -199,7 +200,19 @@ MonoBehaviour:
   activeBeats: 0000000000000000
   OnBeat:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 470311722}
+        m_TargetAssemblyTypeName: BeatSoundPlayer, Assembly-CSharp
+        m_MethodName: OnActiveBeat
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &470311721
 Transform:
   m_ObjectHideFlags: 0
@@ -214,6 +227,22 @@ Transform:
   m_Father: {fileID: 994855634}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &470311722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470311719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1005ebbbb7a7f064ca9c3323258465d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundCollection: {fileID: 11400000, guid: 0a9ee29534216c148b94f9e6ba87849c, type: 2}
+  decayingAudioSource: {fileID: 5077670713388983733, guid: e05d038af756b2249bf05f4474032285, type: 3}
+  soundOrder: 0
+  currentSoundIndex: 0
 --- !u!1 &581002619
 GameObject:
   m_ObjectHideFlags: 0

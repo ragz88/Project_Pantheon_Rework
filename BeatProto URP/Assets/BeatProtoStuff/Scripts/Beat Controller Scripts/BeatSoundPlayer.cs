@@ -36,6 +36,10 @@ public class BeatSoundPlayer : MonoBehaviour
     // Stores the index of the last sound the player played - used to calculate which sound should come next
     private int currentSoundIndex = 0;
 
+    // This boolean will be set to true when the beatSoundPlayer is expected to be playing.
+    // It will be set to false when they should remain silent
+    private bool isPlaying = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -144,8 +148,11 @@ public class BeatSoundPlayer : MonoBehaviour
     /// </summary>
     private void PlayCurrentSound()
     {
-        GameObject decayingSourceObj = Instantiate(decayingAudioSource) as GameObject;
-        decayingSourceObj.GetComponent<DecayingAudioSource>().sourceClip = soundCollection.beatSounds[currentSoundIndex];
+        if (isPlaying)
+        {
+            GameObject decayingSourceObj = Instantiate(decayingAudioSource) as GameObject;
+            decayingSourceObj.GetComponent<DecayingAudioSource>().sourceClip = soundCollection.beatSounds[currentSoundIndex];
+        }
     }
 
 
@@ -153,8 +160,16 @@ public class BeatSoundPlayer : MonoBehaviour
     /// Prevents the BeatSoundPlayer from playing further beats once the current cycle of beats ends. This should be called as we transition
     /// to the finished composed musical piece.
     /// </summary>
-    public void Stop()
+    public void StopPlaying()
     {
+        isPlaying = false;
+        // NOTE ==> I'm considering just destroying this object when it is stopped, as the player should not be coming back to this beat 
+        // controller upon exiting the level. But I'd like to discuss level design with Micky first.
+    }
 
+    public void StartPlaying()
+    {
+        // Not quite this simple, but we'll adjust this once we understand how level transitions will work.
+        isPlaying = true;
     }
 }

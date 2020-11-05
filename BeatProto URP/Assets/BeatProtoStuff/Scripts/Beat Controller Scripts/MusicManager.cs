@@ -67,6 +67,17 @@ public class MusicManager : MonoBehaviour
     #endregion
 
 
+    private void Start()
+    {
+        // Initialise the BeatSoundPlayers using the BeatControllers stored in our beatTimingManager
+        beatSoundPlayers = new BeatSoundPlayer[BeatTimingManager.btmInstance.beatControllers.Length];
+
+        for (int i = 0; i < BeatTimingManager.btmInstance.beatControllers.Length; i++)
+        {
+            beatSoundPlayers[i] = BeatTimingManager.btmInstance.beatControllers[i].gameObject.GetComponent<BeatSoundPlayer>();
+        }
+    }
+
     private void Update()
     {
         // We've now started looking out for the final beat in the cycle - alowing our beatSoundPlayers to play the beats for 
@@ -90,7 +101,7 @@ public class MusicManager : MonoBehaviour
                     // We'll tell all our beatSoundPlayers that their job is done - they can stop playing until the next puzzle level.
                     for (int i = 0; i < beatSoundPlayers.Length; i++)
                     {
-                        beatSoundPlayers[i].Stop();
+                        beatSoundPlayers[i].StopPlaying();
                     }
 
                     // We also need to reset the booleans used to detect this moment, making them ready for the next puzzle level end.
