@@ -42,7 +42,8 @@ public class PlayerController : MonoBehaviour
     public float defaultHorizontalTime;
 
     //Singing variables
-    private bool singing = false;
+    [HideInInspector]
+    public bool singing = false;
     private PlayerSingControl singCont;
 
 
@@ -84,6 +85,10 @@ public class PlayerController : MonoBehaviour
         if (singing) 
         {
             singCont.ActiveSing();
+        }
+        if (!singing) 
+        {
+            singCont.StopSing();
         }
 
         GrabWall(); //grab wall if possible
