@@ -9,6 +9,17 @@ using UnityEngine;
 /// </summary>
 public class SolutionDetector : MonoBehaviour
 {
+
+    // THIS IS A TEMPORARY MEASURE FOR TESTING PURPOSES!!!!!!!
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            OnLevelComplete();
+        }
+    }
+
+
     /// <summary>
     /// To be called once the player exits the puzzle portion of a level and enters the solely platforming section.
     /// </summary>

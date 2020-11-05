@@ -1,2 +1,3 @@
-TestSong => Green: F,T,F,T; Red: T,T,T,T,F,T,T,F; 
-TestSong => Green: F,T,F,T; Red: T,T,T,T,F,T,F,F; 
+TestSong => Green: F,F,T,T; Red: T,F,F,F,T,F,T,T; 
+TestSong => Green: F,T,F,T; Red: F,F,T,F,T,F,F,F; 
+TestSong => Green: T,F,T,F; Red: T,T,T,F,T,F,F,F; 
