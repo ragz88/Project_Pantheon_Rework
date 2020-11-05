@@ -75,8 +75,8 @@ public class SolutionDetector : MonoBehaviour
         {
             // So we tell our music manager which composition it should play to match said solution
             MusicManager.MMInstance.compositionAudioSource.clip =
-                BeatTimingManager.btmInstance.currentSong.possibleSolutions[solutionIndex].solutionComposition;
-            MusicManager.MMInstance.OnLevelCompleted();
+                BeatTimingManager.btmInstance.currentSong.possibleSolutions[solutionIndex].solutionCompositionIntro;
+            MusicManager.MMInstance.OnLevelCompleted(solutionIndex);
         }
         else
         {

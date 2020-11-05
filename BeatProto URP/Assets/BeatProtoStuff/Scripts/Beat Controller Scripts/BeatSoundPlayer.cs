@@ -153,7 +153,7 @@ public class BeatSoundPlayer : MonoBehaviour
     /// Prevents the BeatSoundPlayer from playing further beats once the current cycle of beats ends. This should be called as we transition
     /// to the finished composed musical piece.
     /// </summary>
-    public void StopAfterCurrentCycle()
+    public void Stop()
     {
 
     }
