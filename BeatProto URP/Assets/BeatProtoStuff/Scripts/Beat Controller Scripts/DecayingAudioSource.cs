@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class DecayingAudioSource : MonoBehaviour
 {
+    [HideInInspector]
     /// <summary>
     /// To be assigned upon instantiation, but before initialisation.
     /// </summary>
