@@ -91,6 +91,7 @@ public class BeatTimingManager : MonoBehaviour
                 currentBeatNumber++;
             }
 
+
             // Finally, we activate all the onBeat events for our currently present BeatControllers
             for (int i = 0; i < beatControllers.Length; i++)
             {

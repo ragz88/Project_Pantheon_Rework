@@ -75,12 +75,17 @@ public class SolutionDetector : MonoBehaviour
         {
             // So we tell our music manager which composition it should play to match said solution
             MusicManager.MMInstance.compositionAudioSource.clip =
-                BeatTimingManager.btmInstance.currentSong.possibleSolutions[solutionIndex].solutionComposition;
-            MusicManager.MMInstance.OnLevelCompleted();
+                BeatTimingManager.btmInstance.currentSong.possibleSolutions[solutionIndex].solutionCompositionIntro;
+            MusicManager.MMInstance.OnLevelCompleted(solutionIndex);
         }
         else
         {
-            // iF no solution found, play default composition and record the unkown solution.
+            // if no solution found, play default composition and record the unkown solution.
+            MusicManager.MMInstance.compositionAudioSource.clip =
+                BeatTimingManager.btmInstance.currentSong.possibleSolutions[0].solutionCompositionIntro;
+            MusicManager.MMInstance.OnLevelCompleted(0);
+
+            UnexpectedSolutionRecorded.StoreNewSolution();
         }
     }
 
