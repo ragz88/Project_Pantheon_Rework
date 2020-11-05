@@ -80,7 +80,12 @@ public class SolutionDetector : MonoBehaviour
         }
         else
         {
-            // iF no solution found, play default composition and record the unkown solution.
+            // if no solution found, play default composition and record the unkown solution.
+            MusicManager.MMInstance.compositionAudioSource.clip =
+                BeatTimingManager.btmInstance.currentSong.possibleSolutions[0].solutionCompositionIntro;
+            MusicManager.MMInstance.OnLevelCompleted(0);
+
+            UnexpectedSolutionRecorded.StoreNewSolution();
         }
     }
 

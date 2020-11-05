@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: New Solution
   m_EditorClassIdentifier: 
   solutionComposition: {fileID: 0}
+  solutionCompositionIntro: {fileID: 0}
   correctPatterns:
-  - beatColour: 0
-    pattern: 0101
-  - beatColour: 1
+  - name: ' Beat Pattern'
+    beatColour: 0
+    pattern: 01000100
+  - name: ' Beat Pattern'
+    beatColour: 1
     pattern: 00010001
-  - beatColour: 2
-    pattern: 0001010001010001
