@@ -147,4 +147,14 @@ public class BeatSoundPlayer : MonoBehaviour
         GameObject decayingSourceObj = Instantiate(decayingAudioSource) as GameObject;
         decayingSourceObj.GetComponent<DecayingAudioSource>().sourceClip = soundCollection.beatSounds[currentSoundIndex];
     }
+
+
+    /// <summary>
+    /// Prevents the BeatSoundPlayer from playing further beats once the current cycle of beats ends. This should be called as we transition
+    /// to the finished composed musical piece.
+    /// </summary>
+    public void StopAfterCurrentCycle()
+    {
+
+    }
 }
