@@ -11,6 +11,7 @@ public class SingLock : MonoBehaviour
 
     public bool unlocked = false;
     public bool addedToDoor = false;
+    private bool singCollision = false;
 
     public float playerMaxDistance;
     private float playerDistance;
@@ -33,22 +34,21 @@ public class SingLock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerDistance = Vector2.Distance(PlayerController.pController.player.transform.position, transform.position);
+        //playerDistance = Vector2.Distance(PlayerController.pController.player.transform.position, transform.position);
 
-        if (playerDistance < playerMaxDistance)
+        // if (playerDistance < playerMaxDistance)
+        // {
+        //     if (PlayerController.pController.singing)
+        //     {
+        //         stayUnlockedTime = 5f;
+        //         mySprite.color = unlockedColor;
+        //         unlocked = true;
+        //         countDownText.text = "";
+        //     }
+        // }
+        if (!singCollision)
         {
-            if (PlayerController.pController.singing)
-            {
-                stayUnlockedTime = 5f;
-                mySprite.color = unlockedColor;
-                unlocked = true;
-                countDownText.text = "";
-            }
-        }
-
-        if (!myDoor.doorUnlocked)
-        {
-            if (!PlayerController.pController.singing)
+            if (!myDoor.doorUnlocked)
             {
                 if (unlocked)
                 {
@@ -64,8 +64,46 @@ public class SingLock : MonoBehaviour
                         countDownText.text = "";
                     }
                 }
+
             }
         }
 
+        if (myDoor.doorUnlocked) 
+        {
+            countDownText.text = "";
+        }
+
+    }
+
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "SingCollider")
+        {
+            stayUnlockedTime = 5f;
+            mySprite.color = unlockedColor;
+            unlocked = true;
+            countDownText.text = "";
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+
+        if (collision.gameObject.name == "SingCollider")
+        {
+            stayUnlockedTime = 5f;
+            countDownText.text = "";
+            singCollision = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "SingCollider")
+        {
+            singCollision = false;
+        }
     }
 }
