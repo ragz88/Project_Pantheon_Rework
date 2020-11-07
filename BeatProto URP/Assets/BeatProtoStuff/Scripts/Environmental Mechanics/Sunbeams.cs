@@ -46,13 +46,13 @@ public class Sunbeams : MonoBehaviour
     /// <summary>
     /// The current index of the position our sunBeam should shine towards within our shinePoints array.
     /// </summary>
-    private int currentShinePointIndex = 0;
+    public int currentShinePointIndex = 0;
 
     /// <summary>
     /// This value will always be lerped towards the currentShinePointIndex point stored in our shinePoints array.
     /// The beam will shine at this moving point, allowing the sun shine to move naturally from one position to the next.
     /// </summary>
-    private Vector3 currentShinePosition;
+    public Vector3 currentShinePosition;
 
 
     /// <summary>
@@ -195,7 +195,11 @@ public class Sunbeams : MonoBehaviour
         else
         {
             // As we didn't hit anything, but aren't allowed to return null, we return a specific, unlikey value for our Vector3.
+            // We'll throw an error to indicate what's happened too.
             // This should only ever be the case if something's gone wrong, and so should be used for debugging.
+            Debug.LogError("One or more raycasts from this sunbeam did not collide with any eligible points", gameObject);
+
+            // DO DEFENSIVE CHECK FOR THIS LATER!!!!!!!!!
 
             // Debug.DrawRay(startPoint, (currentShinePosition - startingPointA.position) * 1000, Color.white);
             return new Vector3 (-500, -500, -500);
