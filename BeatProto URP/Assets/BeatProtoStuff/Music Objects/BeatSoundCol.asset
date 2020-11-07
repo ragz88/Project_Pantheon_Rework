@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83823256b578f2047b8338e649160e9e, type: 3}
-  m_Name: PicolloSoundCol
+  m_Name: BeatSoundCol
   m_EditorClassIdentifier: 
   beatSounds:
   - {fileID: 8300000, guid: 102d173f45e8bee40afeccfbd7e91e96, type: 3}
