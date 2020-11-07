@@ -242,11 +242,41 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 219686026}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.16, y: -3.54, z: 0}
-  m_LocalScale: {x: 19.169794, y: 1, z: 1}
+  m_LocalPosition: {x: -2.95, y: -3.54, z: 0}
+  m_LocalScale: {x: 32.349026, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &219973003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 219973004}
+  m_Layer: 0
+  m_Name: ShinePoint (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &219973004
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219973003}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6.09, y: -5.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 851105976}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &343288704
 GameObject:
@@ -627,6 +657,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 343288705}
+  - {fileID: 1028996492}
+  - {fileID: 219973004}
   m_Father: {fileID: 1050765207}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -679,6 +711,18 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 976812368}
         m_TargetAssemblyTypeName: BeatSoundPlayer, Assembly-CSharp
+        m_MethodName: OnActiveBeat
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1050765206}
+        m_TargetAssemblyTypeName: Sunbeams, Assembly-CSharp
         m_MethodName: OnActiveBeat
         m_Mode: 1
         m_Arguments:
@@ -782,6 +826,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994855632}
   m_CullTransparentMesh: 0
+--- !u!1 &1028996491
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1028996492}
+  m_Layer: 0
+  m_Name: ShinePoint (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1028996492
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028996491}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.64, y: -6.26, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 851105976}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1050765205
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,13 +891,15 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 768
-  numRayChecks: 10
+  numRayChecks: 75
   startingPointA: {fileID: 1592161245}
   startingPointB: {fileID: 162010987}
   shinePoints:
   - {fileID: 343288705}
+  - {fileID: 1028996492}
+  - {fileID: 219973004}
   visualiseMesh: 1
-  meshPoints: []
+  beamMovementSpeed: 2
 --- !u!4 &1050765207
 Transform:
   m_ObjectHideFlags: 0
