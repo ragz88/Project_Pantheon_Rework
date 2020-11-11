@@ -20,6 +20,11 @@ public class PlayerController : MonoBehaviour
     //Movement bools
     private bool grounded;
     private bool floating;
+    public float floatTime;
+    [HideInInspector]
+    public float maxFloatTime;
+    public float floatRefillDelay;
+    private float fRefill;
 
     //Movement speed vars
     public float moveSpeed;
@@ -51,6 +56,9 @@ public class PlayerController : MonoBehaviour
     private Animator playerAnimator;
 
 
+    //tutorial specific stuff
+    public bool isControlTutorial; //to disable some singing stuff during the controller tutorial
+
     private void Awake()
     {
         if (pController == null)
@@ -64,6 +72,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         horizontalDisableTimer = defaultHorizontalTime;
+        maxFloatTime = floatTime;
+        fRefill = floatRefillDelay;
     }
 
 
@@ -80,15 +90,18 @@ public class PlayerController : MonoBehaviour
                 PlayerFloat();
         }
 
-        Sing();
+        if (!isControlTutorial)
+        {
+            Sing();
 
-        if (singing) 
-        {
-            singCont.ActiveSing();
-        }
-        if (!singing) 
-        {
-            singCont.StopSing();
+            if (singing)
+            {
+                singCont.ActiveSing();
+            }
+            if (!singing)
+            {
+                singCont.StopSing();
+            }
         }
 
         GrabWall(); //grab wall if possible
@@ -146,7 +159,20 @@ public class PlayerController : MonoBehaviour
             horizontalDisableTimer = defaultHorizontalTime;
         }
 
+
+
+        // make it so that floating can't be done endlessly
+        if (floatRefillDelay > 0 && !floating)
+            floatRefillDelay -= Time.deltaTime;
+
+        if (floatRefillDelay <= 0) 
+        {
+            if (floatTime < maxFloatTime)
+                floatTime += Time.deltaTime;
+        }
+
         
+
     }
 
     //Gets all the player GameObject information needed.
@@ -218,12 +244,23 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerFloat() //Allows the player to float down. See "GravityHandler()" for exact functionality 
     {
-        if (Input.GetButton("Sing"))
+        if (Input.GetButton("Sing") && floatTime > 0)
         {
             floating = true;
+            floatRefillDelay = fRefill;
+            floatTime -= Time.deltaTime;
+
+            //for tutorial visualisation
+            if (isControlTutorial)
+                singCont.ActiveSing();
         }
         else
+        { 
             floating = false;
+            if (isControlTutorial)
+                singCont.StopSing();
+
+        }
     }
 
     private void GrabWall() //Allows the player to grab a wall, if they are in range.
