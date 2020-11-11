@@ -681,9 +681,17 @@ PrefabInstance:
       propertyPath: beatController
       value: 
       objectReference: {fileID: 976812366}
+    - target: {fileID: 7660277570883862077, guid: 86ddd62d51b402848ae81e47cf489b91, type: 3}
+      propertyPath: fadeOutSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7660277570883862078, guid: 86ddd62d51b402848ae81e47cf489b91, type: 3}
       propertyPath: m_Name
       value: BeatInputConsole
+      objectReference: {fileID: 0}
+    - target: {fileID: 8476102066403636515, guid: 86ddd62d51b402848ae81e47cf489b91, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86ddd62d51b402848ae81e47cf489b91, type: 3}
@@ -1263,6 +1271,38 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!1 &1693650011 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7660277570883862078, guid: 86ddd62d51b402848ae81e47cf489b91, type: 3}
+  m_PrefabInstance: {fileID: 979110196}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1693650012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693650011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c038382f022000e4ab0fe8174a53a514, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatUI: {fileID: 1693650014}
+  sizeIncreaseMultiplier: 1.6
+  increasingSpeed: 9
+  decreasingSpeed: 3.6
+--- !u!114 &1693650014 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7660277570883862077, guid: 86ddd62d51b402848ae81e47cf489b91, type: 3}
+  m_PrefabInstance: {fileID: 979110196}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693650011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3a1d430b4aa54f4f8a98c19b5c1b981, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1889173758 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1065730179825253977, guid: b1bcf9d6d6b0eca44a7edeaa3e0afdf8, type: 3}
