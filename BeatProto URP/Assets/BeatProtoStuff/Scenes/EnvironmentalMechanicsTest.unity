@@ -800,7 +800,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &218872009
 GameObject:
@@ -1260,12 +1260,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   playerFound: 0
+  singTime: 0
+  maxSingTime: 0
+  singRefillDelay: 0
+  singRefillTime: 0
   moveSpeed: 5
   jumpSpeed: 10
   floatGravityFactor: 0.5
   fallGravityFactor: 4
   defaultHorizontalTime: 0.6
   singing: 0
+  isControlTutorial: 0
+  tapWallJump: 0
 --- !u!4 &342253636
 Transform:
   m_ObjectHideFlags: 0
@@ -1872,9 +1878,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggleObject: {fileID: 1538671345}
-  defaultSize: {x: 0, y: 0}
-  newSize: {x: 0, y: 0}
-  myType: 0
 --- !u!212 &722056744
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2061,7 +2064,7 @@ RectTransform:
   - {fileID: 576679206}
   - {fileID: 1661453687}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2690,9 +2693,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggleObject: {fileID: 166723617}
-  defaultSize: {x: 0, y: 0}
-  newSize: {x: 0, y: 0}
-  myType: 0
 --- !u!212 &1069876954
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3286,7 +3286,7 @@ RectTransform:
   - {fileID: 1882962376}
   - {fileID: 241514345}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3964,9 +3964,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggleObject: {fileID: 167105851}
-  defaultSize: {x: 0, y: 0}
-  newSize: {x: 0, y: 0}
-  myType: 0
 --- !u!212 &1663086791
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4411,9 +4408,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggleObject: {fileID: 577654199}
-  defaultSize: {x: 0, y: 0}
-  newSize: {x: 0, y: 0}
-  myType: 0
 --- !u!212 &1921865122
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4684,9 +4678,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggleObject: {fileID: 1538671345}
-  defaultSize: {x: 0, y: 0}
-  newSize: {x: 0, y: 0}
-  myType: 0
 --- !u!212 &1963549601
 SpriteRenderer:
   m_ObjectHideFlags: 0

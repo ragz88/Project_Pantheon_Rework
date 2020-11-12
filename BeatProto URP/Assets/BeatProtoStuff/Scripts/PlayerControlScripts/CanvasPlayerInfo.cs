@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class CanvasPlayerInfo : MonoBehaviour
 {
-    public Image floatFill;
+    public Image singFill;
 
 
     private void Update()
     {
-        floatFill.fillAmount = PlayerController.pController.floatTime / PlayerController.pController.maxFloatTime;
+        singFill.fillAmount = PlayerController.pController.singTime / PlayerController.pController.maxSingTime;
     }
 }

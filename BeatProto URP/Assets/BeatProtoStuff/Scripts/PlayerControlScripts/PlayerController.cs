@@ -20,11 +20,13 @@ public class PlayerController : MonoBehaviour
     //Movement bools
     private bool grounded;
     private bool floating;
-    public float floatTime;
+    //sing and float stuff
+    public float singTime;
     [HideInInspector]
-    public float maxFloatTime;
-    public float floatRefillDelay;
-    private float fRefill;
+    public float maxSingTime;  
+    public float singRefillDelay; // delay before the sing bar starts refilling
+    public float singRefillTime; //how long it takes the sing bar to refill, if it's empty
+    private float SRefill;
 
     //Movement speed vars
     public float moveSpeed;
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
 
     //tutorial specific stuff
     public bool isControlTutorial; //to disable some singing stuff during the controller tutorial
+    public bool tapWallJump;  //should the player be able to simply tap in order to walljump? 
 
     private void Awake()
     {
@@ -72,8 +75,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         horizontalDisableTimer = defaultHorizontalTime;
-        maxFloatTime = floatTime;
-        fRefill = floatRefillDelay;
+        maxSingTime = singTime;
+        SRefill = singRefillDelay;
     }
 
 
@@ -90,48 +93,83 @@ public class PlayerController : MonoBehaviour
                 PlayerFloat();
         }
 
-        if (!isControlTutorial)
-        {
-            Sing();
+        #region Sing Update
+        //singing functionality, in which player floats while singing. 
+        //Sing and float have limited use. Visualised by a bar in-game.
+        Sing();
 
-            if (singing)
+        if (singing)
+        {
+            singCont.ActiveSing();
+            singRefillDelay = SRefill;
+            if (!grounded) 
             {
-                singCont.ActiveSing();
+                floating = true;
             }
-            if (!singing)
+        }
+        if (!singing)
+        {
+            singCont.StopSing();
+            singRefillDelay -= Time.deltaTime;
+            floating = false;
+        }
+        //end of Sing functionality in Update
+        #endregion
+
+        #region wall grab in Update
+
+        if (!tapWallJump) //to test the two different wall jump things
+        {
+            GrabWall(); //grab wall if possible
+
+            if (grabbing) //stuff to do/check while the player is grabbing a wall
             {
-                singCont.StopSing();
+                //raycasts are sent left and right to detect only walls
+                //depending on which one returns a collision, the player direction is set
+                //used to determine which direction the palyer will automatically jump while grabbing
+                int mask = LayerMask.GetMask("Walls");
+                RaycastHit2D hitRight = Physics2D.Raycast(player.transform.position + new Vector3(0.375f, 0, 0), Vector2.right, 0.5f, mask);
+                RaycastHit2D hitLeft = Physics2D.Raycast(player.transform.position - new Vector3(0.375f, 0, 0), Vector2.left, 0.5f, mask);
+                Debug.DrawRay(player.transform.position + new Vector3(0.375f, 0, 0), new Vector2(0.2f, 0), Color.red);
+                Debug.DrawRay(player.transform.position - new Vector3(0.375f, 0, 0), new Vector2(-0.2f, 0), Color.red);
+
+                if (hitRight)
+                {
+                    hitDirection = 0;
+                }
+                if (hitLeft)
+                {
+                    hitDirection = 1;
+                }
+
+                JumpFromWall(); //Jump while grabbing. Distinct from normal jump as it has X vel
             }
         }
 
-        GrabWall(); //grab wall if possible
-
-        if (grabbing) //stuff to do/check while the player is grabbing a wall
+        if (tapWallJump) 
         {
-            //raycasts are sent left and right to detect only walls
-            //depending on which one returns a collision, the player direction is set
-            //used to determine which direction the palyer will automatically jump while grabbing
-            int mask = LayerMask.GetMask("Walls"); 
-            RaycastHit2D hitRight = Physics2D.Raycast(player.transform.position + new Vector3(0.375f, 0, 0), Vector2.right, 0.5f, mask);
-            RaycastHit2D hitLeft = Physics2D.Raycast(player.transform.position - new Vector3(0.375f, 0, 0), Vector2.left, 0.5f, mask);
-            Debug.DrawRay(player.transform.position + new Vector3(0.375f, 0, 0), new Vector2(0.2f, 0), Color.red);
-            Debug.DrawRay(player.transform.position - new Vector3(0.375f, 0, 0), new Vector2(-0.2f, 0), Color.red);
-
-            if (hitRight)
-            {
-                hitDirection = 0;
-            }
-            if (hitLeft)
-            {
-                hitDirection = 1;
-            }
-
-            JumpFromWall(); //Jump while grabbing. Distinct from normal jump as it has X vel
+            WallJump();
         }
 
-        
+        //horizontal movement is disabled for a short time after a wall jump. Below code handles that. See "HorizontalMovement()" for explanation
+        if (!allowHoriz)
+        {
+            horizontalDisableTimer -= Time.deltaTime;
+        }
+
+        if (horizontalDisableTimer <= 0)
+        {
+            allowHoriz = true;
+            horizontalDisableTimer = defaultHorizontalTime;
+        }
+
+        #endregion
+
+
         HandleGravity(); //Handles gravity
 
+
+        #region Sprite flip
         //Flips player sprite based on direction
         if (playerRB.velocity.x > 0)
         {
@@ -147,31 +185,15 @@ public class PlayerController : MonoBehaviour
                 playerAnimator.SetTrigger("walking");
         }
 
-        //horizontal movement is disabled for a short time after a wall jump. Below code handles that. See "HorizontalMovement()" for explanation
-        if (!allowHoriz) 
-        {
-            horizontalDisableTimer -= Time.deltaTime;
-        }
-
-        if (horizontalDisableTimer <= 0) 
-        {
-            allowHoriz = true;
-            horizontalDisableTimer = defaultHorizontalTime;
-        }
-
-
-
-        // make it so that floating can't be done endlessly
-        if (floatRefillDelay > 0 && !floating)
-            floatRefillDelay -= Time.deltaTime;
-
-        if (floatRefillDelay <= 0) 
-        {
-            if (floatTime < maxFloatTime)
-                floatTime += Time.deltaTime;
-        }
+        #endregion
 
         
+        // make it so that floating and singing can't be done endlessly
+        if (singRefillDelay <= 0) 
+        {
+            if (singTime < maxSingTime)
+                singTime += (Time.deltaTime*maxSingTime)/ singRefillTime;
+        }
 
     }
 
@@ -206,10 +228,18 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButton("Sing"))
         {
-            singing = true;
+            singTime -= Time.deltaTime;
+
+            if (singTime > 0)
+            {
+                singing = true;
+            }
+            else
+                singing = false;
         }
         else
             singing = false;
+        
     }
 
 
@@ -244,7 +274,7 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerFloat() //Allows the player to float down. See "GravityHandler()" for exact functionality 
     {
-        if (Input.GetButton("Sing") && floatTime > 0)
+        /*if (Input.GetButton("Sing") && floatTime > 0)
         {
             floating = true;
             floatRefillDelay = fRefill;
@@ -259,15 +289,14 @@ public class PlayerController : MonoBehaviour
             floating = false;
             if (isControlTutorial)
                 singCont.StopSing();
-
-        }
+        }*/
     }
 
     private void GrabWall() //Allows the player to grab a wall, if they are in range.
     {
         if (Input.GetButton("HoldWall")) 
         {
-            if (canGrab) //if the player can grab (i.e. are in range of a wall)
+            if (canGrab && !grounded) //if the player can grab (i.e. are in range of a wall)
             {
                 allowHoriz = true;
                 horizontalDisableTimer = defaultHorizontalTime;
@@ -279,6 +308,46 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    private void WallJump() //tap to wall jump
+    {
+        if (canGrab && !grounded) 
+        {
+            if (Input.GetButtonDown("Jump")) 
+            {
+                GravityToggle(2);
+                horizontalDisableTimer = defaultHorizontalTime;
+
+                int mask = LayerMask.GetMask("Walls");
+                RaycastHit2D hitRight = Physics2D.Raycast(player.transform.position + new Vector3(0.375f, 0, 0), Vector2.right, 0.5f, mask);
+                RaycastHit2D hitLeft = Physics2D.Raycast(player.transform.position - new Vector3(0.375f, 0, 0), Vector2.left, 0.5f, mask);
+                Debug.DrawRay(player.transform.position + new Vector3(0.375f, 0, 0), new Vector2(0.2f, 0), Color.red);
+                Debug.DrawRay(player.transform.position - new Vector3(0.375f, 0, 0), new Vector2(-0.2f, 0), Color.red);
+
+                if (hitRight)
+                {
+                    hitDirection = 0;
+                }
+                if (hitLeft)
+                {
+                    hitDirection = 1;
+                }
+
+                if (hitDirection == 1)
+                {
+                    allowHoriz = false;
+                    playerRB.velocity = new Vector2(moveSpeed, jumpSpeed);
+                }
+                else if (hitDirection == 0) 
+                {
+                    allowHoriz = false;
+                    playerRB.velocity = new Vector2(-moveSpeed, jumpSpeed);
+                }
+
+            }
+        }
+    }
+
 
     private void JumpFromWall() //Allows the player to wall jump if they are currently grabbing a wall. 
     {
