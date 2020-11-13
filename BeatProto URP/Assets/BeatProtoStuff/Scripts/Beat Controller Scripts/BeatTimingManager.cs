@@ -22,15 +22,16 @@ public class BeatTimingManager : MonoBehaviour
     public BeatController[] beatControllers;
 
 
-
+    [HideInInspector]
     // The current position of the seeker (in seconds) within the current song/beat collection
-    private double seekerTime = 0;
-    
+    public double seekerTime = 0;
+
     // The BPM of the currently active song/music collection
     //private float currentBPM = 120;
 
+    [HideInInspector]
     // The length of a single beat (in seconds) - calculated based on the BPM
-    private double beatLength = 0;
+    public double beatLength = 0;
 
     // This will time how long it's been since the last beat fired. When it becomes greater than beatLength, we'll fire another beat
     private double beatTimer = 0;

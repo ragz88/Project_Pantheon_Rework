@@ -16,35 +16,34 @@ public class BeatCursor : MonoBehaviour
     public Vector3 cursorOffset;
 
     // Used to fade cursor in and out depending on the visibility settings of the UI
-    Image cursorImage;
+    SpriteRenderer cursorSprite;
     
     // Start is called before the first frame update
     void Start()
     {
-        cursorImage = GetComponent<Image>();
+        cursorSprite = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     { 
         // We want our cursor to highlight the currently firing beat when the beat blocks are visible
-
-        if (beatUI.UIVisible)
+        if (beatUI.UIVisible && beatUI.UIReady)
         {
             transform.position =
-                beatUI.beatBlockImages[BeatTimingManager.btmInstance.GetBeatNumber() % beatUI.beatBlockImages.Length].transform.position
+                beatUI.beatBlockSprites[BeatTimingManager.btmInstance.GetBeatNumber() % beatUI.beatBlockSprites.Length].transform.position
                 + cursorOffset;
 
-            if (cursorImage.color.a < 1)
+            if (cursorSprite.color.a < 1)
             {
-                cursorImage.color = cursorImage.color + new Color(0, 0, 0, 5 * Time.deltaTime);
+                cursorSprite.color = cursorSprite.color + new Color(0, 0, 0, 5 * Time.deltaTime);
             }
         }
         else
         {
-            if (cursorImage.color.a > 0)
+            if (cursorSprite.color.a > 0)
             {
-                cursorImage.color = cursorImage.color - new Color(0, 0, 0, 5 * Time.deltaTime);
+                cursorSprite.color = cursorSprite.color - new Color(0, 0, 0, 5 * Time.deltaTime);
             }
         }
     }

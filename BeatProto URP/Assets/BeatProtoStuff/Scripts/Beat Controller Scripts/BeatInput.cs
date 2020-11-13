@@ -16,21 +16,48 @@ public class BeatInput : MonoBehaviour
     /// To be shown when the player opens the beat input menu for this BeatInput's specific controller.
     /// </summary>
     public BeatUI inputBeatUI;
+
+    
+    [Tooltip("If true, the input UI will close immediately after the player has had a single cycle to input beats. \nIf false, it will only close once they choose to move away.")]
+    /// <summary>
+    /// If true, the input UI will close immediately after the player has had a single cycle to input beats.
+    /// If false, it will only close once they choose to move away.
+    /// </summary>
+    public bool closeUIAfterOneCycle = false;
+
+
+    [Tooltip("If this is true, the pattern input will use the top beat (first in the cycle) as it's reset point. If it's false, the first beat a player enters will be treated as the reset point.")]
+    /// <summary>
+    /// If this is true, the pattern input will use the top beat (first in the cycle) as it's reset point. If it's false,
+    /// the first beat a player enters will be treated as the reset point.
+    /// </summary>
+    public bool resetAtTop = true;
+
+    /// <summary>
+    /// Only used when resetAtTop is false. Stores the first beat the player interacts with in a pattern, and disables player input once
+    /// this beat is reached again. Possibly more comfortable experience for the user.
+    /// </summary>
+    private int resetBeatNum = -1;
     
     // Defines whether the user's inputs (and lack thereof) affect the construction of a beat pattern or not.
-    bool editMode = false;
+    private bool editMode = false;
 
 
-    bool readyForInput = false;
+    private bool readyForInput = false;
 
     // This will be set to true if the player opened the beat editor on the 0th beat - 
     // we still want the system to wait for a cycle before unlocking the editor in this case
-    bool startedOnZero = false;
+    private bool startedOnZero = false;
 
-    int currentBeat = -1;
+    private int currentBeat = -1;
 
     //new variables for Micky. Seperating the UI from the Beat Input console.
-    bool playerInRange = false;
+    private bool playerInRange = false;
+
+    
+    /// <summary>
+    /// Micky's sprite representing when the player is close enough to input song notes
+    /// </summary>
     public SpriteRenderer inputPossibleSprite;
 
     // Start is called before the first frame update
@@ -46,7 +73,16 @@ public class BeatInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             if (playerInRange)
+            {
                 OpenEditor();
+            }
+
+            OpenEditor();
+        }
+
+        if ((Input.GetAxis("Horizontal") != 0) || (Input.GetButtonDown("Jump")))
+        {
+            CloseEditor();
         }
 
         if (editMode)
@@ -57,10 +93,20 @@ public class BeatInput : MonoBehaviour
                 if (currentBeat != BeatTimingManager.btmInstance.GetBeatNumber() % beatController.activeBeats.Length)
                 {
                     // This represents the moment the beat cycles back to the beginning after the editing run - we want to close the 
-                    // menu at this point. 
-                    if (BeatTimingManager.btmInstance.GetBeatNumber() % beatController.activeBeats.Length == 0)
+                    // menu at this point if closeUIAfterOneCycle is true. 
+                    if ((BeatTimingManager.btmInstance.GetBeatNumber() % beatController.activeBeats.Length == 0 && resetAtTop) ||
+                        (BeatTimingManager.btmInstance.GetBeatNumber() % beatController.activeBeats.Length == resetBeatNum && !resetAtTop)   )
                     {
-                        CloseEditor();
+                        if (closeUIAfterOneCycle)
+                        {
+                            CloseEditor();
+                        }
+                        else
+                        {
+                            // Resets the editor to it's initial state, giving the player a moment of peace in which they can review their
+                            // pattern or safely leave withot fear that everything will reset.
+                            ResetEditor();
+                        }
                     }
                     else // The beat changed, but not back to 0.
                     {
@@ -72,12 +118,28 @@ public class BeatInput : MonoBehaviour
                 if (Input.GetButtonDown("Sing"))  
                 {
                     beatController.activeBeats[currentBeat] = true;
+
+                    // If this is the first beat the player's entered, and we aren't resetting on the 0th beat, we want to store its index
+                    if (!resetAtTop && resetBeatNum == -1)
+                    {
+                        resetBeatNum = currentBeat;
+
+                        // We also update this beat's sprite, so that the player knows it's special
+                        inputBeatUI.DesignateResetBeatMarker(resetBeatNum);
+                    }
                 }
             }
             else
             {
+                int tempResetPoint = 0;
+                
+                if (!resetAtTop && resetBeatNum != -1)
+                {
+                    tempResetPoint = resetBeatNum;
+                }
+
                 // Checks if the beat cycle has returned to its starting point - thus being ready for editing
-                if ((BeatTimingManager.btmInstance.GetBeatNumber() % beatController.activeBeats.Length) == 0)
+                if ((BeatTimingManager.btmInstance.GetBeatNumber() % beatController.activeBeats.Length) == tempResetPoint)
                 {
                     // This if ensures we don't thrust our player into editing the moment the menu opens
                     if (!startedOnZero)
@@ -88,15 +150,26 @@ public class BeatInput : MonoBehaviour
 
                         inputBeatUI.UpdateInteractableState(true);
 
-                        currentBeat = 0;
+                        currentBeat = tempResetPoint;
+
+                        //Before losing our reference to the previous beat reset number, let's turn it back into a regular beatBlock
+                        if (resetBeatNum != -1)
+                        {
+                            inputBeatUI.RevertToStandardSprite(resetBeatNum);
+
+                            // and then we reset our resetBeatNumber, as the player must now reassign it.
+                            resetBeatNum = -1;
+                        }
                     }
                 }
                 else
                 {
-                    // The else implies we're currently on a non-zero beat, meaning that the next time the beat is on 0 it represents a 
-                    // point where the cycle is repeating itself
+                    // As we are currently on a non-resetBeatNumber point, we know we must have already passed that point at least once,
+                    // or we did not start on it to begin with. Hence, we can tell the above algorithm that the next time we pass this point,
+                    // the player has had enough time to prepare and should be ready to input again.
                     startedOnZero = false;
                 }
+                
             }
         }
     }
@@ -107,23 +180,34 @@ public class BeatInput : MonoBehaviour
     /// </summary>
     public void OpenEditor()
     {
-        editMode = true;
-
-        // We check if the editor opened while the beat was on the first block - in this case, we'll wait for a cycle to give the
-        // player a chance to prepare before having to enter anything in.
-        if ((BeatTimingManager.btmInstance.GetBeatNumber() % beatController.activeBeats.Length) == 0)
+        if (!editMode)
         {
-            startedOnZero = true;
-        }
-        else
-        {
-            startedOnZero = false;
-        }
+            editMode = true;
 
-        currentBeat = -1;
+            // We check if the editor opened while the beat was on the first block - in this case, we'll wait for a cycle to give the
+            // player a chance to prepare before having to enter anything in.
+            if ((BeatTimingManager.btmInstance.GetBeatNumber() % beatController.activeBeats.Length) == 0)
+            {
+                startedOnZero = true;
+            }
+            else
+            {
+                startedOnZero = false;
+            }
 
-        inputBeatUI.UIVisible = true;
-        inputBeatUI.UpdateInteractableState(false);
+            currentBeat = -1;
+
+            inputBeatUI.UIVisible = true;
+            inputBeatUI.UpdateInteractableState(false);
+
+            // We make sure the old resetBeatNum is downgraded to a standard beatblock sprite again.
+            if (resetBeatNum != -1)
+            {
+                inputBeatUI.RevertToStandardSprite(resetBeatNum);
+            }
+
+            resetBeatNum = -1;
+        }
     }
 
 
@@ -139,6 +223,21 @@ public class BeatInput : MonoBehaviour
         inputBeatUI.UpdateInteractableState(false);
         inputBeatUI.UIVisible = false;
     }
+
+
+    /// <summary>
+    /// To be called after a player finishes entering a pattern - sets the interactable state of the editor to false, but conserves the
+    /// resetBeat, allowing the beatInput interaction to happen again in a loop after a single cycle of review
+    /// </summary>
+    public void ResetEditor()
+    {
+        readyForInput = false;
+
+        inputBeatUI.UpdateInteractableState(false);
+
+        startedOnZero = true;
+    }
+
 
     public void SetPlayerInRange(bool inRange) 
     {
