@@ -86,8 +86,8 @@ public class PlayerController : MonoBehaviour
         {
             HorizontalMovement();
 
-            //if (grounded)
-            Jump();
+            if (grounded)
+                Jump();
 
             if (!grounded)
                 PlayerFloat();
@@ -146,10 +146,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-       /* if (tapWallJump) 
+        if (tapWallJump) 
         {
             WallJump();
-        }*/
+        }
 
         //horizontal movement is disabled for a short time after a wall jump. Below code handles that. See "HorizontalMovement()" for explanation
         if (!allowHoriz)
@@ -263,46 +263,11 @@ public class PlayerController : MonoBehaviour
     private void Jump() //BASE JUMP - simply sets a Y vel while maintaining X vel
     {
        
-        if (Input.GetButtonDown("Jump") && grounded)
+        if (Input.GetButtonDown("Jump"))
         {
             playerRB.velocity = new Vector2(playerRB.velocity.x, jumpSpeed);
             playerAnimator.SetTrigger("jumping");
             grounded = false;
-        }
-        else if (Input.GetButtonDown("Jump") && !grounded)
-        {
-            if (canGrab)
-            {
-                GravityToggle(2);
-                horizontalDisableTimer = defaultHorizontalTime;
-
-                int mask = LayerMask.GetMask("Walls");
-                RaycastHit2D hitRight = Physics2D.Raycast(player.transform.position + new Vector3(0.375f, 0, 0), Vector2.right, 0.5f, mask);
-                RaycastHit2D hitLeft = Physics2D.Raycast(player.transform.position - new Vector3(0.375f, 0, 0), Vector2.left, 0.5f, mask);
-                Debug.DrawRay(player.transform.position + new Vector3(0.375f, 0, 0), new Vector2(0.2f, 0), Color.red);
-                Debug.DrawRay(player.transform.position - new Vector3(0.375f, 0, 0), new Vector2(-0.2f, 0), Color.red);
-
-                if (hitRight)
-                {
-                    hitDirection = 0;
-                }
-                if (hitLeft)
-                {
-                    hitDirection = 1;
-                }
-
-                if (hitDirection == 1)
-                {
-                    allowHoriz = false;
-                    playerRB.velocity = new Vector2(moveSpeed, jumpSpeed);
-                }
-                else if (hitDirection == 0)
-                {
-                    allowHoriz = false;
-                    playerRB.velocity = new Vector2(-moveSpeed, jumpSpeed);
-                }
-            }
-
         }
 
     }
@@ -346,9 +311,9 @@ public class PlayerController : MonoBehaviour
 
     private void WallJump() //tap to wall jump
     {
-        if (canGrab) 
+        if (canGrab && !grounded) 
         {
-            if (Input.GetButtonDown("Jump") && !grounded) 
+            if (Input.GetButtonDown("Jump")) 
             {
                 GravityToggle(2);
                 horizontalDisableTimer = defaultHorizontalTime;

@@ -7,7 +7,7 @@ public class PlayerGroundCheck : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "TutTrigger")
+        if (collision)
         {
             PlayerController.pController.SetGrounded(true);
         }
@@ -15,7 +15,7 @@ public class PlayerGroundCheck : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "TutTrigger")
+        if (collision)
         {
             PlayerController.pController.SetGrounded(true);
         }
@@ -23,7 +23,7 @@ public class PlayerGroundCheck : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag != "TutTrigger")
+        if (collision)
         {
             PlayerController.pController.SetGrounded(false);
         }
