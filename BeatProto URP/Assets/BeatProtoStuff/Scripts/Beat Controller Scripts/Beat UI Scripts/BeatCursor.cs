@@ -5,11 +5,14 @@ using UnityEngine.UI;
 
 public class BeatCursor : MonoBehaviour
 {
+    [Tooltip("The Beat Input UI controller for the set of blocks we want this cursor to be linked to.")]
     /// <summary>
     /// The Beat Input UI controller for the set of blocks we want this cursor to be linked to
     /// </summary>
     public BeatUI beatUI;
 
+
+    [Tooltip("The offset of the cursor from the centre of the beat blocks it points at.")]
     /// <summary>
     /// The offset of the cursor from the centre of the beat blocks it points at
     /// </summary>
