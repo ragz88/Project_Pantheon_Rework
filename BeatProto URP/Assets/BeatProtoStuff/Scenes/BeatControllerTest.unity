@@ -1471,9 +1471,21 @@ PrefabInstance:
       propertyPath: beatController
       value: 
       objectReference: {fileID: 1222138437}
+    - target: {fileID: 780586636947921343, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: allowTestingInput
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6961428902485765113, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
       propertyPath: beatController
       value: 
       objectReference: {fileID: 1222138437}
+    - target: {fileID: 6961428902485765113, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: beatBlockColour.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6961428902485765119, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b51350a66923f854ab17e284a50c59c0, type: 3}

@@ -58,6 +58,13 @@ public class BeatUI : MonoBehaviour
     /// </summary>
     public float radius = 5;
 
+    [Tooltip("If ever you want the prefab of a beat block to be instantiated a little larger or smaller, this float represents a multiplier for the beat block size. 1 will keep the prefab's native size.")]
+    /// <summary>
+    /// If ever you want the prefab of a beat block to be instantiated a little larger or smaller, this float represents a multiplier for
+    /// the beat block size. 1 will keep the prefab's native size.
+    /// </summary>
+    public float beatBlockRescale = 1;
+
 
     [HideInInspector]
     /// <summary>
@@ -137,6 +144,9 @@ public class BeatUI : MonoBehaviour
             GameObject currentBeatBlockObj = Instantiate(beatBlockPrefab, transform.position + new Vector3(currentXOffset, currentYOffset, 0), 
                 Quaternion.identity, transform) as GameObject;
 
+            // Adjust instantiated beat block's size based on public multiplier.
+            currentBeatBlockObj.transform.localScale = currentBeatBlockObj.transform.localScale * beatBlockRescale;
+
             beatBlockSprites[i] = currentBeatBlockObj.GetComponent<SpriteRenderer>();
 
             // Here we rotate each beatblock to point at the centre of the circle they lie on (if this setting is true).
@@ -148,7 +158,7 @@ public class BeatUI : MonoBehaviour
         }
         
         // Cache a reference to our initial colours, so we can revert to them later when things are in an interactable state.
-        initialImageColour = beatBlockColour;
+        initialImageColour = new Color(beatBlockColour.r, beatBlockColour.g, beatBlockColour.b, 1);
 
         initialAdditionalSpriteColours = new Color[additionalSprites.Length];
 
@@ -156,7 +166,7 @@ public class BeatUI : MonoBehaviour
         {
             for (int i = 0; i < additionalSprites.Length; i++)
             {
-                initialAdditionalSpriteColours[i] = additionalSprites[i].color;
+                initialAdditionalSpriteColours[i] = new Color(additionalSprites[i].color.r, additionalSprites[i].color.g, additionalSprites[i].color.b, 1);
             }
         }
 

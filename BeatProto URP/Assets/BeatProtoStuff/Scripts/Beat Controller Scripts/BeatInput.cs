@@ -33,6 +33,13 @@ public class BeatInput : MonoBehaviour
     /// </summary>
     public bool resetAtTop = true;
 
+
+    [Tooltip("When true, the beat input module does not require a nearby player to activate it.")]
+    /// <summary>
+    /// When true, the beat input module does not require a nearby player to activate it.
+    /// </summary>
+    public bool allowTestingInput = false;
+
     /// <summary>
     /// Only used when resetAtTop is false. Stores the first beat the player interacts with in a pattern, and disables player input once
     /// this beat is reached again. Possibly more comfortable experience for the user.
@@ -72,12 +79,10 @@ public class BeatInput : MonoBehaviour
         // TEMPORARY INTERACTION FOR TESTING
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (playerInRange)
+            if (playerInRange || allowTestingInput)
             {
                 OpenEditor();
             }
-
-            OpenEditor();
         }
 
         if ((Input.GetAxis("Horizontal") != 0) || (Input.GetButtonDown("Jump")))
@@ -246,6 +251,30 @@ public class BeatInput : MonoBehaviour
 
     public void TogglePossibleInputImage(bool inputState) 
     {
-        inputPossibleSprite.enabled = inputState;
+        if (inputPossibleSprite != null)
+        {
+            inputPossibleSprite.enabled = inputState;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        playerInRange = true;
+
+        if (inputPossibleSprite != null)
+        {
+            inputPossibleSprite.enabled = true;
+        }
+    }
+
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        playerInRange = false;
+
+        if (inputPossibleSprite != null)
+        {
+            inputPossibleSprite.enabled = false;
+        }
     }
 }
