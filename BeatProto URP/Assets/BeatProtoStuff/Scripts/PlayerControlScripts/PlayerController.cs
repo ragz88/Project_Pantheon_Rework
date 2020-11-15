@@ -245,17 +245,29 @@ public class PlayerController : MonoBehaviour
 
     private void HorizontalMovement() // Controls how the player moves left and right. 
     {
-        //remove the if statement if wall jump should use direction keys, rather than automatic.
-        if (allowHoriz)
+        
+        if (allowHoriz) //needed for wall jump to work nicely
         {
-            //Using GetAxisRaw because it allows the PC to stop immediately when letting go of horizontal direction key
+            //Using GetAxisRaw because it allows the PC to stop immediately when letting go of horizontal direction key (while on the ground)
             //Allows precision
-            //However, without the above if statement, wall jump cannot be automatic.
-            //This is because it constantly checks for horiz input. So even though the walljump sets an X vel, this reads the axis as 0 and sets X vel to 0 (if A/D is not held)
-            float xMovement = Input.GetAxisRaw("Horizontal");
-            float totalSpeed = xMovement * moveSpeed;
+            // the ground checks ensure that the player keeps moving with horizontal momentum in the air, but will stop when on the ground.
+            if (!grounded)
+            {
+                if (Input.GetAxisRaw("Horizontal") != 0)  
+                {
+                    float xMovement = Input.GetAxisRaw("Horizontal");
+                    float totalSpeed = xMovement * moveSpeed;
 
-            playerRB.velocity = new Vector2(totalSpeed, playerRB.velocity.y);
+                    playerRB.velocity = new Vector2(totalSpeed, playerRB.velocity.y);
+                }
+            }
+            else if (grounded) 
+            {
+                float xMovement = Input.GetAxisRaw("Horizontal");
+                float totalSpeed = xMovement * moveSpeed;
+
+                playerRB.velocity = new Vector2(totalSpeed, playerRB.velocity.y);
+            }
         }
 
     }
@@ -271,7 +283,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetButtonDown("Jump") && !grounded)
         {
-            if (canGrab)
+            if (canGrab && tapWallJump)
             {
                 GravityToggle(2);
                 horizontalDisableTimer = defaultHorizontalTime;
