@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// This class should be used when the player finishes a puzzle level. It will analyse the current state of the beat controllers and 
@@ -9,6 +10,9 @@ using UnityEngine;
 /// </summary>
 public class SolutionDetector : MonoBehaviour
 {
+
+    public UnityEvent OnSolutionFound;
+
     /// <summary>
     /// To be called once the player exits the puzzle portion of a level and enters the solely platforming section.
     /// </summary>
@@ -87,6 +91,8 @@ public class SolutionDetector : MonoBehaviour
 
             UnexpectedSolutionRecorded.StoreNewSolution();
         }
+
+        OnSolutionFound.Invoke();
     }
 
     /// <summary>

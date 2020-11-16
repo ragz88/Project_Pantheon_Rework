@@ -40,6 +40,14 @@ public class BeatInput : MonoBehaviour
     /// </summary>
     public bool allowTestingInput = false;
 
+
+    [Tooltip("If true, the moment the player makes a new beat active, the event linked to that active beat will trigger. If false, the cycle will have to return to an active beat before it is invoked.")]
+    /// <summary>
+    /// If true, the moment the player makes a new beat active, the event linked to that active beat will trigger. If false,
+    /// the cycle will have to return to an active beat before it is invoked.
+    /// </summary>
+    public bool triggerOnBeatOnInput = false;
+
     /// <summary>
     /// Only used when resetAtTop is false. Stores the first beat the player interacts with in a pattern, and disables player input once
     /// this beat is reached again. Possibly more comfortable experience for the user.
@@ -76,15 +84,6 @@ public class BeatInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // TEMPORARY INTERACTION FOR TESTING
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            if (playerInRange || allowTestingInput)
-            {
-                OpenEditor();
-            }
-        }
-
         if ((Input.GetAxis("Horizontal") != 0) || (Input.GetButtonDown("Jump")))
         {
             CloseEditor();
@@ -123,6 +122,12 @@ public class BeatInput : MonoBehaviour
                 if (Input.GetButtonDown("Sing"))  
                 {
                     beatController.activeBeats[currentBeat] = true;
+
+                    // As the player makes a beat active, the active beat's effect will take place if this is set to true.
+                    if (triggerOnBeatOnInput)
+                    {
+                        beatController.OnBeat.Invoke();
+                    }
 
                     // If this is the first beat the player's entered, and we aren't resetting on the 0th beat, we want to store its index
                     if (!resetAtTop && resetBeatNum == -1)
@@ -177,6 +182,15 @@ public class BeatInput : MonoBehaviour
                 
             }
         }
+
+        // TEMPORARY INTERACTION FOR TESTING
+        if (Input.GetButtonDown("Sing"))
+        {
+            if (playerInRange || allowTestingInput)
+            {
+                OpenEditor();
+            }
+        }
     }
 
 
@@ -203,7 +217,18 @@ public class BeatInput : MonoBehaviour
             currentBeat = -1;
 
             inputBeatUI.UIVisible = true;
-            inputBeatUI.UpdateInteractableState(false);
+
+            if (!closeUIAfterOneCycle)
+            {
+                inputBeatUI.UpdateInteractableState(true);
+                readyForInput = true;
+                beatController.ClearActiveBeats();
+            }
+            else
+            {
+                inputBeatUI.UpdateInteractableState(false);
+            }
+            
 
             // We make sure the old resetBeatNum is downgraded to a standard beatblock sprite again.
             if (resetBeatNum != -1)
