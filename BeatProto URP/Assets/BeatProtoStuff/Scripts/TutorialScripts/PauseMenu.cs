@@ -12,7 +12,7 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
-        
+        paused = false;
     }
 
     void Update()
@@ -47,8 +47,9 @@ public class PauseMenu : MonoBehaviour
     }
 
     public void LoadMainMenu() 
-    { 
-        // load main menu scene
+    {
+        SceneManager.LoadScene("MainMenuTutorial");
+        UnPause();
     }
 
     public void ExitGame() 
