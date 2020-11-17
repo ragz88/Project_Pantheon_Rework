@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Attach this class to an AudioSource to make it destroy itself once it's finished playing it's clip.
@@ -71,7 +69,7 @@ public class DecayingAudioSource : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No sourceClip assigned to Decaying Audio Source. Source destroyed to prevent it from persisting indefinitely.",gameObject);
+            Debug.LogError("No sourceClip assigned to Decaying Audio Source. Source destroyed to prevent it from persisting indefinitely.", gameObject);
             Destroy(gameObject);
         }
     }

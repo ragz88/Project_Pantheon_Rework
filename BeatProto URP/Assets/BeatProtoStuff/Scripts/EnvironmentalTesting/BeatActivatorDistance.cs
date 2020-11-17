@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BeatActivatorDistance : MonoBehaviour
 {
@@ -16,7 +14,7 @@ public class BeatActivatorDistance : MonoBehaviour
         myBeatInput = GetComponent<BeatInput>();
     }
 
-   
+
     void Update()
     {
         distanceFromPlayer = Vector2.Distance(PlayerController.pController.player.transform.position, transform.position);
@@ -27,12 +25,12 @@ public class BeatActivatorDistance : MonoBehaviour
             myBeatInput.TogglePossibleInputImage(true);
         }
 
-        else if (distanceFromPlayer > distanceForInput) 
+        else if (distanceFromPlayer > distanceForInput)
         {
             myBeatInput.SetPlayerInRange(false);
             myBeatInput.TogglePossibleInputImage(false);
         }
 
-        
+
     }
 }

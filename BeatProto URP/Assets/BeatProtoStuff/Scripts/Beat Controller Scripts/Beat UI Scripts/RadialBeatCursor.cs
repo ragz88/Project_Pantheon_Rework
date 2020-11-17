@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
+﻿using UnityEngine;
 
 public class RadialBeatCursor : MonoBehaviour
 {
@@ -25,7 +22,7 @@ public class RadialBeatCursor : MonoBehaviour
     /// If true, the cursor will rotate around its z axis to always point to the center of the circular path it travels on.
     /// </summary>
     public bool rotateCursor = true;
-    
+
     // Used to fade cursor in and out depending on the visibility settings of the UI
     SpriteRenderer cursorSprite;
 
@@ -45,11 +42,11 @@ public class RadialBeatCursor : MonoBehaviour
 
             // This is the progression (in seconds) within the current beat cycle, based on the seeker time from our timing manager, the 
             // BPM of the current song and the number of beats in a cycle for this specific beatUI module.
-            double currentBeatProgressTime = BeatTimingManager.btmInstance.seekerTime % 
+            double currentBeatProgressTime = BeatTimingManager.btmInstance.seekerTime %
                                              (BeatTimingManager.btmInstance.beatLength * beatUI.beatBlockSprites.Length);
 
             // This is the percentage progression within the current beat cycle - calculated based on the total time of a single cycle
-            double currentBeatProgressPercent = currentBeatProgressTime/ (BeatTimingManager.btmInstance.beatLength * beatUI.beatBlockSprites.Length);
+            double currentBeatProgressPercent = currentBeatProgressTime / (BeatTimingManager.btmInstance.beatLength * beatUI.beatBlockSprites.Length);
 
             // We need to reverse the current time to the time remaining, as polar notation on a circular graph is designed
             // to progress anti-clockwise rather than clockwise. This will make our progression clockwise.
@@ -71,7 +68,7 @@ public class RadialBeatCursor : MonoBehaviour
             if (rotateCursor)
             {
                 // These rotation values are in degrees, so we do a similar conversion as before, but using 360 rather than 2 * PI
-                transform.eulerAngles = 
+                transform.eulerAngles =
                     new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, (remainingPercentage * 360));
             }
 

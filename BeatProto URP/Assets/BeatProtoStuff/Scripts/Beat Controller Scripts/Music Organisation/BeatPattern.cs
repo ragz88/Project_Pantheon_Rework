@@ -11,7 +11,7 @@ public class BeatPattern
     [HideInInspector]
     // Used to improve UI in inspector.
     public string name = " Beat Pattern";
-    
+
     [Tooltip("The colour (ie. type) of beat activated elements that this beat pattern is linked to.")]
     /// <summary>
     /// The colour (ie. type) of beat activated elements that this beat pattern is linked to - important for identifying which

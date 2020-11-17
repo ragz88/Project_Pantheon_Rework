@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Video;
+﻿using UnityEngine;
 
 /// <summary>
 /// This class will instantiate an Audio Source each time a beat controller fires on an active beat. 
@@ -45,7 +42,7 @@ public class BeatSoundPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
 

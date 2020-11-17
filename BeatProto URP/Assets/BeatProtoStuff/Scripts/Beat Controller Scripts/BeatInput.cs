@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BeatInput : MonoBehaviour
 {
@@ -17,7 +15,7 @@ public class BeatInput : MonoBehaviour
     /// </summary>
     public BeatUI inputBeatUI;
 
-    
+
     [Tooltip("If true, the input UI will close immediately after the player has had a single cycle to input beats. \nIf false, it will only close once they choose to move away.")]
     /// <summary>
     /// If true, the input UI will close immediately after the player has had a single cycle to input beats.
@@ -45,7 +43,7 @@ public class BeatInput : MonoBehaviour
     /// this beat is reached again. Possibly more comfortable experience for the user.
     /// </summary>
     private int resetBeatNum = -1;
-    
+
     // Defines whether the user's inputs (and lack thereof) affect the construction of a beat pattern or not.
     private bool editMode = false;
 
@@ -61,7 +59,7 @@ public class BeatInput : MonoBehaviour
     //new variables for Micky. Seperating the UI from the Beat Input console.
     private bool playerInRange = false;
 
-    
+
     /// <summary>
     /// Micky's sprite representing when the player is close enough to input song notes
     /// </summary>
@@ -70,7 +68,7 @@ public class BeatInput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -100,7 +98,7 @@ public class BeatInput : MonoBehaviour
                     // This represents the moment the beat cycles back to the beginning after the editing run - we want to close the 
                     // menu at this point if closeUIAfterOneCycle is true. 
                     if ((BeatTimingManager.btmInstance.GetBeatNumber() % beatController.activeBeats.Length == 0 && resetAtTop) ||
-                        (BeatTimingManager.btmInstance.GetBeatNumber() % beatController.activeBeats.Length == resetBeatNum && !resetAtTop)   )
+                        (BeatTimingManager.btmInstance.GetBeatNumber() % beatController.activeBeats.Length == resetBeatNum && !resetAtTop))
                     {
                         if (closeUIAfterOneCycle)
                         {
@@ -120,7 +118,7 @@ public class BeatInput : MonoBehaviour
                 }
 
                 // Gets user input, activating the current beat if it is present.
-                if (Input.GetButtonDown("Sing"))  
+                if (Input.GetButtonDown("Sing"))
                 {
                     beatController.activeBeats[currentBeat] = true;
 
@@ -137,7 +135,7 @@ public class BeatInput : MonoBehaviour
             else
             {
                 int tempResetPoint = 0;
-                
+
                 if (!resetAtTop && resetBeatNum != -1)
                 {
                     tempResetPoint = resetBeatNum;
@@ -174,7 +172,7 @@ public class BeatInput : MonoBehaviour
                     // the player has had enough time to prepare and should be ready to input again.
                     startedOnZero = false;
                 }
-                
+
             }
         }
     }
@@ -244,12 +242,12 @@ public class BeatInput : MonoBehaviour
     }
 
 
-    public void SetPlayerInRange(bool inRange) 
+    public void SetPlayerInRange(bool inRange)
     {
         playerInRange = inRange;
     }
 
-    public void TogglePossibleInputImage(bool inputState) 
+    public void TogglePossibleInputImage(bool inputState)
     {
         if (inputPossibleSprite != null)
         {

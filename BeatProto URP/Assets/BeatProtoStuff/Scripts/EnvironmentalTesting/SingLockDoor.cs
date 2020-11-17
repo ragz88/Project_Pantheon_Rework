@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SingLockDoor : MonoBehaviour
 {
@@ -24,10 +22,10 @@ public class SingLockDoor : MonoBehaviour
     {
         mySprite = GetComponent<SpriteRenderer>();
         SetDoorForLocks();
-        
+
     }
 
-    
+
     void Update()
     {
         if (!doorUnlocked)
@@ -42,14 +40,14 @@ public class SingLockDoor : MonoBehaviour
         }
     }
 
-    public void CheckLocks() 
+    public void CheckLocks()
     {
-        foreach (SingLock singLock in myLocks) 
+        foreach (SingLock singLock in myLocks)
         {
             if (singLock.unlocked)
             {
                 if (!singLock.addedToDoor)
-                { 
+                {
                     unlockCount++;
                     singLock.addedToDoor = true;
                 }
@@ -57,15 +55,15 @@ public class SingLockDoor : MonoBehaviour
             else if (!singLock.unlocked)
             {
                 if (singLock.addedToDoor)
-                { 
+                {
                     unlockCount--;
                     singLock.addedToDoor = false;
                 }
             }
         }
 
-        
-        if (unlockCount == myLocks.Length) 
+
+        if (unlockCount == myLocks.Length)
         {
             doorUnlocked = true;
         }
@@ -77,7 +75,7 @@ public class SingLockDoor : MonoBehaviour
                 mySprite.color = Color.black;
                 GetComponent<BoxCollider2D>().enabled = false;
             }
-            else if (myUnlockType == unlockType.disappear) 
+            else if (myUnlockType == unlockType.disappear)
             {
                 startFade = true;
                 //gameObject.SetActive(false);
@@ -94,7 +92,7 @@ public class SingLockDoor : MonoBehaviour
         }
     }
 
-    
 
-    
+
+
 }

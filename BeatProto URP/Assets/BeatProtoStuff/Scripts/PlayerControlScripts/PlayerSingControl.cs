@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerSingControl : MonoBehaviour
 {
@@ -20,7 +18,7 @@ public class PlayerSingControl : MonoBehaviour
         defaultSize = transform.localScale;
     }
 
-    public void ActiveSing() 
+    public void ActiveSing()
     {
         singSprite.enabled = true;
 
@@ -40,7 +38,7 @@ public class PlayerSingControl : MonoBehaviour
 
     }
 
-    public void StopSing() 
+    public void StopSing()
     {
         //if (singSprite.transform.localScale.x > defaultSize.x)
         //    singSprite.transform.localScale -= new Vector3(0.01f, 0f, 0);

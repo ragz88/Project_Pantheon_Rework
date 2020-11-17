@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 [RequireComponent(typeof(PolygonCollider2D))]
@@ -71,13 +69,13 @@ public class Sunbeams : MonoBehaviour
     /// <summary>
     /// How close the sunbeam ultimately gets to the current shine position when lerping. 
     /// </summary>
-    private const float beamLerpAccuracy = 0.15f; 
+    private const float beamLerpAccuracy = 0.15f;
 
 
     /// <summary>
     /// Stores all the vertices along the edges of our sunbeam.
     /// </summary>
-    private  Vector2[] meshPoints;
+    private Vector2[] meshPoints;
 
 
     /// <summary>
@@ -131,7 +129,7 @@ public class Sunbeams : MonoBehaviour
                 beamPositionLerping = false;
             }
         }
-        
+
 
         CalculateMeshPoints();
 
@@ -141,7 +139,7 @@ public class Sunbeams : MonoBehaviour
         {
             ConstructMesh();
         }
-        
+
         UpdateCollider();
     }
 
@@ -160,7 +158,7 @@ public class Sunbeams : MonoBehaviour
             // Note: we subtract 1 from numRayChecks when looking for our lerped point to include both the start and end points in the 
             //       calculation, instead of just one of the two, while keeping our for loop in it's standard format.
             Vector3 currentStartingPoint = Vector3.Lerp(startingPointA.position, startingPointB.position, (i / ((float)numRayChecks - 1)));
-            
+
             // This collects the top points of our rectangle
             meshPoints[i] = transform.InverseTransformPoint(currentStartingPoint);
 
@@ -202,7 +200,7 @@ public class Sunbeams : MonoBehaviour
             // DO DEFENSIVE CHECK FOR THIS LATER!!!!!!!!!
 
             // Debug.DrawRay(startPoint, (currentShinePosition - startingPointA.position) * 1000, Color.white);
-            return new Vector3 (-500, -500, -500);
+            return new Vector3(-500, -500, -500);
         }
     }
 
@@ -254,8 +252,8 @@ public class Sunbeams : MonoBehaviour
         // While our collider needs Vector2's for it's vertices, our mesh requires Vector3's
         // Due to this, we need to cache our meshPoints array into a temporary Vector3 array to work with it effectively.
         Vector3[] verts = new Vector3[meshPoints.Length];
-            
-        for (int i =0; i < meshPoints.Length; i++)
+
+        for (int i = 0; i < meshPoints.Length; i++)
         {
             verts[i] = new Vector3(meshPoints[i].x, meshPoints[i].y, 0);
         }
@@ -316,11 +314,11 @@ public class Sunbeams : MonoBehaviour
         }
 
         // Now that we've organised these vertices into specific groups of 3, we can assign our mesh's triangles array to the temporary one.
-        sunbeamMesh.triangles = triangles;          
+        sunbeamMesh.triangles = triangles;
 
         GetComponent<MeshFilter>().mesh = sunbeamMesh;           // And here we finally assign it to the mesh filter component - telling Unity to draw it in the scene.
-        //rend.material = meshMaterial;
-        
+                                                                 //rend.material = meshMaterial;
+
     }
 
 
@@ -337,5 +335,5 @@ public class Sunbeams : MonoBehaviour
         beamPositionLerping = true;
     }
 
-    
+
 }

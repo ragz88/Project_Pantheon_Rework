@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// A collection of beat patterns that represent one of the feasible beat setups that will allow the player to solve the level.

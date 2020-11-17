@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 /// <summary>
 /// Displays a visual representation of the timing and setup of a specific beat controller, and hence a specific 
@@ -134,14 +131,14 @@ public class BeatUI : MonoBehaviour
             // We'll get an angle representing it's current rotation amount around the circle. This, combined with our 
             // radius can be used to calculate its x and y positions. Note that the angle must be in radians, not degrees, hence the
             // 2PI rather than 360.
-            float currentAngle = i * ((2 * Mathf.PI)/ beatBlockSprites.Length);
-            
+            float currentAngle = i * ((2 * Mathf.PI) / beatBlockSprites.Length);
+
             // Finding x and y coordinates with simple trig
             float currentYOffset = radius * Mathf.Cos(currentAngle);
             float currentXOffset = radius * Mathf.Sin(currentAngle);
 
             // Instantiate block in this position.
-            GameObject currentBeatBlockObj = Instantiate(beatBlockPrefab, transform.position + new Vector3(currentXOffset, currentYOffset, 0), 
+            GameObject currentBeatBlockObj = Instantiate(beatBlockPrefab, transform.position + new Vector3(currentXOffset, currentYOffset, 0),
                 Quaternion.identity, transform) as GameObject;
 
             // Adjust instantiated beat block's size based on public multiplier.
@@ -156,7 +153,7 @@ public class BeatUI : MonoBehaviour
                 beatBlockSprites[i].transform.eulerAngles = new Vector3(0, 0, (beatBlockSprites.Length - i) * (360 / beatBlockSprites.Length));
             }
         }
-        
+
         // Cache a reference to our initial colours, so we can revert to them later when things are in an interactable state.
         initialImageColour = new Color(beatBlockColour.r, beatBlockColour.g, beatBlockColour.b, 1);
 
@@ -265,7 +262,7 @@ public class BeatUI : MonoBehaviour
             // Make our beat blocks their initial, bright colour, iplying interaction is allowed
             for (int i = 0; i < beatBlockSprites.Length; i++)
             {
-                beatBlockSprites[i].color = new Color(initialImageColour.r, initialImageColour.g, initialImageColour.b, beatBlockSprites[i].color.a); 
+                beatBlockSprites[i].color = new Color(initialImageColour.r, initialImageColour.g, initialImageColour.b, beatBlockSprites[i].color.a);
             }
 
             // Update additional sprite colours as well, like cursors or background images
@@ -303,12 +300,12 @@ public class BeatUI : MonoBehaviour
         {
             beatBlockSprites[index].sprite = activeBeatSprite;
         }
-        else 
+        else
         {
             beatBlockSprites[index].sprite = inactiveBeatSprite;
         }
-        
-        
+
+
     }
 
     /// <summary>

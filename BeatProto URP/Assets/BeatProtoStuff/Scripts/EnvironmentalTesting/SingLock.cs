@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class SingLock : MonoBehaviour
@@ -68,7 +66,7 @@ public class SingLock : MonoBehaviour
             }
         }
 
-        if (myDoor.doorUnlocked) 
+        if (myDoor.doorUnlocked)
         {
             countDownText.text = "";
         }

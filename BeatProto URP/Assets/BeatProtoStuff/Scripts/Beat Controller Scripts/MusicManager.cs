@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 [RequireComponent(typeof(AudioSource))]
@@ -38,7 +36,7 @@ public class MusicManager : MonoBehaviour
     // This boolean will be set to true when the player exits the level. It will tell this class to wait for the current beat cycle to end, 
     // then start the final composed musical piece.
     private bool waitForCycleEnd = false;
-    
+
     // Set to true when the cycle reaches the totalBeatNumber after the MusicManager has been told to wait for the end of a cycle.
     // Once the cycle returns to 0 after this point, we'll play the final music piece.
     private bool playCompositionAtZero = false;
@@ -75,7 +73,7 @@ public class MusicManager : MonoBehaviour
         {
             // We now look out for when the TimingManager hits the final beat in a cycle. When it does, we'll tell it that it can play 
             // the composed piece for this level when we hit 0 again.
-            if (BeatTimingManager.btmInstance.GetBeatNumber() == BeatTimingManager.btmInstance.currentSong.totalBeatNum -1)
+            if (BeatTimingManager.btmInstance.GetBeatNumber() == BeatTimingManager.btmInstance.currentSong.totalBeatNum - 1)
             {
                 playCompositionAtZero = true;
             }
@@ -126,7 +124,7 @@ public class MusicManager : MonoBehaviour
     {
         // Testing Debug
         Debug.Log("You got it! Solution " + boop + " found.");
-        
+
         // Tells the Music Manager to look out for the end of a cycle, at which point it should start playing.
         waitForCycleEnd = true;
     }
@@ -147,7 +145,7 @@ public class MusicManager : MonoBehaviour
         // Create a decaying audio source with the settings of our CompositionAudioSource
         // Given the nature of the function, this will happen quite quickly               
         FadeOutCompositionSource(true, 3);   // PLAYTEST THIS VALUE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                 
+
         // After creating our fading Audio Source, we'll update the compositionSource to play the new musical piece
         compositionAudioSource.clip = transitionClip;
     }

@@ -8,7 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/URP Stuff/Scenes/SampleScene.unity
     guid: d1c3109bdb54ad54c8a2b2838528e640
-  - enabled: 1
+  - enabled: 0
     path: Assets/BeatProtoStuff/Scenes/PrototypeScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/BeatProtoStuff/Scenes/ControllerTutorial.unity
+    guid: 7a15497c491227544920ecbf3955b21b
+  - enabled: 1
+    path: Assets/BeatProtoStuff/Scenes/WallJumpTutorial.unity
+    guid: f48bd46b58813ea4eadf6b7cc94feb6b
   m_configObjects: {}

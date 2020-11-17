@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerWallCheck : MonoBehaviour
 {
@@ -8,7 +6,7 @@ public class PlayerWallCheck : MonoBehaviour
     {
         if (collision.gameObject.tag == "Wall")
         {
-            PlayerController.pController.SetGrabPossible(true);
+            //PlayerController.pController.SetGrabPossible(true);
         }
     }
 
@@ -16,9 +14,17 @@ public class PlayerWallCheck : MonoBehaviour
     {
         if (collision.gameObject.tag == "Wall")
         {
+
+            if (PlayerController.pController.movingUpWall) 
+            {
+                PlayerController.pController.Jump(PlayerController.pController.jumpSpeed/2);
+            }
+
             PlayerController.pController.SetGrabPossible(false);
 
             PlayerController.pController.SetGrabState(false);
+
+            PlayerController.pController.movingUpWall = false;
         }
     }
 }

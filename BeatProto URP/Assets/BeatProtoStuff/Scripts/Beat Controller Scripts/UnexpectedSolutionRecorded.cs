@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.InteropServices;
-using UnityEngine;
+﻿using System.IO;
 
 
 /// <summary>
@@ -10,13 +6,13 @@ using UnityEngine;
 /// solve a level, found by the player at runtime.
 /// These new solutions will be stored in a csv file that we as developers can access and analyse later.
 /// </summary>
-public class UnexpectedSolutionRecorded 
+public class UnexpectedSolutionRecorded
 {
     public static void StoreNewSolution()
     {
         // We start by creating a string that represents the current settings of each beat controller and has some information about
         // where the player used this solution (through the currentSong)
-        string newSolutionInfo = BeatTimingManager.btmInstance.currentSong.name +" => ";
+        string newSolutionInfo = BeatTimingManager.btmInstance.currentSong.name + " => ";
 
         // After recording which song was playing, we'll analyse the state of each of our beat managers
         for (int i = 0; i < BeatTimingManager.btmInstance.beatControllers.Length; i++)
@@ -75,7 +71,7 @@ public class UnexpectedSolutionRecorded
         // Close file to prevent memory leaks
         reader.Close();
 
-        
+
         // If the solution the player just found ISN'T present in the text file, we'll append it to the file's end
         if (!solutionExistsAlready)
         {

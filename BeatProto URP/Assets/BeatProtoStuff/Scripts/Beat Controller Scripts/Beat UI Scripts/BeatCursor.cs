@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class BeatCursor : MonoBehaviour
 {
@@ -20,7 +17,7 @@ public class BeatCursor : MonoBehaviour
 
     // Used to fade cursor in and out depending on the visibility settings of the UI
     SpriteRenderer cursorSprite;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +26,7 @@ public class BeatCursor : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    { 
+    {
         // We want our cursor to highlight the currently firing beat when the beat blocks are visible
         if (beatUI.UIVisible && beatUI.UIReady)
         {

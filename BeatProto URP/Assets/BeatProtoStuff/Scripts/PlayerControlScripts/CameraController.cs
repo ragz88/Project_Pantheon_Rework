@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
@@ -19,13 +17,13 @@ public class CameraController : MonoBehaviour
             target = PlayerController.pController.player;
     }
 
-    
+
     void FixedUpdate()
     {
-         SmoothFollow();
+        SmoothFollow();
     }
 
-    void SmoothFollow() 
+    void SmoothFollow()
     {
         Vector3 targetPos = new Vector3(target.transform.position.x, target.transform.position.y, -10f);
         transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref velocity, dampTime);

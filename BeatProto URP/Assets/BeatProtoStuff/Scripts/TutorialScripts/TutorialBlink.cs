@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TutorialBlink : MonoBehaviour
 {
@@ -19,31 +17,31 @@ public class TutorialBlink : MonoBehaviour
         closing = true;
     }
 
-    
+
     void Update()
     {
-        if (closing) 
+        if (closing)
         {
             transform.localScale -= new Vector3(0, 0.005f, 0);
             if (transform.localScale.y <= 0)
-            { 
+            {
                 closing = false;
                 opening = true;
-            }    
+            }
         }
 
-        if (opening) 
+        if (opening)
         {
             if (transform.localScale.y < targetSize)
                 transform.localScale += new Vector3(0, 0.005f, 0);
         }
 
 
-        if (transform.localScale.y >= targetSize && opening) 
+        if (transform.localScale.y >= targetSize && opening)
         {
             timer += Time.deltaTime;
 
-            if (timer >= blinkDelay) 
+            if (timer >= blinkDelay)
             {
                 closing = true;
                 opening = false;

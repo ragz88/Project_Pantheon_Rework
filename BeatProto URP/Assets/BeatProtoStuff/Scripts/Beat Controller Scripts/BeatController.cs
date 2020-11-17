@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
 /// Allows one to associate a series of actions/functions with a specific array of active beats.
 /// There should be one of these present for each TYPE of beat-controlled element in the scene.
 /// </summary>
-public class BeatController: MonoBehaviour
+public class BeatController : MonoBehaviour
 {
     [Tooltip("Defines which elements in the environment this controller is linked to. Important for detecting if the player has found a feasible solution, and for playing the correct sounds with those elements.")]
     /// <summary>
@@ -34,7 +32,7 @@ public class BeatController: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     /// <summary>

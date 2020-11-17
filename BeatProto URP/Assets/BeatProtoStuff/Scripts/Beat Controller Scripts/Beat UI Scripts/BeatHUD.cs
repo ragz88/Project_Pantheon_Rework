@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class BeatHUD : MonoBehaviour
@@ -80,7 +78,7 @@ public class BeatHUD : MonoBehaviour
     {
         // We start by making an array that's big enough to house all the beat blocks we'll need.
         beatBlockImages = new Image[beatController.activeBeats.Length];
-        
+
         // and instantiating a beat block for each of its spaces.
         for (int i = 0; i < beatBlockImages.Length; i++)
         {
@@ -92,9 +90,9 @@ public class BeatHUD : MonoBehaviour
                 {
                     // We create a new Beat Block. We use negative padding because we want each successive beat block to be lower than the
                     // last one, with the top one being at position (0,0,0).
-                    GameObject newBlockObj = 
-                        Instantiate(imageBeatBlockPrefab, transform.position + new Vector3(0, i * -1 *padding, 0), 
-                        Quaternion.identity,transform) as GameObject;
+                    GameObject newBlockObj =
+                        Instantiate(imageBeatBlockPrefab, transform.position + new Vector3(0, i * -1 * padding, 0),
+                        Quaternion.identity, transform) as GameObject;
 
                     // cache a reference to that new beat block's image
                     beatBlockImages[i] = newBlockObj.GetComponent<Image>();

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Keeps track of how long we are into the current song/beat collection, which beat we're currently on and fires the OnBeat events
@@ -67,7 +65,7 @@ public class BeatTimingManager : MonoBehaviour
         //currentBPM = currentSong.BPM;
 
         // We convert to Beats per second, then to seconds
-        beatLength = 1/(currentSong.BPM / 60);
+        beatLength = 1 / (currentSong.BPM / 60);
     }
 
     // Update is called once per frame
