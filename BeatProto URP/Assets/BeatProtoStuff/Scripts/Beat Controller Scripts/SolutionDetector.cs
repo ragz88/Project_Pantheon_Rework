@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// This class should be used when the player finishes a puzzle level. It will analyse the current state of the beat controllers and 
@@ -7,6 +10,9 @@
 /// </summary>
 public class SolutionDetector : MonoBehaviour
 {
+
+    public UnityEvent OnSolutionFound;
+
     /// <summary>
     /// To be called once the player exits the puzzle portion of a level and enters the solely platforming section.
     /// </summary>
@@ -15,7 +21,7 @@ public class SolutionDetector : MonoBehaviour
         // This will store the index of the solution the player is using from our possibleSolutions array.
         // If it remains -1, the player has found a new solution to the level.
         int solutionIndex = -1;
-
+        
         // Firstly, we need to go through all the plausible solutions and check them against the current activeBeat setup in the level.
         for (int i = 0; i < BeatTimingManager.btmInstance.currentSong.possibleSolutions.Length; i++)
         {
@@ -85,6 +91,8 @@ public class SolutionDetector : MonoBehaviour
 
             UnexpectedSolutionRecorded.StoreNewSolution();
         }
+
+        OnSolutionFound.Invoke();
     }
 
     /// <summary>
@@ -122,5 +130,5 @@ public class SolutionDetector : MonoBehaviour
         return true;
     }
 
-
+    
 }
