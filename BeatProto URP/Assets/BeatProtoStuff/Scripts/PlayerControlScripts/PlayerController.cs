@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+
+// MAKE SURE PLAYER RB IS SET TO INTERPOLATE!!!!!!
+
 public class PlayerController : MonoBehaviour
 {
     //static instance of this script

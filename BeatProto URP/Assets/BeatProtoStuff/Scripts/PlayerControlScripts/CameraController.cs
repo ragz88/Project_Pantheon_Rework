@@ -18,10 +18,13 @@ public class CameraController : MonoBehaviour
     }
 
 
-    void FixedUpdate()
+    // MAKE SURE PLAYER RB IS SET TO INTERPOLATE!!!!!!
+
+    void LateUpdate() 
     {
         SmoothFollow();
     }
+    
 
     void SmoothFollow()
     {
