@@ -40,7 +40,18 @@ public class LevelProgressor : MonoBehaviour
     }
 
     public MovementGhostPairs[] movementGhostPairs;
-    
+
+
+
+    [System.Serializable]
+    public struct ScalingGhostPairs
+    {
+        public ScalingObject[] actualObjects;
+        public ScalingObject[] ghosts;
+    }
+
+    public ScalingGhostPairs[] scalingGhostPairs;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,7 +70,7 @@ public class LevelProgressor : MonoBehaviour
     {
         bool levelSolved = true;
 
-        for (int i = 0; i < beatControllerArrays[currentLevel].beatControllerArray.Length; i++)
+        for (int i = 0; i < beatControllerArrays[currentLevel].beatControllerArray.Length - 1; i++)
         {
             if (!CompareArrays<bool>( beatControllerArrays[currentLevel].beatControllerArray[i].activeBeats, 
                 beatControllerArrays[currentLevel].solutions[i].solutionPattern))
@@ -71,6 +82,14 @@ public class LevelProgressor : MonoBehaviour
         for (int i = 0; i < movementGhostPairs[currentLevel].actualObjects.Length; i++)
         {
             if (movementGhostPairs[currentLevel].actualObjects[i].currentMovePoint != movementGhostPairs[currentLevel].ghosts[i].currentMovePoint)
+            {
+                levelSolved = false;
+            }
+        }
+
+        for (int i = 0; i < scalingGhostPairs[currentLevel].actualObjects.Length; i++)
+        {
+            if (scalingGhostPairs[currentLevel].actualObjects[i].currentScaleFactor != scalingGhostPairs[currentLevel].ghosts[i].currentScaleFactor)
             {
                 levelSolved = false;
             }

@@ -17,6 +17,9 @@ public class TutorialPages : MonoBehaviour
     Image tutPageImage;
 
     int currentPageNumber = 0;
+
+
+    public bool closeAfterThanks = false;
     
     // Start is called before the first frame update
     void Start()
@@ -67,6 +70,11 @@ public class TutorialPages : MonoBehaviour
                 if (player != null)
                 {
                     player.SetActive(true);
+                }
+
+                if (closeAfterThanks)
+                {
+                    Application.Quit();
                 }
 
                 Destroy(gameObject);
