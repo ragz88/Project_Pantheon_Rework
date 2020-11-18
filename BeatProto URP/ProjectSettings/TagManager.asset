@@ -19,9 +19,9 @@ TagManager:
   - 
   - Walls
   - Ground
-  - 
-  - 
-  - 
+  - BeatInput
+  - SingCollider
+  - Player
   - 
   - 
   - 

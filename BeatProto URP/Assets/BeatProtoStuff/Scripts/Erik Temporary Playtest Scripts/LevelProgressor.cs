@@ -31,6 +31,15 @@ public class LevelProgressor : MonoBehaviour
     public ShowMessage messanger;
 
     public string[] levelEndMessages;
+
+    [System.Serializable]
+    public struct MovementGhostPairs
+    {
+        public MovingObject[] actualObjects;
+        public MovingObject[] ghosts;
+    }
+
+    public MovementGhostPairs[] movementGhostPairs;
     
     // Start is called before the first frame update
     void Start()
@@ -56,6 +65,14 @@ public class LevelProgressor : MonoBehaviour
                 beatControllerArrays[currentLevel].solutions[i].solutionPattern))
             {
                  levelSolved = false;
+            }
+        }
+
+        for (int i = 0; i < movementGhostPairs[currentLevel].actualObjects.Length; i++)
+        {
+            if (movementGhostPairs[currentLevel].actualObjects[i].currentMovePoint != movementGhostPairs[currentLevel].ghosts[i].currentMovePoint)
+            {
+                levelSolved = false;
             }
         }
 

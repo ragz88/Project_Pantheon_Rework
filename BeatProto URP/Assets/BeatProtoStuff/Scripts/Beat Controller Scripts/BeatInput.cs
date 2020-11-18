@@ -73,6 +73,32 @@ public class BeatInput : MonoBehaviour
     /// </summary>
     public SpriteRenderer inputPossibleSprite;
 
+
+    [Tooltip("The x velocity the player needs to reach before the terminal will close from them walking away.")]
+    /// <summary>
+    /// The x velocity the player needs to reach before the terminal will close from them walking away.
+    /// </summary>
+    public float terminalCloseSensitivity = 1.5f;
+
+
+    /// <summary>
+    /// Used to detect changes in the GetAxisRaw result between frames, to simulate the effect of a GetButtonDown for a movement axis.
+    /// </summary>
+    float previousXAxisRaw = 0;
+
+
+    /// <summary>
+    /// Used to prevent the OnBeat event from being invoked by the player opening the menu. Only relevant if triggerOnBeatInput is true.
+    /// </summary>
+    bool ignoreOpeningInput = false;
+
+    [Tooltip("For specific types of environmental objects, we may want them to run their OnBeat effect when all the beats are cleared. They will do so if this is true.")]
+    /// <summary>
+    /// For specific types of environmental objects, we may want them to run their OnBeat effect when all the beats are cleared. They will
+    /// do so if this is true.
+    /// </summary>
+    public bool InvokeOnBeatOnClear = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -82,10 +108,23 @@ public class BeatInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((Input.GetAxis("Horizontal") != 0) || (Input.GetButtonDown("Jump")))
+        // Here we detect any player inputs that imply they want to close the terminal.
+        if ((Input.GetButtonDown("Jump")))
         {
             CloseEditor();
         }
+        else
+        {
+            // Essentially, was this a deliberate input rather than some risidual velocity from a previous movement.
+            // We've replicated the effects of a GetButtonDown for an axis (rather than a GetButton)
+            if ((Input.GetAxisRaw("Horizontal") != 0 && !(previousXAxisRaw > 0.1f || previousXAxisRaw < -0.1f)))
+            {
+                CloseEditor();
+            }
+        }
+
+        // Update our 'previous frame' GetAxisRaw, as we've already done all the checks we needed to use it for.
+        previousXAxisRaw = Input.GetAxisRaw("Horizontal");
 
         if (editMode)
         {
@@ -122,7 +161,7 @@ public class BeatInput : MonoBehaviour
                     beatController.activeBeats[currentBeat] = true;
 
                     // As the player makes a beat active, the active beat's effect will take place if this is set to true.
-                    if (triggerOnBeatOnInput)
+                    if (triggerOnBeatOnInput && !ignoreOpeningInput)
                     {
                         beatController.OnBeat.Invoke();
                     }
@@ -155,6 +194,12 @@ public class BeatInput : MonoBehaviour
                         readyForInput = true;
 
                         beatController.ClearActiveBeats();
+
+                        // As the beats are reset, the OnBeat effect will take place if this is set to true.
+                        if (triggerOnBeatOnInput && InvokeOnBeatOnClear)
+                        {
+                            beatController.OnBeat.Invoke();
+                        }
 
                         inputBeatUI.UpdateInteractableState(true);
 
@@ -189,6 +234,10 @@ public class BeatInput : MonoBehaviour
                 OpenEditor();
             }
         }
+
+        // Tells our script that a full frame has run since the editor was opened, preventing the opening press of the Sing button
+        // from triggering an OnBeat event.
+        ignoreOpeningInput = false;
     }
 
 
@@ -216,11 +265,19 @@ public class BeatInput : MonoBehaviour
 
             inputBeatUI.UIVisible = true;
 
+            ignoreOpeningInput = true;
+
             if (!closeUIAfterOneCycle)
             {
                 inputBeatUI.UpdateInteractableState(true);
                 readyForInput = true;
                 beatController.ClearActiveBeats();
+
+                // As the beats are reset, the OnBeat effect will take place if this is set to true.
+                if (triggerOnBeatOnInput && InvokeOnBeatOnClear)
+                {
+                    beatController.OnBeat.Invoke();
+                }
             }
             else
             {
@@ -282,11 +339,14 @@ public class BeatInput : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        playerInRange = true;
-
-        if (inputPossibleSprite != null)
+        if (collision.CompareTag("Player"))
         {
-            inputPossibleSprite.enabled = true;
+            playerInRange = true;
+
+            if (inputPossibleSprite != null)
+            {
+                inputPossibleSprite.enabled = true;
+            }
         }
     }
 
@@ -299,5 +359,7 @@ public class BeatInput : MonoBehaviour
         {
             inputPossibleSprite.enabled = false;
         }
+
+        CloseEditor();
     }
 }

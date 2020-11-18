@@ -179,33 +179,45 @@ public class BeatUI : MonoBehaviour
         #region Fade UI in and out
 
         // We'll check if the UI is meant to be showing, and if the last black in our UI array is fully visible yet.
-        if (UIVisible && beatBlockSprites[beatBlockSprites.Length - 1].color.a < 1)
+        if (UIVisible && (beatBlockSprites[beatBlockSprites.Length - 1].color.a < 1 || additionalSprites[additionalSprites.Length - 1].color.a < 1))
         {
             // If it isn't, we'll increase all our beat blocks' alphas
             for (int i = 0; i < beatBlockSprites.Length; i++)
             {
-                beatBlockSprites[i].color = beatBlockSprites[i].color + new Color(0, 0, 0, fadeInSpeed * Time.deltaTime);
+                if (beatBlockSprites[i].color.a < 1)
+                {
+                    beatBlockSprites[i].color = beatBlockSprites[i].color + new Color(0, 0, 0, fadeInSpeed * Time.deltaTime);
+                }
             }
 
             // Fade in the additional UI sprite, like background UI and cursors, if they exists
             for (int i = 0; i < additionalSprites.Length; i++)
             {
-                additionalSprites[i].color = additionalSprites[i].color + new Color(0, 0, 0, fadeInSpeed * Time.deltaTime);
+                if (additionalSprites[i].color.a < 1)
+                {
+                    additionalSprites[i].color = additionalSprites[i].color + new Color(0, 0, 0, fadeInSpeed * Time.deltaTime);
+                }
             }
         }
         // If it's not meant to be visible, we'll check if the last block is completely hidden
-        else if (!UIVisible && beatBlockSprites[beatBlockSprites.Length - 1].color.a > 0)
+        else if (!UIVisible && (beatBlockSprites[beatBlockSprites.Length - 1].color.a > 0 || additionalSprites[additionalSprites.Length - 1].color.a > 0))
         {
             // If it isn't, we'll decrease all our beat blocks' alphas
             for (int i = 0; i < beatBlockSprites.Length; i++)
             {
-                beatBlockSprites[i].color = beatBlockSprites[i].color - new Color(0, 0, 0, fadeOutSpeed * Time.deltaTime);
+                if (beatBlockSprites[i].color.a > 0)
+                {
+                    beatBlockSprites[i].color = beatBlockSprites[i].color - new Color(0, 0, 0, fadeOutSpeed * Time.deltaTime);
+                }                
             }
 
             // Fade out the additional UI sprite, like background UI and cursors, if they exists
             for (int i = 0; i < additionalSprites.Length; i++)
             {
-                additionalSprites[i].color = additionalSprites[i].color - new Color(0, 0, 0, fadeOutSpeed * Time.deltaTime);
+                if (additionalSprites[i].color.a > 0)
+                {
+                    additionalSprites[i].color = additionalSprites[i].color - new Color(0, 0, 0, fadeOutSpeed * Time.deltaTime);
+                }
             }
         }
         #endregion

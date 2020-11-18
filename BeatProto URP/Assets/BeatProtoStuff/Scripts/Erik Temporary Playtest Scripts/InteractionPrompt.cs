@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class InteractionPrompt : MonoBehaviour
 {
-    public Text promptText;
+    public Image promptImage;
 
     bool showPrompt = false;
 
@@ -26,17 +26,17 @@ public class InteractionPrompt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (showPrompt && promptText.color.a < 1)
+        if (showPrompt && promptImage.color.a < 1)
         {
-            promptText.color = promptText.color + new Color(0, 0, 0, fadeSpeed * Time.deltaTime);
+            promptImage.color = promptImage.color + new Color(0, 0, 0, fadeSpeed * Time.deltaTime);
         }
-        else if (!showPrompt && promptText.color.a > 0)
+        else if (!showPrompt && promptImage.color.a > 0)
         {
-            promptText.color = promptText.color - new Color(0, 0, 0, fadeSpeed * Time.deltaTime);
+            promptImage.color = promptImage.color - new Color(0, 0, 0, fadeSpeed * Time.deltaTime);
         }
-        else if (!showPrompt && promptText.color.a <= 0)
+        else if (!showPrompt && promptImage.color.a <= 0)
         {
-            promptText.transform.position = initialPos;
+            promptImage.transform.position = initialPos;
             moving = false;
         }
 
@@ -50,7 +50,7 @@ public class InteractionPrompt : MonoBehaviour
 
         if (moving)
         {
-            promptText.transform.position = Vector3.Lerp(promptText.transform.position, loopPosition.position, moveSpeed * Time.deltaTime);
+            promptImage.transform.position = Vector3.Lerp(promptImage.transform.position, loopPosition.position, moveSpeed * Time.deltaTime);
         }
     }
 

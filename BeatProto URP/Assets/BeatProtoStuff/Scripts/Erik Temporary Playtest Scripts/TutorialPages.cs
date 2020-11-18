@@ -27,6 +27,11 @@ public class TutorialPages : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentPageNumber == 0 && player != null)
+        {
+            player.SetActive(false);
+        }
+        
         if (Input.GetButtonDown("Jump"))
         {
             if (currentPageNumber != tutPages.Length - 1)
