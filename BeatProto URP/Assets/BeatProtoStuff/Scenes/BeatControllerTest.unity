@@ -218,6 +218,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &66205082 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6961428902485765113, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+  m_PrefabInstance: {fileID: 2021064204}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3a1d430b4aa54f4f8a98c19b5c1b981, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &128169262 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2505923801645988824, guid: 5441e5462b5c10948ae19148ca707dfd, type: 3}
@@ -229,6 +240,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad3cc76e60645042931238c9e732582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &384111710 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 780586636947921341, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+  m_PrefabInstance: {fileID: 2021064204}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &384111711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384111710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c6210475d5c154e8f78ce2c65c13b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatController: {fileID: 1222138437}
+  inputBeatUI: {fileID: 66205082}
+  allowTestingInput: 1
+  triggerOnBeatOnInput: 1
+  terminalCloseSensitivity: 0.1
+  inputPossibleSprite: {fileID: 0}
+  multipleTriesPerBeat: 0
 --- !u!1 &398564117
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,6 +293,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30fe03a7172a8bd458f5c4ac4374aef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnSolutionFound:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &398564119
 Transform:
   m_ObjectHideFlags: 0
@@ -656,6 +694,7 @@ MonoBehaviour:
   beatControllers:
   - {fileID: 976812366}
   - {fileID: 470311720}
+  - {fileID: 1222138437}
   seekerTime: 0
   beatLength: 0
 --- !u!224 &994855634
@@ -801,7 +840,19 @@ MonoBehaviour:
   activeBeats: 0000000000000000
   OnBeat:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 128169262}
+        m_TargetAssemblyTypeName: Sunbeams, Assembly-CSharp
+        m_MethodName: OnActiveBeat
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &1432350707 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6357029869683227183, guid: 04bbe628e7b31674d948bc0b3d361a15, type: 3}
@@ -1254,6 +1305,88 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!1001 &2021064204
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 780586636947921312, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921312, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921312, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921312, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921312, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921312, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921312, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921312, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921312, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921312, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921312, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921341, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_Name
+      value: ToggleBeatInputConsoleYellow (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921343, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: beatController
+      value: 
+      objectReference: {fileID: 1222138437}
+    - target: {fileID: 780586636947921343, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: allowTestingInput
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921343, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6961428902485765113, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: beatController
+      value: 
+      objectReference: {fileID: 1222138437}
+    - target: {fileID: 6961428902485765113, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: beatBlockColour.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6961428902485765119, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 780586636947921343, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
 --- !u!1001 &2505923801538989814
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1466,6 +1599,10 @@ PrefabInstance:
     - target: {fileID: 780586636947921341, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
       propertyPath: m_Name
       value: BeatInputConsoleYellow
+      objectReference: {fileID: 0}
+    - target: {fileID: 780586636947921341, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 780586636947921343, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
       propertyPath: beatController
