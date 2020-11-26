@@ -32,6 +32,12 @@ public class BeatToggleInput : MonoBehaviour
     /// </summary>
     public bool triggerOnBeatOnInput = false;
 
+    [Tooltip("If true, the moment the player makes a beat inactive that was already active, the event linked to that beat will trigger.")]
+    /// <summary>
+    /// If true, the moment the player makes a beat inactive that was already active, the event linked to that beat will trigger.
+    /// </summary>
+    public bool triggerOnBeatOnClearInput = false;
+
 
     // Defines whether the user's inputs (and lack thereof) affect the construction of a beat pattern or not.
     // True when the interface is open.
@@ -109,7 +115,7 @@ public class BeatToggleInput : MonoBehaviour
             }
 
             // Gets user input, activating the current beat if it is present.
-            if (Input.GetButtonDown("Sing"))
+            if (Input.GetButtonDown("Sing") || Input.GetButtonDown("SingTemp"))
             {
                 if (multipleTriesPerBeat)
                 {
@@ -133,7 +139,7 @@ public class BeatToggleInput : MonoBehaviour
                         inputGivenThisBeat = true;
 
                         // As the player makes a beat active, the active beat's effect will take place if this is set to true.
-                        if (triggerOnBeatOnInput && !ignoreOpeningInput && beatController.activeBeats[currentBeat])
+                        if (triggerOnBeatOnInput && !ignoreOpeningInput && (beatController.activeBeats[currentBeat] || triggerOnBeatOnClearInput))
                         {
                             beatController.OnBeat.Invoke();
                         }
@@ -144,7 +150,7 @@ public class BeatToggleInput : MonoBehaviour
         else
         {
             // TEMPORARY INTERACTION FOR TESTING
-            if (Input.GetButtonDown("Sing"))
+            if (Input.GetButtonDown("Sing") || Input.GetButtonDown("SingTemp"))
             {
                 if (playerInRange || allowTestingInput)
                 {

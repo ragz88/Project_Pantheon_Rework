@@ -42,7 +42,7 @@ public class InteractionPrompt : MonoBehaviour
 
         if (showPrompt)
         {
-            if (Input.GetButtonDown("Sing"))
+            if (Input.GetButtonDown("Sing") || Input.GetButtonDown("SingTemp"))
             {
                 moving = true;
             }

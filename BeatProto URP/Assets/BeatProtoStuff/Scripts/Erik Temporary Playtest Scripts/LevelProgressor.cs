@@ -95,7 +95,7 @@ public class LevelProgressor : MonoBehaviour
             }
         }
 
-        if (levelSolved && !IsInvoking("OnLevelSolved"))
+        if (levelSolved && !IsInvoking("OnLevelSolved") && (currentLevel != levelObjects.Length - 1))
         {
             Invoke("OnLevelSolved", 3);
             messanger.DisplayMessage(levelEndMessages[currentLevel]);

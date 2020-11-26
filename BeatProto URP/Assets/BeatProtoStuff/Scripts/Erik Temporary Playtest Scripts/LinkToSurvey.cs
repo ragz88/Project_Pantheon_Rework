@@ -5,7 +5,10 @@ using UnityEngine;
 public class LinkToSurvey : MonoBehaviour
 {
     public GameObject quitUI;
-    
+
+    public string surveyLink = "https://docs.google.com/forms/d/e/1FAIpQLSevfxfSBURNUjOVWDo-upzsIkyNxLnekSvlkVOJRyvko_Er7Q/viewform?usp=sf_link";
+
+
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -26,7 +29,7 @@ public class LinkToSurvey : MonoBehaviour
     /// </summary>
     public void GoToSurvey()
     {
-        Application.OpenURL("https://docs.google.com/forms/d/e/1FAIpQLSevfxfSBURNUjOVWDo-upzsIkyNxLnekSvlkVOJRyvko_Er7Q/viewform?usp=sf_link");
+        Application.OpenURL(surveyLink);
     }
 
     public void Quit()

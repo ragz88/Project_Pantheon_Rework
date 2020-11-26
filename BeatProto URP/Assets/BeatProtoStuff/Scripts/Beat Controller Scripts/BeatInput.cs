@@ -156,7 +156,7 @@ public class BeatInput : MonoBehaviour
                 }
 
                 // Gets user input, activating the current beat if it is present.
-                if (Input.GetButtonDown("Sing"))
+                if (Input.GetButtonDown("Sing") || Input.GetButtonDown("SingTemp"))
                 {
                     beatController.activeBeats[currentBeat] = true;
 
@@ -227,7 +227,7 @@ public class BeatInput : MonoBehaviour
         }
 
         // TEMPORARY INTERACTION FOR TESTING
-        if (Input.GetButtonDown("Sing"))
+        if (Input.GetButtonDown("Sing") || Input.GetButtonDown("SingTemp"))
         {
             if (playerInRange || allowTestingInput)
             {
