@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController3D : MonoBehaviour
 {
 
     private GameObject target;
@@ -15,8 +15,8 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        if (PlayerController.pController.playerFound)
-            target = PlayerController.pController.player;
+        if (PlayerController3D.pController3D.playerFound)
+            target = PlayerController3D.pController3D.player;
     }
 
 
