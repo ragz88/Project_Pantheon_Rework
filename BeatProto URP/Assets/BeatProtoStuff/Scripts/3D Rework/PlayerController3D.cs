@@ -364,11 +364,13 @@ public class PlayerController3D : MonoBehaviour
             {
                 allowHoriz = false;
                 playerRB.velocity = new Vector2(moveSpeed, jumpSpeed);
+                ResetWallJumpVars();
             }
             else if (hitDirection == 0)
             {
                 allowHoriz = false;
                 playerRB.velocity = new Vector2(-moveSpeed, jumpSpeed);
+                ResetWallJumpVars();
             }
         }
     }
@@ -393,23 +395,38 @@ public class PlayerController3D : MonoBehaviour
     public void CheckForWall()
     {
         int mask = LayerMask.GetMask("Walls");
-        RaycastHit2D hitRight = Physics2D.Raycast(player.transform.position + new Vector3(0.2f, 0.3f, 0), Vector2.right, 0.3f, mask);
-        RaycastHit2D hitLeft = Physics2D.Raycast(player.transform.position - new Vector3(0.2f, -0.3f, 0), Vector2.left, 0.3f, mask);
-        Debug.DrawRay(player.transform.position + new Vector3(0.2f, 0.3f, 0), new Vector2(0.2f, 0), Color.red);
-        Debug.DrawRay(player.transform.position - new Vector3(0.2f, -0.3f, 0), new Vector2(-0.2f, 0), Color.red);
+        
 
-        if (hitRight)
+        RaycastHit hitRight3D;
+        Ray rightRay = new Ray(player.transform.position + new Vector3(0.2f, 0.3f, 0), Vector3.right);
+
+        if (Physics.Raycast(rightRay, out hitRight3D, 0.3f, mask)) 
         {
+            print(hitRight3D.collider.name);
             hitDirection = 0;
             canGrab = true;
-            grabPositionandParent = hitRight.transform.gameObject.transform;
+            grabPositionandParent = hitRight3D.transform.gameObject.transform;
         }
-        if (hitLeft)
+
+
+        RaycastHit hitLeft3D;
+        Ray leftRay = new Ray(player.transform.position - new Vector3(0.2f, -0.3f, 0), Vector3.left);
+
+        if (Physics.Raycast(leftRay, out hitLeft3D, 0.3f, mask))
         {
+            print(hitLeft3D.collider.name);
             hitDirection = 1;
             canGrab = true;
-            grabPositionandParent = hitLeft.transform.gameObject.transform;
+            grabPositionandParent = hitLeft3D.transform.gameObject.transform;
         }
+
+       
+    }
+
+    void ResetWallJumpVars() 
+    {
+        canGrab = false;
+        grabbing = false;
     }
 
     private void GravityToggle(float gravScale) //function to set gravity to desired amount
