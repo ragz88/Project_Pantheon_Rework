@@ -4166,7 +4166,7 @@ MonoBehaviour:
   moveSpeed: 5
   jumpSpeed: 9
   floatGravityFactor: 0.2
-  fallGravityFactor: 0.5
+  fallGravityFactor: 20
   defaultHorizontalTime: 0.5
   movingUpWall: 0
   singing: 0
@@ -4247,13 +4247,13 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893472478}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 60
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 72
+  m_Constraints: 120
   m_CollisionDetection: 0
 --- !u!4 &1893472482
 Transform:

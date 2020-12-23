@@ -454,7 +454,7 @@ public class PlayerController3D : MonoBehaviour
             playerAnimator.SetTrigger("floating");
         }
         else if (grounded || grabbing) //gravity should be reset to normal when grounded or grabbing
-            GravityToggle(0);
+            GravityToggle(2);
     }
 
     public void SetGrounded(bool ground) //Function that sets whether the player is grounded. See "PlayerGroundCheck" script
