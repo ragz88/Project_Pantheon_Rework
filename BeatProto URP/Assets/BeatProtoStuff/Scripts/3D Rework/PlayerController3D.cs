@@ -32,10 +32,15 @@ public class PlayerController3D : MonoBehaviour
     //Movement speed vars
     public float moveSpeed;
     public float jumpSpeed;
+    [HideInInspector]
+    public bool againstWallLeft = false;
+    [HideInInspector]
+    public bool againstWallRight = false;
 
     //Gravity vars
     public float floatGravityFactor;
     public float fallGravityFactor;
+    public float defaultGravity;
 
 
     //Wall grab vars
@@ -84,13 +89,14 @@ public class PlayerController3D : MonoBehaviour
         horizontalDisableTimer = defaultHorizontalTime;
         maxSingTime = singTime;
         SRefill = singRefillDelay;
+        SetGravity(defaultGravity);
     }
 
 
     void Update() //lots of stuff happening here. Not sure if should simplify or if it's fine. 
     {
 
-        print(grounded);
+        //CheckForWalls();
 
         if (!grabbing) //the stuff below should only happen if the player isn't grabbing a wall. Includes most movement mechanics.
         {
@@ -134,6 +140,7 @@ public class PlayerController3D : MonoBehaviour
         #endregion
 
         #region wall grab in Update
+
 
         if (!tapWallJump) //to test the two different wall jump things
         {
@@ -280,10 +287,41 @@ public class PlayerController3D : MonoBehaviour
             {
                 if (Input.GetAxisRaw("Horizontal") != 0)
                 {
-                    float xMovement = Input.GetAxisRaw("Horizontal");
-                    float totalSpeed = xMovement * moveSpeed;
+                    if (!againstWallLeft && !againstWallRight)
+                    {
+                        float xMovement = Input.GetAxisRaw("Horizontal");
+                        float totalSpeed = xMovement * moveSpeed;
 
-                    playerRB.velocity = new Vector2(totalSpeed, playerRB.velocity.y);
+                        playerRB.velocity = new Vector2(totalSpeed, playerRB.velocity.y);
+                    }
+                    else if (againstWallLeft) 
+                    {
+                        if (Input.GetAxisRaw("Horizontal") < 0)
+                        {
+                            playerRB.velocity = new Vector2(0, playerRB.velocity.y);
+                        }
+                        else if (Input.GetAxisRaw("Horizontal") > 0) 
+                        {
+                            float xMovement = Input.GetAxisRaw("Horizontal");
+                            float totalSpeed = xMovement * moveSpeed;
+
+                            playerRB.velocity = new Vector2(totalSpeed, playerRB.velocity.y);
+                        }
+                    }
+                    else if (againstWallRight)
+                    {
+                        if (Input.GetAxisRaw("Horizontal") > 0)
+                        {
+                            playerRB.velocity = new Vector2(0, playerRB.velocity.y);
+                        }
+                        else if (Input.GetAxisRaw("Horizontal") < 0)
+                        {
+                            float xMovement = Input.GetAxisRaw("Horizontal");
+                            float totalSpeed = xMovement * moveSpeed;
+
+                            playerRB.velocity = new Vector2(totalSpeed, playerRB.velocity.y);
+                        }
+                    }
                 }
             }
             else if (grounded)
@@ -326,7 +364,7 @@ public class PlayerController3D : MonoBehaviour
 
     private void GrabWall() //Allows the player to grab a wall, if they are in range.
     {
-        CheckForWall();
+        //CheckForWall();
 
         if (canGrab && !grounded) //if the player can grab (i.e. are in range of a wall)
         {
@@ -399,14 +437,15 @@ public class PlayerController3D : MonoBehaviour
 
         RaycastHit hitRight3D;
         Ray rightRay = new Ray(player.transform.position + new Vector3(0.2f, 0.3f, 0), Vector3.right);
+        Debug.DrawRay(player.transform.position + new Vector3(0.2f, 0.3f, 0), Vector3.right);
 
         if (Physics.Raycast(rightRay, out hitRight3D, 0.3f, mask)) 
         {
-            print(hitRight3D.collider.name);
             hitDirection = 0;
             canGrab = true;
             grabPositionandParent = hitRight3D.transform.gameObject.transform;
         }
+        
 
 
         RaycastHit hitLeft3D;
@@ -414,19 +453,36 @@ public class PlayerController3D : MonoBehaviour
 
         if (Physics.Raycast(leftRay, out hitLeft3D, 0.3f, mask))
         {
-            print(hitLeft3D.collider.name);
             hitDirection = 1;
             canGrab = true;
             grabPositionandParent = hitLeft3D.transform.gameObject.transform;
         }
 
-       
     }
+
+   /* public void CheckForWalls() 
+    {
+        int[] masks;
+
+        RaycastHit raycastHit;
+
+
+        bool boxHit = Physics.BoxCast(player.transform.position - new Vector3(0.2f,0,0), player.transform.localScale, transform.right, out raycastHit, transform.rotation, 2f);
+        if (boxHit)
+        {
+            print(raycastHit.collider.gameObject.name);
+        }
+    }*/
 
     void ResetWallJumpVars() 
     {
         canGrab = false;
         grabbing = false;
+    }
+
+    private void SetGravity(float gravity) 
+    {
+        Physics.gravity = new Vector3(0, -gravity, 0);
     }
 
     private void GravityToggle(float gravScale) //function to set gravity to desired amount
@@ -438,6 +494,8 @@ public class PlayerController3D : MonoBehaviour
     {
         playerSprite.flipX = shouldFlip;
     }
+
+
 
     private void HandleGravity()  //Function that defines how gravity should be set based on the state of the game.
     {
@@ -454,7 +512,8 @@ public class PlayerController3D : MonoBehaviour
             playerAnimator.SetTrigger("floating");
         }
         else if (grounded || grabbing) //gravity should be reset to normal when grounded or grabbing
-            GravityToggle(2);
+            //GravityToggle(2);
+            print("nothing");
     }
 
     public void SetGrounded(bool ground) //Function that sets whether the player is grounded. See "PlayerGroundCheck" script
