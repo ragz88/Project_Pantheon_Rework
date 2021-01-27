@@ -1,2 +1,0 @@
-TestSong => Green: F,T,F,T; Red: T,T,T,T,F,T,T,F; 
-TestSong => Green: F,T,F,T; Red: T,T,T,T,F,T,F,F; 

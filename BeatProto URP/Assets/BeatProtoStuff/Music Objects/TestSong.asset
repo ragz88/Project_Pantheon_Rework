@@ -16,7 +16,7 @@ MonoBehaviour:
   totalBeatNum: 8
   beatSoundCollections:
   - {fileID: 11400000, guid: ff5385edc46bf4e4dad47e87b97404dd, type: 2}
-  - {fileID: 11400000, guid: ff5385edc46bf4e4dad47e87b97404dd, type: 2}
+  - {fileID: 11400000, guid: 687f0c36b5038eb4b9c9048c84c96d79, type: 2}
   possibleSolutions:
   - {fileID: 11400000, guid: 29a48708f99992a4da32091425d18df3, type: 2}
-  - {fileID: 11400000, guid: 29a48708f99992a4da32091425d18df3, type: 2}
+  - {fileID: 11400000, guid: 8812dc55df6805445a60bc3f09f6ff66, type: 2}

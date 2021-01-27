@@ -33,6 +33,14 @@ public class MusicManager : MonoBehaviour
     public GameObject decayingAudioSource;
 
 
+    /// <summary>
+    /// Sometimes the player will find the correct pattern to solve the level, but shifted a number of beats forward (the pattern doesn't start at
+    /// beat 0). In these cases, this integer will store that shift value, allowing us to adjust when the final audio should start playing 
+    /// to match the player's setup.
+    /// </summary>
+    public int compositionBeatShift = 0;
+
+
     // This boolean will be set to true when the player exits the level. It will tell this class to wait for the current beat cycle to end, 
     // then start the final composed musical piece.
     private bool waitForCycleEnd = false;
@@ -81,9 +89,9 @@ public class MusicManager : MonoBehaviour
             // This will only be true if we've already reached the final beat in a cycle AFTER the player has finished the puzzle level.
             if (playCompositionAtZero)
             {
-                // We finally look for the moment our beat number returns to 0 - marking the start of a new cycle.
+                // We finally look for the moment our beat number returns to (0 + compositionBeatShift)
                 // At this moment, we transition to the composed piece of music.
-                if (BeatTimingManager.btmInstance.GetBeatNumber() == 0)
+                if (BeatTimingManager.btmInstance.GetBeatNumber() == compositionBeatShift)
                 {
                     // We'll tell all our beatSoundPlayers that their job is done - they can stop playing until the next puzzle level.
                     for (int i = 0; i < beatSoundPlayers.Length; i++)
@@ -94,6 +102,7 @@ public class MusicManager : MonoBehaviour
                     // We also need to reset the booleans used to detect this moment, making them ready for the next puzzle level end.
                     playCompositionAtZero = false;
                     waitForCycleEnd = false;
+                    compositionBeatShift = 0;
 
                     // And finally, we'll tell our specially selected composition to play
                     compositionAudioSource.Play();
@@ -120,13 +129,16 @@ public class MusicManager : MonoBehaviour
     /// <summary>
     /// Should be called when the player finishes the puzzle portion of a level - starting the new sequence of composed music and platforming.
     /// </summary>
-    public void OnLevelCompleted(int boop)
+    /// <param name="beatShift">The number of beats the player's solution differs from our stored solution by.</param>
+    public void OnLevelCompleted(int solutionNumber, int beatShift)
     {
         // Testing Debug
-        Debug.Log("You got it! Solution " + boop + " found.");
+        Debug.Log("You got it! Solution " + solutionNumber + " found, shifted by " + beatShift + " beats.");
 
         // Tells the Music Manager to look out for the end of a cycle, at which point it should start playing.
         waitForCycleEnd = true;
+
+        compositionBeatShift = beatShift;
     }
 
     public void OnPuzzleLevelEnter()

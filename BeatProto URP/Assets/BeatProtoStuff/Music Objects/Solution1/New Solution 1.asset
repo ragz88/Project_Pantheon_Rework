@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c72109f2cda44ae47bdeb15c89c608cb, type: 3}
-  m_Name: New Solution
+  m_Name: New Solution 1
   m_EditorClassIdentifier: 
   solutionComposition: {fileID: 0}
   solutionCompositionIntro: {fileID: 0}
   correctPatterns:
   - name: ' Beat Pattern'
     beatColour: 2
-    pattern: 0100010001000100
+    pattern: 0001000001000100
   - name: ' Beat Pattern'
     beatColour: 1
-    pattern: 00010001
+    pattern: 01010000

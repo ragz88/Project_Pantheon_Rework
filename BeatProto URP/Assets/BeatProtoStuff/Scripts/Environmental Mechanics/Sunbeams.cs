@@ -5,58 +5,81 @@
 [RequireComponent(typeof(MeshFilter))]
 public class Sunbeams : MonoBehaviour
 {
+    [Tooltip("Objects on these layers will block the sunbeam, creating a shadow.")]
     /// <summary>
     /// Objects on these layers will block the sunbeam, creating a shadow.
     /// </summary>
     public LayerMask collisionLayers;
 
+    [Tooltip("The number of raycasts the beam uses to construct it's mesh and collider. More results in a more accurate and pretty-looking beam, at the potential cost of performance.")]
     /// <summary>
     /// The number of raycasts the beam uses to construct it's mesh and collider. More results in a more accurate and pretty-looking beam, at the 
     /// potential cost of performance.
     /// </summary>
     public int numRayChecks = 10;
 
-
+    [Tooltip("Transform at the top left corner of the beam.")]
     /// <summary>
     /// Transform at the top left corner of the beam.
     /// </summary>
     public Transform startingPointA;
 
+    [Tooltip("Transform at the top right corner of the beam.")]
     /// <summary>
     /// Transform at the top right corner of the beam.
     /// </summary>
     public Transform startingPointB;
 
+    [Tooltip("The collection of points our sunbeam should move between each time it's NextShinePoint funtion is called. \nThey should be assigned in cyclical order, and only used if we want the sunbeams to move around.")]
     /// <summary>
-    /// The collection of points our sunbeam should move between each time it's OnActiveBeat funtion is called.
+    /// The collection of points our sunbeam should move between each time it's NextShinePoint funtion is called.
     /// They should be assigned in cyclical order.
     /// </summary>
     public Transform[] shinePoints;
 
-
+    [Tooltip("Set this to true if you want to represent the sunBeam in game through a dynamic mesh and an assigned material/shader. Should be false if we're representing the beam using Unity Lighting.")]
     /// <summary>
     /// Set this to true if you want to represent the sunBeam in game through a dynamic mesh and an assigned material/shader.
     /// Should be false if we're representing the beam using Unity Lighting.
     /// </summary>
     public bool visualiseMesh = false;
 
-
+    [Tooltip("The current index of the position our sunBeam should shine towards within our shinePoints array.")]
     /// <summary>
     /// The current index of the position our sunBeam should shine towards within our shinePoints array.
     /// </summary>
     public int currentShinePointIndex = 0;
 
+    [Tooltip("This value will always be lerped towards the currentShinePointIndex point stored in our shinePoints array. The beam will shine at this moving point, allowing the sun shine to move naturally from one position to the next.")]
     /// <summary>
     /// This value will always be lerped towards the currentShinePointIndex point stored in our shinePoints array.
     /// The beam will shine at this moving point, allowing the sun shine to move naturally from one position to the next.
     /// </summary>
     public Vector3 currentShinePosition;
 
-
+    [Tooltip("The speed at which the sunbeam moves from one point to another.")]
     /// <summary>
     /// The speed at which the sunbeam moves from one point to another.
     /// </summary>
     public float beamMovementSpeed = 2f;
+
+    [Tooltip("The number of seconds for which the sunbeams will recalculate after a change in the environment. THis prevents them from constantly updating, reducing their effect on processing.")]
+    /// <summary>
+    /// The number of seconds for which the sunbeams will recalculate after a change in the environment. THis prevents them from constantly updating,
+    /// reducing their effect on processing.
+    /// </summary>
+    public float recalculateTime = 1f;
+
+    /// <summary>
+    /// This bool is true when the sunbeam is updating it's mesh and collider points, and will become false once this process has run for the designated
+    /// recalculateTime.
+    /// </summary>
+    private bool recalculating = false;
+
+    /// <summary>
+    /// Used to keep track of how long the beams have been recalculating. To be compared to recalculateTime.
+    /// </summary>
+    private float currentRecalculateTime = 0;
 
 
     /// <summary>
@@ -109,38 +132,64 @@ public class Sunbeams : MonoBehaviour
         sunbeamMesh = new Mesh();
         meshFilter = GetComponent<MeshFilter>();
 
-        // Finally, we tell the beam to point at the first shine point in the shinePoints array
+        // We tell the beam to point at the first shine point in the shinePoints array
         currentShinePosition = shinePoints[currentShinePointIndex].position;
+
+        // And finally, we tell the beam to do it's initial calculation.
+        RecalculateSunbeam();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // When our shinePointIndex has changed, our currentShinePosition must erp to a new transform. This bool is true when that process is still incomplete
-        if (beamPositionLerping)
+        if (recalculating)
         {
-            // Lerp towards new point
-            currentShinePosition = Vector3.Lerp(currentShinePosition, shinePoints[currentShinePointIndex].position, beamMovementSpeed * Time.deltaTime);
-
-            // Check if the current position of the beam is within the accuracy buffer we've defined. If so, we'll stop the lerping process.
-            // CHANGE TO REMOVE SQUARE ROOT IF PERFORMANCE ISSUES ARISE
-            if (Vector3.Distance(currentShinePosition, shinePoints[currentShinePointIndex].position) < beamLerpAccuracy)
+            // When our shinePointIndex has changed, our currentShinePosition must lerp to a new transform. This bool is true when that process is still incomplete
+            // This will only be used if we decide to make the sunbeams move.
+            if (beamPositionLerping)
             {
-                beamPositionLerping = false;
+                // Lerp towards new point
+                currentShinePosition = Vector3.Lerp(currentShinePosition, shinePoints[currentShinePointIndex].position, beamMovementSpeed * Time.deltaTime);
+
+                // Check if the current position of the beam is within the accuracy buffer we've defined. If so, we'll stop the lerping process.
+                // CHANGE TO REMOVE SQUARE ROOT IF PERFORMANCE ISSUES ARISE
+                if (Vector3.Distance(currentShinePosition, shinePoints[currentShinePointIndex].position) < beamLerpAccuracy)
+                {
+                    beamPositionLerping = false;
+                }
+            }
+
+
+            CalculateMeshPoints();
+
+            // If we want the beam to be displayed through a shader and a mesh, this function will create said mesh.
+            // (We could also represent it with Unity's lighting system)
+            if (visualiseMesh)
+            {
+                ConstructMesh();
+            }
+
+            UpdateCollider();
+
+            // We need to time how long the calculation process has been going on - so we can stop it when it's no longer necessary.
+            currentRecalculateTime += Time.deltaTime;
+
+            if (currentRecalculateTime >= recalculateTime)
+            {
+                recalculating = false;
             }
         }
+    }
 
 
-        CalculateMeshPoints();
-
-        // If we want the beam to be displayed through a shader and a mesh, this function will create said mesh.
-        // (We could also represent it with Unity's lighting system)
-        if (visualiseMesh)
-        {
-            ConstructMesh();
-        }
-
-        UpdateCollider();
+    /// <summary>
+    /// As the sunbeams no longer recalculate constantly (to save processing power), this function will cause the beam to update it's mesh and collider
+    /// for the designated recalculateTime. Should be called when the environment changes in a way that affects the path of the sunbeam.
+    /// </summary>
+    public void RecalculateSunbeam()
+    {
+        recalculating = true;
+        currentRecalculateTime = 0;
     }
 
 
@@ -324,9 +373,10 @@ public class Sunbeams : MonoBehaviour
 
     /// <summary>
     /// Moves the sunbeam to the next shine point in the shinePoints array. If we reach the final shinePoint, the next increment will loop back to the
-    /// first shinePoint in the array.
+    /// first shinePoint in the array.<br></br>
+    /// This will only be used if we decide to make the sunbeams move.
     /// </summary>
-    public void OnActiveBeat()
+    public void NextShinePoint()
     {
         // Modulous function (%) creates a simple way to cycle back to the beginning of the array once we've reached it's end
         currentShinePointIndex = (currentShinePointIndex + 1) % shinePoints.Length;
