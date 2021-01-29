@@ -4,11 +4,11 @@
 [RequireComponent(typeof(AudioSource))]
 public class MusicManager : MonoBehaviour
 {
-    [HideInInspector]
+    //[HideInInspector]
     /// <summary>
     /// The BeatSoundPlayers in the current level. Extracted from the BeatControllers stored in the BeatTimingManager;
     /// </summary>
-    public BeatSoundPlayer[] beatSoundPlayers;
+    public BeatSoundPlayer[] beatSoundPlayers;     //TEMPORARILY ASSIGNED PUBLICALLY
 
 
     /// <summary>
@@ -38,6 +38,7 @@ public class MusicManager : MonoBehaviour
     /// beat 0). In these cases, this integer will store that shift value, allowing us to adjust when the final audio should start playing 
     /// to match the player's setup.
     /// </summary>
+    [HideInInspector]
     public int compositionBeatShift = 0;
 
 

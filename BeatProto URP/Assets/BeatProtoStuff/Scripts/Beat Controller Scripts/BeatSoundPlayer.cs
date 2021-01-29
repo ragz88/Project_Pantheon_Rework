@@ -27,23 +27,17 @@ public class BeatSoundPlayer : MonoBehaviour
     /// </summary>
     public BeatSoundOrder soundOrder;
 
+    /// <summary>
+    /// When true, the BeatSoundPlayer will play on each active beat associated with it. When false, it will not play a sound, even when an active beat fires.
+    /// </summary>
+    private bool isPlaying = true;
+
 
     [Tooltip("Visible for testing, no need to edit")]
     [SerializeField]
     // Stores the index of the last sound the player played - used to calculate which sound should come next
     private int currentSoundIndex = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
 
     /// <summary>
@@ -52,8 +46,11 @@ public class BeatSoundPlayer : MonoBehaviour
     /// </summary>
     public void OnActiveBeat()
     {
-        NextSoundIndex();
-        PlayCurrentSound();
+        if (isPlaying)
+        {
+            NextSoundIndex();
+            PlayCurrentSound();
+        }
     }
 
 
@@ -152,6 +149,14 @@ public class BeatSoundPlayer : MonoBehaviour
     /// </summary>
     public void Stop()
     {
+        isPlaying = false;
+    }
 
+    /// <summary>
+    /// Reactivates BeatSoundPlayer, making it play on each active beat again if it was previously stopped.
+    /// </summary>
+    public void Play()
+    {
+        isPlaying = true;
     }
 }

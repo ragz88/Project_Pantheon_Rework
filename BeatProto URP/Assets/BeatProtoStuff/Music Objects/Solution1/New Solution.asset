@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72109f2cda44ae47bdeb15c89c608cb, type: 3}
   m_Name: New Solution
   m_EditorClassIdentifier: 
-  solutionComposition: {fileID: 0}
-  solutionCompositionIntro: {fileID: 0}
+  solutionComposition: {fileID: 8300000, guid: 99ad1f7dd01025b44878531f08ca4971, type: 3}
+  solutionCompositionIntro: {fileID: 8300000, guid: 99ad1f7dd01025b44878531f08ca4971, type: 3}
   correctPatterns:
   - name: ' Beat Pattern'
     beatColour: 2
