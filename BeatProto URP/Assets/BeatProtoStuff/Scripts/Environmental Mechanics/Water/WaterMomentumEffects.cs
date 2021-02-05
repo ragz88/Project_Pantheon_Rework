@@ -6,16 +6,24 @@ public class WaterMomentumEffects : MonoBehaviour
 {
 
     [Header("Water Settings")]
-
-    public float speedReductionFactor = 0.5f;
+    
+    [Tooltip("The percent of the player's normal speed that they will travel in water.")]
+    /// <summary>
+    /// The percent of the player's normal speed that they will travel in water.
+    /// </summary>
+    public float relativeWaterSpeed = 0.4f;
 
     [Header("Ice Settings")]
 
-    public float maxSpeedIncreaseFactor = 1.2f;
+    [Tooltip("The percent of the player's normal speed that they will travel on ice.")]
+    /// <summary>
+    /// The percent of the player's normal speed that they will travel on ice.
+    /// </summary>
+    public float relativeIceSpeed = 1.2f;
 
-    public float accelerationChangeFactor = 0.75f;
+    public float iceAcceleration = 15f;
 
-    public float deccelerationChangeFactor = 0.75f;
+    public float iceDecceleration = 12f;
 
     private WaterController waterController;
 
@@ -34,11 +42,37 @@ public class WaterMomentumEffects : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player") && waterController.waterState == WaterState.Liquid)
+        {
+            PlayerController3D.pController3D.SetMoveSpeedModifier(relativeWaterSpeed);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            PlayerController3D.pController3D.SetMoveSpeedModifier(1);
+        }
+    }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && waterController.waterState == WaterState.Frozen)
+        {
+            PlayerController3D.pController3D.SetMoveSpeedModifier(relativeIceSpeed);
+            PlayerController3D.pController3D.MoveWithAcceleration(iceAcceleration, iceDecceleration);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && waterController.waterState == WaterState.Frozen)
+        {
+            PlayerController3D.pController3D.SetMoveSpeedModifier(1);
+            PlayerController3D.pController3D.MoveWithoutAcceleration();
         }
     }
 }

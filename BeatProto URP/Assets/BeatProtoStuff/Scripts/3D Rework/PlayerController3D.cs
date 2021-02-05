@@ -22,6 +22,7 @@ public class PlayerController3D : MonoBehaviour
     private bool grounded;
     private bool floating;
     private bool swimming = false;
+    private bool useAcceleration = false;  // Used on some terrains - like ice.
 
     //sing and float stuff
     public float singTime;
@@ -34,10 +35,15 @@ public class PlayerController3D : MonoBehaviour
     //Movement speed vars
     public float moveSpeed;
     public float jumpSpeed;
+    private float moveSpeedModifier = 1;  // This represents a percentage multiplier for the initial move speed - used to augment the speed on different terrains.
+    private float moveAcceleration;       // Used for different terrains. How quickly the player accelerates to full speed.
+    private float moveDecceleration;      // Used for different terrains. How quickly the player deccelerates to a standstill.
+
     [HideInInspector]
     public bool againstWallLeft = false;
     [HideInInspector]
     public bool againstWallRight = false;
+    
 
     //Gravity vars
     public float floatGravityFactor;
@@ -292,7 +298,7 @@ public class PlayerController3D : MonoBehaviour
                     if (!againstWallLeft && !againstWallRight)
                     {
                         float xMovement = Input.GetAxisRaw("Horizontal");
-                        float totalSpeed = xMovement * moveSpeed;
+                        float totalSpeed = xMovement * moveSpeed * moveSpeedModifier;
 
                         playerRB.velocity = new Vector2(totalSpeed, playerRB.velocity.y);
                     }
@@ -305,7 +311,7 @@ public class PlayerController3D : MonoBehaviour
                         else if (Input.GetAxisRaw("Horizontal") > 0) 
                         {
                             float xMovement = Input.GetAxisRaw("Horizontal");
-                            float totalSpeed = xMovement * moveSpeed;
+                            float totalSpeed = xMovement * moveSpeed * moveSpeedModifier;
 
                             playerRB.velocity = new Vector2(totalSpeed, playerRB.velocity.y);
                         }
@@ -319,7 +325,7 @@ public class PlayerController3D : MonoBehaviour
                         else if (Input.GetAxisRaw("Horizontal") < 0)
                         {
                             float xMovement = Input.GetAxisRaw("Horizontal");
-                            float totalSpeed = xMovement * moveSpeed;
+                            float totalSpeed = xMovement * moveSpeed * moveSpeedModifier;
 
                             playerRB.velocity = new Vector2(totalSpeed, playerRB.velocity.y);
                         }
@@ -329,7 +335,58 @@ public class PlayerController3D : MonoBehaviour
             else if (grounded)
             {
                 float xMovement = Input.GetAxisRaw("Horizontal");
-                float totalSpeed = xMovement * moveSpeed;
+
+                float totalSpeed = 0;
+
+                if (!useAcceleration)
+                {
+                    totalSpeed = xMovement * moveSpeed * moveSpeedModifier;
+                }
+                else
+                {
+                    // player actively trying to move
+                    if (xMovement != 0)
+                    {
+                        // player has yet to reach top speed or is opposing their current direction
+                        if (Mathf.Abs(playerRB.velocity.x) < (moveSpeed * moveSpeedModifier) || (Mathf.Sign(playerRB.velocity.x) != Mathf.Sign(xMovement)))
+                        {
+                            // We increase their speed through linear acceleration
+                            float risingSpeed = playerRB.velocity.x + (moveAcceleration * Time.deltaTime * xMovement);
+
+                            // and if they accelerate to faster than top speed, we bring the number back down to top speed
+                            if (Mathf.Abs(risingSpeed) >= (moveSpeed * moveSpeedModifier))
+                            {
+                                totalSpeed = (xMovement * moveSpeed * moveSpeedModifier);
+                            }
+                            else
+                            {
+                                totalSpeed = risingSpeed;
+                            }
+                        }
+                        else // Player is maintaining top speed
+                        {
+                            totalSpeed = (xMovement * moveSpeed * moveSpeedModifier);
+                        }
+                        
+                    }
+                    else // player released controls - trying to stop
+                    {
+                        // Player has yet to stop
+                        if (playerRB.velocity.x != 0)
+                        {
+                            // Implies player is just about stopped, so we'll stop them
+                            if (Mathf.Abs(playerRB.velocity.x) < (moveDecceleration * Time.deltaTime))
+                            {
+                                totalSpeed = 0;
+                            }
+                            else // Player still has to slow down gradually.
+                            {
+                                // We know this won't result in them passing 0, due to if statement above.
+                                totalSpeed = playerRB.velocity.x - (moveDecceleration * Time.deltaTime * Mathf.Sign(playerRB.velocity.x));
+                            }
+                        }
+                    }
+                }
 
                 playerRB.velocity = new Vector2(totalSpeed, playerRB.velocity.y);
             }
@@ -551,6 +608,36 @@ public class PlayerController3D : MonoBehaviour
     public bool GetSwimming()
     {
         return swimming;
+    }
+
+    /// <summary>
+    /// Updates moveSpeedModifier - changing the percent of the standard move speed that the player will move at.
+    /// Use to adjust for different terrains.
+    /// </summary>
+    public void SetMoveSpeedModifier(float newPercent)
+    {
+        moveSpeedModifier = newPercent;
+    }
+
+
+    /// <summary>
+    /// Use when player enters terrain that affects their inertia, like ice.
+    /// </summary>
+    /// <param name="acceleration">The rate at which the player gets up to full speed.</param>
+    /// <param name="decceleration">The rate at which the player slows down to a stop.</param>
+    public void MoveWithAcceleration(float acceleration, float decceleration)
+    {
+        useAcceleration = true;
+        moveAcceleration = acceleration;
+        moveDecceleration = decceleration;
+    }
+
+    /// <summary>
+    /// Use when player enters stable terrain - like stone. Movement will no longer use inertia and friction.
+    /// </summary>
+    public void MoveWithoutAcceleration()
+    {
+        useAcceleration = false;
     }
 
 }

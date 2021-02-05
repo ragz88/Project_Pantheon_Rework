@@ -124,12 +124,24 @@ public class WaterColliders : MonoBehaviour
                             
                             if (colliderInitialSizes[i] > internalColliders[i].size.y)
                             {
-                                internalColliders[i].size
-                                    = new Vector3(internalColliders[i].size.x, internalColliders[i].size.y + (Time.deltaTime * freezeSpeed), internalColliders[i].size.z);
-                                internalColliders[i].center
-                                    = new Vector3(internalColliders[i].center.x, internalColliders[i].center.y + (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.z);
+                                // This ensures we don't expand too far
+                                if (internalColliders[i].size.y + (Time.deltaTime * freezeSpeed) > colliderInitialSizes[i])
+                                {
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x, internalColliders[i].center.y + (colliderInitialSizes[i] - internalColliders[i].size.y) * 0.5f, internalColliders[i].center.z);
+                                    internalColliders[i].size
+                                        = new Vector3(internalColliders[i].size.x, colliderInitialSizes[i], internalColliders[i].size.z);
+                                }
+                                else
+                                {
+                                    internalColliders[i].size
+                                        = new Vector3(internalColliders[i].size.x, internalColliders[i].size.y + (Time.deltaTime * freezeSpeed), internalColliders[i].size.z);
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x, internalColliders[i].center.y + (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.z);
 
-                                freezingComplete = false;
+                                    freezingComplete = false;
+                                }
+
                             }
                             break;
 
@@ -137,12 +149,23 @@ public class WaterColliders : MonoBehaviour
 
                             if (colliderInitialSizes[i] > internalColliders[i].size.y)
                             {
-                                internalColliders[i].size
-                                    = new Vector3(internalColliders[i].size.x, internalColliders[i].size.y + (Time.deltaTime * freezeSpeed), internalColliders[i].size.z);
-                                internalColliders[i].center
-                                    = new Vector3(internalColliders[i].center.x, internalColliders[i].center.y - (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.z);
-                                
-                                freezingComplete = false;
+                                // Ensure we don't expand too far
+                                if (internalColliders[i].size.y + (Time.deltaTime * freezeSpeed) > colliderInitialSizes[i])
+                                {
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x, internalColliders[i].center.y - (colliderInitialSizes[i] - internalColliders[i].size.y) * 0.5f, internalColliders[i].center.z);
+                                    internalColliders[i].size
+                                        = new Vector3(internalColliders[i].size.x, colliderInitialSizes[i], internalColliders[i].size.z);
+                                }
+                                else
+                                {
+                                    internalColliders[i].size
+                                        = new Vector3(internalColliders[i].size.x, internalColliders[i].size.y + (Time.deltaTime * freezeSpeed), internalColliders[i].size.z);
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x, internalColliders[i].center.y - (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.z);
+
+                                    freezingComplete = false;
+                                }
                             }
                             break;
 
@@ -150,12 +173,23 @@ public class WaterColliders : MonoBehaviour
 
                             if (colliderInitialSizes[i] > internalColliders[i].size.x)
                             {
-                                internalColliders[i].size
-                                    = new Vector3(internalColliders[i].size.x + (Time.deltaTime * freezeSpeed), internalColliders[i].size.y, internalColliders[i].size.z);
-                                internalColliders[i].center
-                                    = new Vector3(internalColliders[i].center.x - (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.y, internalColliders[i].center.z);
-                                
-                                freezingComplete = false;
+                                // Ensure we don't expand too far
+                                if (internalColliders[i].size.x + (Time.deltaTime * freezeSpeed) > colliderInitialSizes[i])
+                                {
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x - ((colliderInitialSizes[i] - internalColliders[i].size.x) * 0.5f), internalColliders[i].center.y, internalColliders[i].center.z);
+                                    internalColliders[i].size
+                                        = new Vector3(colliderInitialSizes[i], internalColliders[i].size.y , internalColliders[i].size.z);
+                                }
+                                else
+                                {
+                                    internalColliders[i].size
+                                        = new Vector3(internalColliders[i].size.x + (Time.deltaTime * freezeSpeed), internalColliders[i].size.y, internalColliders[i].size.z);
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x - (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.y, internalColliders[i].center.z);
+
+                                    freezingComplete = false;
+                                }
                             }
                             break;
 
@@ -163,12 +197,23 @@ public class WaterColliders : MonoBehaviour
 
                             if (colliderInitialSizes[i] > internalColliders[i].size.x)
                             {
-                                internalColliders[i].size
-                                    = new Vector3(internalColliders[i].size.x + (Time.deltaTime * freezeSpeed), internalColliders[i].size.y, internalColliders[i].size.z);
-                                internalColliders[i].center
-                                    = new Vector3(internalColliders[i].center.x + (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.y, internalColliders[i].center.z);
-                                
-                                freezingComplete = false;
+                                // Ensure we don't expand too far
+                                if (internalColliders[i].size.x + (Time.deltaTime * freezeSpeed) > colliderInitialSizes[i])
+                                {
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x + ((colliderInitialSizes[i] - internalColliders[i].size.x) * 0.5f), internalColliders[i].center.y, internalColliders[i].center.z);
+                                    internalColliders[i].size
+                                        = new Vector3(colliderInitialSizes[i], internalColliders[i].size.y, internalColliders[i].size.z);
+                                }
+                                else
+                                {
+                                    internalColliders[i].size
+                                        = new Vector3(internalColliders[i].size.x + (Time.deltaTime * freezeSpeed), internalColliders[i].size.y, internalColliders[i].size.z);
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x + (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.y, internalColliders[i].center.z);
+
+                                    freezingComplete = false;
+                                }
                             }
                             break;
                     }
@@ -194,12 +239,23 @@ public class WaterColliders : MonoBehaviour
 
                             if (internalColliders[i].size.y > 0)
                             {
-                                internalColliders[i].size
+                                // This ensures we don't contract too far
+                                if (internalColliders[i].size.y - (Time.deltaTime * freezeSpeed) < 0)
+                                {
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x, internalColliders[i].center.y - (internalColliders[i].size.y) * 0.5f, internalColliders[i].center.z);
+                                    internalColliders[i].size
+                                        = new Vector3(internalColliders[i].size.x, 0, internalColliders[i].size.z);
+                                }
+                                else
+                                {
+                                    internalColliders[i].size
                                     = new Vector3(internalColliders[i].size.x, internalColliders[i].size.y - (Time.deltaTime * freezeSpeed), internalColliders[i].size.z);
-                                internalColliders[i].center
-                                    = new Vector3(internalColliders[i].center.x, internalColliders[i].center.y - (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.z);
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x, internalColliders[i].center.y - (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.z);
 
-                                meltingComplete = false;
+                                    meltingComplete = false;
+                                }
                             }
                             break;
 
@@ -207,12 +263,23 @@ public class WaterColliders : MonoBehaviour
 
                             if (internalColliders[i].size.y > 0)
                             {
-                                internalColliders[i].size
+                                // This ensures we don't contract too far
+                                if (internalColliders[i].size.y - (Time.deltaTime * freezeSpeed) < 0)
+                                {
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x, internalColliders[i].center.y + (internalColliders[i].size.y) * 0.5f, internalColliders[i].center.z);
+                                    internalColliders[i].size
+                                        = new Vector3(internalColliders[i].size.x, 0, internalColliders[i].size.z);
+                                }
+                                else
+                                {
+                                    internalColliders[i].size
                                     = new Vector3(internalColliders[i].size.x, internalColliders[i].size.y - (Time.deltaTime * freezeSpeed), internalColliders[i].size.z);
-                                internalColliders[i].center
-                                    = new Vector3(internalColliders[i].center.x, internalColliders[i].center.y + (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.z);
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x, internalColliders[i].center.y + (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.z);
 
-                                meltingComplete = false;
+                                    meltingComplete = false;
+                                }
                             }
                             break;
 
@@ -220,12 +287,23 @@ public class WaterColliders : MonoBehaviour
 
                             if (internalColliders[i].size.x > 0)
                             {
-                                internalColliders[i].size
+                                // This ensures we don't contract too far
+                                if (internalColliders[i].size.x - (Time.deltaTime * freezeSpeed) < 0)
+                                {
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x + (internalColliders[i].size.x) * 0.5f, internalColliders[i].center.y, internalColliders[i].center.z);
+                                    internalColliders[i].size
+                                        = new Vector3(0, internalColliders[i].size.y, internalColliders[i].size.z);
+                                }
+                                else
+                                {
+                                    internalColliders[i].size
                                     = new Vector3(internalColliders[i].size.x - (Time.deltaTime * freezeSpeed), internalColliders[i].size.y, internalColliders[i].size.z);
-                                internalColliders[i].center
-                                    = new Vector3(internalColliders[i].center.x + (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.y, internalColliders[i].center.z);
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x + (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.y, internalColliders[i].center.z);
 
-                                meltingComplete = false;
+                                    meltingComplete = false;
+                                }
                             }
                             break;
 
@@ -233,12 +311,23 @@ public class WaterColliders : MonoBehaviour
 
                             if (internalColliders[i].size.x > 0)
                             {
-                                internalColliders[i].size
+                                // This ensures we don't contract too far
+                                if (internalColliders[i].size.x - (Time.deltaTime * freezeSpeed) < 0)
+                                {
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x - (internalColliders[i].size.x) * 0.5f, internalColliders[i].center.y, internalColliders[i].center.z);
+                                    internalColliders[i].size
+                                        = new Vector3(0, internalColliders[i].size.y, internalColliders[i].size.z);
+                                }
+                                else
+                                {
+                                    internalColliders[i].size
                                     = new Vector3(internalColliders[i].size.x - (Time.deltaTime * freezeSpeed), internalColliders[i].size.y, internalColliders[i].size.z);
-                                internalColliders[i].center
-                                    = new Vector3(internalColliders[i].center.x - (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.y, internalColliders[i].center.z);
+                                    internalColliders[i].center
+                                        = new Vector3(internalColliders[i].center.x - (Time.deltaTime * freezeSpeed * 0.5f), internalColliders[i].center.y, internalColliders[i].center.z);
 
-                                meltingComplete = false;
+                                    meltingComplete = false;
+                                }
                             }
                             break;
                     }
