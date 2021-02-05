@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     //Movement bools
     private bool grounded;
     private bool floating;
+
     //sing and float stuff
     public float singTime;
     [HideInInspector]
@@ -452,6 +453,9 @@ public class PlayerController : MonoBehaviour
     {
         grabbing = isGrabbing;
     }
+
+
+    
 
 }
 

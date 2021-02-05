@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Lock
   - TutTrigger
+  - DeepWater
   layers:
   - Default
   - TransparentFX

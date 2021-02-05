@@ -52,8 +52,27 @@ public class WaterColliders : MonoBehaviour
     {
         waterController = GetComponentInParent<WaterController>();
         
-        //waterTrigger = GetComponent<Collider>();
-        internalColliders = GetComponents<BoxCollider>();
+        // We don't want to be switching our Trigger collider off - so we'll temporarily store ALL of the collides in this body of water,
+        // then loop through them, only adding colliders to our final internalColliders array if they aren't triggers.
+        BoxCollider[] tempInternalColliders = GetComponents<BoxCollider>();
+
+        // As water bodies only need one trigger collider, we know the final size of this array is one less than the total collider count.
+        internalColliders = new BoxCollider[tempInternalColliders.Length - 1];
+
+        int indexShift = 0;
+        for (int i = 0; i < tempInternalColliders.Length; i++)
+        {
+            if (tempInternalColliders[i].isTrigger)
+            {
+                // This marks the point where we skip over storing the trigger collider
+                indexShift = -1;
+            }
+            else
+            {
+                internalColliders[i + indexShift] = tempInternalColliders[i];
+            }
+        }
+
         colliderInitialSizes = new float[internalColliders.Length];
 
         if (freezeDirection == FreezeDirection.Left || freezeDirection == FreezeDirection.Right)

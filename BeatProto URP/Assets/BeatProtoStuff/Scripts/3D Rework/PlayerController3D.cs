@@ -21,6 +21,8 @@ public class PlayerController3D : MonoBehaviour
     //Movement bools
     private bool grounded;
     private bool floating;
+    private bool swimming = false;
+
     //sing and float stuff
     public float singTime;
     [HideInInspector]
@@ -340,6 +342,7 @@ public class PlayerController3D : MonoBehaviour
         playerRB.velocity = new Vector2(playerRB.velocity.x, speed);
         playerAnimator.SetTrigger("jumping");
         grounded = false;
+        swimming = false;  
     }
 
     private void PlayerFloat() //Allows the player to float down. See "GravityHandler()" for exact functionality 
@@ -502,7 +505,7 @@ public class PlayerController3D : MonoBehaviour
         if (!grounded && playerRB.velocity.y < 0 && !floating) //if the player is falling, gravity should be higher for impact
         {
             GravityToggle(fallGravityFactor);
-            playerAnimator.SetTrigger("falling");
+             playerAnimator.SetTrigger("falling");
         }
         else if (!grounded && playerRB.velocity.y < 0 && floating) //if the player is floating, gravity should be very low
         {
@@ -512,8 +515,10 @@ public class PlayerController3D : MonoBehaviour
             playerAnimator.SetTrigger("floating");
         }
         else if (grounded || grabbing) //gravity should be reset to normal when grounded or grabbing
-            //GravityToggle(2);
-            print("nothing");
+        {
+            GravityToggle(2);
+            //print("nothing");
+        }
     }
 
     public void SetGrounded(bool ground) //Function that sets whether the player is grounded. See "PlayerGroundCheck" script
@@ -529,6 +534,23 @@ public class PlayerController3D : MonoBehaviour
     public void SetGrabState(bool isGrabbing) //sets whether the player is currently grabbing a wall. See "PlayerWallCheck" script.
     {
         grabbing = isGrabbing;
+    }
+
+    /// <summary>
+    /// Used to change the state of the swimming bool. Should be true when the player is in a potentially deep body of water.
+    /// </summary>
+    /// <param name="swimmingState">The updated state of the swimming bool.</param>
+    public void SetSwimming(bool swimmingState)
+    {
+        swimming = swimmingState;
+    }
+
+    /// <summary>
+    /// Returns the current swimming state of the player.
+    /// </summary>
+    public bool GetSwimming()
+    {
+        return swimming;
     }
 
 }
