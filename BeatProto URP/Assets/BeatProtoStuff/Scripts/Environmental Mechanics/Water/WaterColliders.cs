@@ -18,13 +18,16 @@ public class WaterColliders : MonoBehaviour
     /// <summary>
     /// The direction the player should be pushed if they're within the waterfall as it freezes.
     /// </summary>
-    public FreezeDirection freezeDirection = FreezeDirection.Up;
+    [SerializeField]
+    private FreezeDirection freezeDirection = FreezeDirection.Up;
+
+
     
     /// <summary>
     /// These are the physical colliders to be activated when the body of water freezes.
     /// </summary>
     [SerializeField]
-    BoxCollider[] internalColliders;
+    private BoxCollider[] internalColliders;
 
     /*/// <summary>
     /// The persistent trigger aligning to the water's shape - used to apply momentum effects and outline the shape of the water.
@@ -34,7 +37,14 @@ public class WaterColliders : MonoBehaviour
     /// <summary>
     /// The speed at which the physical colliders expand to full size when the water freezes.
     /// </summary>
-    public float freezeSpeed = 1f;
+    [SerializeField]
+    private float freezeSpeed = 1f;
+
+    /// <summary>
+    /// Used to change waterfall tags when freezing to allow the player to jump off of them like walls.
+    /// </summary>
+    [SerializeField]
+    private bool isWaterfall = false;
 
     /// <summary>
     /// The full width/height that the solid ice collider will grow to.
@@ -108,6 +118,12 @@ public class WaterColliders : MonoBehaviour
                 }
 
                 meltingComplete = false;
+
+                if (isWaterfall)
+                {
+                    gameObject.tag = "Wall";
+                    gameObject.layer = LayerMask.NameToLayer("Walls");
+                }
             }
 
             if (!freezingComplete)
@@ -339,6 +355,12 @@ public class WaterColliders : MonoBehaviour
                     for (int i = 0; i < internalColliders.Length; i++)
                     {
                         internalColliders[i].enabled = false;
+                    }
+
+                    if (isWaterfall)
+                    {
+                        gameObject.tag = "Water";
+                        gameObject.layer = LayerMask.NameToLayer("Water");
                     }
                 }
             }

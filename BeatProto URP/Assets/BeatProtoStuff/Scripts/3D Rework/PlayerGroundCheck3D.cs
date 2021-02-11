@@ -5,7 +5,7 @@ public class PlayerGroundCheck3D : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (!collision.gameObject.CompareTag("TutTrigger") || !collision.gameObject.CompareTag("DeepWater"))
+        if (!collision.gameObject.CompareTag("TutTrigger") && !collision.gameObject.CompareTag("DeepWater"))
         {
             PlayerController3D.pController3D.SetGrounded(true);
         }
@@ -13,7 +13,7 @@ public class PlayerGroundCheck3D : MonoBehaviour
 
     private void OnTriggerStay(Collider collision)
     {
-        if (!collision.gameObject.CompareTag("TutTrigger") || !collision.gameObject.CompareTag("DeepWater"))
+        if (!collision.gameObject.CompareTag("TutTrigger") && !collision.gameObject.CompareTag("DeepWater"))
         {
             PlayerController3D.pController3D.SetGrounded(true);
         }
@@ -21,7 +21,7 @@ public class PlayerGroundCheck3D : MonoBehaviour
 
     private void OnTriggerExit(Collider collision)
     {
-        if (!collision.gameObject.CompareTag("TutTrigger") || !collision.gameObject.CompareTag("DeepWater"))
+        if (!collision.gameObject.CompareTag("TutTrigger") && !collision.gameObject.CompareTag("DeepWater"))
         {
             PlayerController3D.pController3D.SetGrounded(false);
         }

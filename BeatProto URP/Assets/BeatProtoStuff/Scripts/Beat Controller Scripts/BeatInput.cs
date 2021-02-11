@@ -329,6 +329,11 @@ public class BeatInput : MonoBehaviour
         playerInRange = inRange;
     }
 
+    /// <summary>
+    /// If the console the player approaches has a sprite that only shows when the player approaches, this function tells it to appear. As UI is not yet
+    /// finalised, this will not necessarily be used in every scene.
+    /// </summary>
+    /// <param name="inputState"></param>
     public void TogglePossibleInputImage(bool inputState)
     {
         if (inputPossibleSprite != null)

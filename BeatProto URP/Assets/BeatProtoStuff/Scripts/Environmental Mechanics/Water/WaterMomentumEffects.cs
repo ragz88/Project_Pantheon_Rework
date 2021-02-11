@@ -47,6 +47,7 @@ public class WaterMomentumEffects : MonoBehaviour
         if (other.CompareTag("Player") && waterController.waterState == WaterState.Liquid)
         {
             PlayerController3D.pController3D.SetMoveSpeedModifier(relativeWaterSpeed);
+            PlayerController3D.pController3D.MoveWithoutAcceleration();
         }
     }
 
