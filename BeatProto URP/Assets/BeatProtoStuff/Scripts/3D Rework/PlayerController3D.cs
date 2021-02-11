@@ -52,6 +52,7 @@ public class PlayerController3D : MonoBehaviour
 
 
     //Wall grab vars
+    public LayerMask wallJumpMask;
     private bool grabbing;
     private bool canGrab = false;
 
@@ -492,14 +493,15 @@ public class PlayerController3D : MonoBehaviour
     }
     public void CheckForWall()
     {
-        int mask = LayerMask.GetMask("Walls");
+        // I made this public to allow multiple layers to be publically assigned for wall jumping.
+        // int mask = LayerMask.GetMask("Walls");
         
 
         RaycastHit hitRight3D;
         Ray rightRay = new Ray(player.transform.position + new Vector3(0.2f, 0.3f, 0), Vector3.right);
         Debug.DrawRay(player.transform.position + new Vector3(0.2f, 0.3f, 0), Vector3.right);
 
-        if (Physics.Raycast(rightRay, out hitRight3D, 0.3f, mask)) 
+        if (Physics.Raycast(rightRay, out hitRight3D, 0.3f, wallJumpMask)) 
         {
             hitDirection = 0;
             canGrab = true;
@@ -511,7 +513,7 @@ public class PlayerController3D : MonoBehaviour
         RaycastHit hitLeft3D;
         Ray leftRay = new Ray(player.transform.position - new Vector3(0.2f, -0.3f, 0), Vector3.left);
 
-        if (Physics.Raycast(leftRay, out hitLeft3D, 0.3f, mask))
+        if (Physics.Raycast(leftRay, out hitLeft3D, 0.3f, wallJumpMask))
         {
             hitDirection = 1;
             canGrab = true;
