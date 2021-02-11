@@ -273,6 +273,7 @@ MonoBehaviour:
   freezeDirection: 0
   internalColliders: []
   freezeSpeed: 5
+  isWaterfall: 0
 --- !u!65 &29387636
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2429,9 +2430,9 @@ GameObject:
   - component: {fileID: 956219258}
   - component: {fileID: 956219257}
   - component: {fileID: 956219261}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: Waterfall
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2465,6 +2466,7 @@ MonoBehaviour:
   freezeDirection: 3
   internalColliders: []
   freezeSpeed: 5
+  isWaterfall: 1
 --- !u!65 &956219258
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2688,6 +2690,7 @@ MonoBehaviour:
   freezeDirection: 0
   internalColliders: []
   freezeSpeed: 5
+  isWaterfall: 0
 --- !u!65 &968740394
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3191,8 +3194,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1071199940}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 46.042, y: -13.358, z: 0}
-  m_LocalScale: {x: 51.462597, y: 2.2955334, z: 1}
+  m_LocalPosition: {x: 46.042, y: -13.255, z: 0}
+  m_LocalScale: {x: 51.462597, y: 2.5020907, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 24
@@ -5762,7 +5765,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893472478}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.04, y: -4.14, z: 0}
+  m_LocalPosition: {x: -29.94, y: -4.32, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1326764425}

@@ -47,6 +47,11 @@ public class WaterColliders : MonoBehaviour
     private bool isWaterfall = false;
 
     /// <summary>
+    /// Used to change the tags of the water source to allow the player to jump off of it when it's frozen.
+    /// </summary>
+    private bool isDeepWater = false;
+
+    /// <summary>
     /// The full width/height that the solid ice collider will grow to.
     /// </summary>
     float[] colliderInitialSizes;
@@ -100,7 +105,11 @@ public class WaterColliders : MonoBehaviour
             }
         }
 
-        
+        // We check if this is a deep water source - and if so cache that information for tag adjustments later.
+        if (gameObject.CompareTag("DeepWater"))
+        {
+            isDeepWater = true;
+        }
     }
 
     // Update is called once per frame
@@ -123,6 +132,10 @@ public class WaterColliders : MonoBehaviour
                 {
                     gameObject.tag = "Wall";
                     gameObject.layer = LayerMask.NameToLayer("Walls");
+                }
+                else if (isDeepWater)
+                {
+                    gameObject.tag = "Water";
                 }
             }
 
@@ -361,6 +374,10 @@ public class WaterColliders : MonoBehaviour
                     {
                         gameObject.tag = "Water";
                         gameObject.layer = LayerMask.NameToLayer("Water");
+                    }
+                    else if (isDeepWater)
+                    {
+                        gameObject.tag = "DeepWater";
                     }
                 }
             }
