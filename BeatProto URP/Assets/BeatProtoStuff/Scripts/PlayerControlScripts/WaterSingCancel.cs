@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Should be added to water sources that will take away the player's ability to sing (Like waterfalls).
+/// Attach to player's head. Prevents them from singing when submerged in water, and resets their sing time.
 /// </summary>
 public class WaterSingCancel : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Water") || other.gameObject.CompareTag("DeepWater"))
         {
             PlayerController3D.pController3D.singTime = 0;
         }
