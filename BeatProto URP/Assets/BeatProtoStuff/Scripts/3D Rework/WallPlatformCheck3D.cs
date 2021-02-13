@@ -26,25 +26,31 @@ public class WallPlatformCheck3D : MonoBehaviour
 	}
 	private void OnTriggerStay(Collider other)
 	{
-		if (WallToCheck == wallToCheck.right)
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "Wall")
 		{
-			PlayerController3D.pController3D.againstWallRight = true;
-		}
-		else
-		{
-			PlayerController3D.pController3D.againstWallLeft = true;
+			if (WallToCheck == wallToCheck.right)
+			{
+				PlayerController3D.pController3D.againstWallRight = true;
+			}
+			else
+			{
+				PlayerController3D.pController3D.againstWallLeft = true;
+			}
 		}
 	}
 
 	private void OnTriggerExit(Collider other)
 	{
-		if (WallToCheck == wallToCheck.right)
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "Wall")
 		{
-			PlayerController3D.pController3D.againstWallRight = false;
-		}
-		else
-		{
-			PlayerController3D.pController3D.againstWallLeft = false;
+			if (WallToCheck == wallToCheck.right)
+			{
+				PlayerController3D.pController3D.againstWallRight = false;
+			}
+			else
+			{
+				PlayerController3D.pController3D.againstWallLeft = false;
+			}
 		}
 	}
 }

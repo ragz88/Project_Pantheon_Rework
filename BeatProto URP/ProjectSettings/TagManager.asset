@@ -10,6 +10,7 @@ TagManager:
   - TutTrigger
   - DeepWater
   - Water
+  - Ice
   layers:
   - Default
   - TransparentFX

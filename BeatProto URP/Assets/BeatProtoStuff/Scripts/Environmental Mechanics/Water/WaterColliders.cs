@@ -135,7 +135,7 @@ public class WaterColliders : MonoBehaviour
                 }
                 else if (isDeepWater)
                 {
-                    gameObject.tag = "Water";
+                    gameObject.tag = "Ice";
                 }
             }
 
