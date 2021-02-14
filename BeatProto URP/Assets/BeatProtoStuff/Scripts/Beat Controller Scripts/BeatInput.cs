@@ -342,9 +342,9 @@ public class BeatInput : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             playerInRange = true;
 
@@ -356,7 +356,7 @@ public class BeatInput : MonoBehaviour
     }
 
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit(Collider other)
     {
         playerInRange = false;
 
@@ -367,4 +367,5 @@ public class BeatInput : MonoBehaviour
 
         CloseEditor();
     }
+    
 }

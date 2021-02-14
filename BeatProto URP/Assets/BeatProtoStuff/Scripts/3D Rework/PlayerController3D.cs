@@ -121,7 +121,7 @@ public class PlayerController3D : MonoBehaviour
             if (!grounded)
                 PlayerFloat();
 
-            player.transform.parent = null;
+            //player.transform.parent = null;
             playerRB.isKinematic = false;
         }
 
@@ -397,6 +397,7 @@ public class PlayerController3D : MonoBehaviour
 
     public void Jump(float speed) //BASE JUMP - simply sets a Y vel while maintaining X vel
     {
+        player.transform.parent = null;
         playerRB.velocity = new Vector2(playerRB.velocity.x, speed);
         playerAnimator.SetTrigger("jumping");
         grounded = false;

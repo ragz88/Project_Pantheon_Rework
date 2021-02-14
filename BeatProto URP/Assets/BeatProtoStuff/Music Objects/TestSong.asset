@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ebd867160c09574fb70f2a6537f8fee, type: 3}
   m_Name: TestSong
   m_EditorClassIdentifier: 
-  BPM: 120
+  BPM: 60
   totalBeatNum: 8
   beatSoundCollections:
   - {fileID: 11400000, guid: ff5385edc46bf4e4dad47e87b97404dd, type: 2}

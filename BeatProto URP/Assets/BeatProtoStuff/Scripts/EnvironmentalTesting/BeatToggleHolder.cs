@@ -2,25 +2,31 @@
 
 public class BeatToggleHolder : MonoBehaviour
 {
-    public GameObject[] toggleObjects;
+    //public GameObject[] toggleObjects;
 
-    private GameObject[] toggleParts;
+    private BeatToggle[] beatEvents;
 
     private void Start()
     {
-        toggleParts = new GameObject[toggleObjects.Length];
+
+        beatEvents = FindObjectsOfType<BeatToggle>();
+
+        /*beatEvents = new BeatToggle[toggleObjects.Length];
 
         for (int i = 0; i < toggleObjects.Length; i++)
         {
-            toggleParts[i] = toggleObjects[i].GetComponent<BeatToggle>().toggleObject;
-        }
+            beatEvents[i] = toggleObjects[i].GetComponent<BeatToggle>();
+        }*/
 
     }
     public void OnBeat()
     {
-        foreach (GameObject togPart in toggleParts)
+        if (beatEvents != null)
         {
-            togPart.SetActive(!togPart.activeSelf);
+            foreach (BeatToggle beatevent in beatEvents)
+            {
+                beatevent.BeatEvent();
+            }
         }
     }
 

@@ -9,4 +9,6 @@ public class BeatToggle : MonoBehaviour
      {
          toggleObject.SetActive(!toggleObject.activeSelf);
      }*/
+
+    public virtual void BeatEvent(){}
 }
