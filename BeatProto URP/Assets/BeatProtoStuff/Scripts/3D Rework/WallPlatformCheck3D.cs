@@ -10,7 +10,7 @@ public class WallPlatformCheck3D : MonoBehaviour
 	public wallToCheck WallToCheck;
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "Wall")
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "Wall" || other.gameObject.tag == "Door")
 		{
 			if (WallToCheck == wallToCheck.right)
 			{
@@ -26,7 +26,7 @@ public class WallPlatformCheck3D : MonoBehaviour
 	}
 	private void OnTriggerStay(Collider other)
 	{
-		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "Wall")
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "Wall" || other.gameObject.tag == "Door")
 		{
 			if (WallToCheck == wallToCheck.right)
 			{
@@ -41,7 +41,7 @@ public class WallPlatformCheck3D : MonoBehaviour
 
 	private void OnTriggerExit(Collider other)
 	{
-		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "Wall")
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "Wall" || other.gameObject.tag == "Door")
 		{
 			if (WallToCheck == wallToCheck.right)
 			{

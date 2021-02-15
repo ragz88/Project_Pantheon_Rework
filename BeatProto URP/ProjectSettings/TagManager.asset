@@ -11,6 +11,7 @@ TagManager:
   - DeepWater
   - Water
   - Ice
+  - Door
   layers:
   - Default
   - TransparentFX

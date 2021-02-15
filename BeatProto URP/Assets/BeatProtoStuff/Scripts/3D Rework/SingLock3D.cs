@@ -4,8 +4,10 @@ using UnityEngine.UI;
 public class SingLock3D : MonoBehaviour
 {
 
+    [HideInInspector]
     public SingLockDoor3D myDoor;
-    private SpriteRenderer mySprite;
+    //private SpriteRenderer mySprite;
+    private MeshRenderer meshRend;
 
     public bool unlocked = false;
     public bool addedToDoor = false;
@@ -16,6 +18,8 @@ public class SingLock3D : MonoBehaviour
 
     public float stayUnlockedTime;
 
+    private float unlockedTimeRemaining = 0;
+
     private Text countDownText;
 
 
@@ -24,8 +28,8 @@ public class SingLock3D : MonoBehaviour
 
     void Start()
     {
-        mySprite = GetComponent<SpriteRenderer>();
-        mySprite.color = defaultColour;
+        meshRend = GetComponent<MeshRenderer>();
+        meshRend.material.color = defaultColour;
         countDownText = GetComponentInChildren<Text>();
     }
 
@@ -50,15 +54,15 @@ public class SingLock3D : MonoBehaviour
             {
                 if (unlocked)
                 {
-                    if (stayUnlockedTime > 0)
+                    if (unlockedTimeRemaining > 0)
                     {
-                        stayUnlockedTime -= Time.deltaTime;
-                        countDownText.text = ((int)stayUnlockedTime + 1).ToString();
+                        unlockedTimeRemaining -= Time.deltaTime;
+                        countDownText.text = ((int)unlockedTimeRemaining + 1).ToString();
                     }
-                    if (stayUnlockedTime <= 0)
+                    if (unlockedTimeRemaining <= 0)
                     {
                         unlocked = false;
-                        mySprite.color = defaultColour;
+                        meshRend.material.color = defaultColour;
                         countDownText.text = "";
                     }
                 }
@@ -78,10 +82,10 @@ public class SingLock3D : MonoBehaviour
     {
         if (other.gameObject.name == "SingCollider")
         {
-            stayUnlockedTime = 5f;
-            mySprite.color = unlockedColor;
+            unlockedTimeRemaining = stayUnlockedTime;
+            meshRend.material.color = unlockedColor;
             unlocked = true;
-            countDownText.text = "";
+            countDownText.text = ((int)unlockedTimeRemaining + 1).ToString();
         }
     }
 
@@ -89,9 +93,9 @@ public class SingLock3D : MonoBehaviour
     {
         if (other.gameObject.name == "SingCollider")
         {
-            stayUnlockedTime = 5f;
-            countDownText.text = "";
-            singCollision = true;
+            unlockedTimeRemaining = stayUnlockedTime;
+            countDownText.text = ((int)unlockedTimeRemaining + 1).ToString();
+            //singCollision = true;
         }
     }
 
@@ -99,7 +103,7 @@ public class SingLock3D : MonoBehaviour
     {
         if (other.gameObject.name == "SingCollider")
         {
-            singCollision = false;
+            //singCollision = false;
         }
     }
 

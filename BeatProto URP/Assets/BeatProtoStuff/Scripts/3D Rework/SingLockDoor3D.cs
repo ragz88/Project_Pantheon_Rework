@@ -9,7 +9,7 @@ public class SingLockDoor3D : MonoBehaviour
 
     public SingLock3D[] myLocks;
 
-    private SpriteRenderer mySprite;
+    private MeshRenderer meshRend;
 
     private int unlockCount = 0;
 
@@ -22,7 +22,7 @@ public class SingLockDoor3D : MonoBehaviour
 
     void Start()
     {
-        mySprite = GetComponent<SpriteRenderer>();
+        meshRend = GetComponent<MeshRenderer>();
         SetDoorForLocks();
 
     }
@@ -35,10 +35,10 @@ public class SingLockDoor3D : MonoBehaviour
 
         if (startFade)
         {
-            Color newCol = mySprite.color;
+            Color newCol = meshRend.material.color;
             newCol.a -= 0.001f;
 
-            mySprite.color = newCol;
+            meshRend.material.color = newCol;
         }
     }
 
@@ -74,7 +74,7 @@ public class SingLockDoor3D : MonoBehaviour
         {
             if (myUnlockType == unlockType.changeColor)
             {
-                mySprite.color = unlockColor;
+                meshRend.material.color = unlockColor;
                 GetComponent<BoxCollider>().enabled = false;
             }
             else if (myUnlockType == unlockType.disappear)
