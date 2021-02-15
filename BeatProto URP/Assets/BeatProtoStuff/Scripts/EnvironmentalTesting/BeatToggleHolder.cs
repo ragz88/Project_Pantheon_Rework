@@ -3,13 +3,13 @@
 public class BeatToggleHolder : MonoBehaviour
 {
     //public GameObject[] toggleObjects;
-
+    [SerializeField]
     private BeatToggle[] beatEvents;
 
     private void Start()
     {
-
-        beatEvents = FindObjectsOfType<BeatToggle>();
+        // As multiple toggle holders may be linked to different collections of toggle objects, we unfortunately can't find them all in one shot.
+        //beatEvents = FindObjectsOfType<BeatToggle>();
 
         /*beatEvents = new BeatToggle[toggleObjects.Length];
 

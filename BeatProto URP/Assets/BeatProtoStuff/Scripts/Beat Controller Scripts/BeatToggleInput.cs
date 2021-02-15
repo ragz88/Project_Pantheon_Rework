@@ -192,9 +192,9 @@ public class BeatToggleInput : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             playerInRange = true;
 
@@ -206,7 +206,7 @@ public class BeatToggleInput : MonoBehaviour
     }
 
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit(Collider collision)
     {
         playerInRange = false;
 

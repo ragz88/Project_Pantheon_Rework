@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 772843203833766642}
   - component: {fileID: 772843203833766641}
   - component: {fileID: 772843203833766645}
-  - component: {fileID: 772843203833766646}
+  - component: {fileID: 8906179106906408814}
   m_Layer: 4
   m_Name: Waterfall
   m_TagString: Water
@@ -127,7 +127,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &772843203833766646
+--- !u!114 &8906179106906408814
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,6 +136,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 772843203833766655}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8a6601973f405c49a69a67c57b0852c, type: 3}
+  m_Script: {fileID: 11500000, guid: a2bbccc023379cf4cbe3304586669314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  alphaChange: 0.3
