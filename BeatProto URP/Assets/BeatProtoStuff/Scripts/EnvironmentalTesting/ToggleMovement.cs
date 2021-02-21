@@ -9,7 +9,7 @@ public class ToggleMovement : BeatToggle
 	private Vector3 pos1, pos2;
 	private Vector3 startPos, targetPos;
 
-	private bool directionSwitch = true;
+	private bool directionSwitch = false;
 
 	private bool moving = false;
 
