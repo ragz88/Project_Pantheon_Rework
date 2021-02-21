@@ -9,6 +9,7 @@ public class BeatToggleHolder : MonoBehaviour
     private void Start()
     {
         // As multiple toggle holders may be linked to different collections of toggle objects, we unfortunately can't find them all in one shot.
+        //Micky: true, hadn't considered that. 
         //beatEvents = FindObjectsOfType<BeatToggle>();
 
         /*beatEvents = new BeatToggle[toggleObjects.Length];
