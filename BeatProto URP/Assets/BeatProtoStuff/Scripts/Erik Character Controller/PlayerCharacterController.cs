@@ -63,49 +63,49 @@ public class PlayerCharacterController : MonoBehaviour
     // These will allow us to dynamically assign different movement functions at the start of the game.
     // This allows for more effective testing and better modular design.
 
-    delegate Vector2 CalculateXVelocity(float xInput);
-    delegate Vector2 CalculateJumpVelocity(bool grounded);
-    delegate bool CheckWallHold(WallDirection wallDirection, float xInput);
-    delegate Vector2 CalculateWallJumpVelocity(WallDirection wallDirection);
-    delegate WallDirection DetectWalls();
-    delegate TerrainType DetectTerrain();
-    delegate bool HandleSing();
+    public delegate Vector2 CalculateXVelocity(float xInput, TerrainType currentTerrain, MediumType currentMedium);
+    public delegate Vector2 CalculateJumpVelocity(bool grounded);
+    public delegate bool CheckWallHold(WallDirection wallDirection, float xInput);
+    public delegate Vector2 CalculateWallJumpVelocity(WallDirection wallDirection);
+    public delegate WallDirection DetectWalls();
+    public delegate TerrainType DetectTerrain();
+    public delegate bool HandleSing();
 
 
     /// <summary>
     /// Takes into account the player's input, and potentially terrain type, and returns a vector describing the appropriate x movment for the player.
     /// </summary>
-    CalculateXVelocity calculateXVelocity;
+    public CalculateXVelocity calculateXVelocity;
 
     /// <summary>
     /// Takes into account the player's input and type of jump assigned to them, and returns a vector representing the appropriate y movement for the player.
     /// </summary>
-    CalculateJumpVelocity calculateJumpVelocity;
+    public CalculateJumpVelocity calculateJumpVelocity;
 
     /// <summary>
     /// Looks to left an right of the player. Returns a WallDirection value describing the nearby walls.
     /// </summary>
-    DetectWalls detectWalls;
+    public DetectWalls detectWalls;
 
     /// <summary>
     /// Looks at what the player is standing on and returns a TerrainType describing the floor. If player is not grounded, it will return TerrainType.None.
     /// </summary>
-    DetectTerrain detectTerrain;
+    public DetectTerrain detectTerrain;
 
     /// <summary>
     /// Creates the Sing area of effect around the player, and returns true, if the player still has SingTime and is attempting to sing.
     /// </summary>
-    HandleSing handleSing;
+    public HandleSing handleSing;
 
     /// <summary>
     /// Returns true if the player is moving into a wall.
     /// </summary>
-    CheckWallHold checkWallHold;
+    public CheckWallHold checkWallHold;
 
     /// <summary>
     /// Returns a vector2 representing the correct velocity for the player after they've jumped when airborn next to a wall.
     /// </summary>
-    CalculateWallJumpVelocity calculateWallJumpVelocity;
+    public CalculateWallJumpVelocity calculateWallJumpVelocity;
 
     #endregion
 
@@ -187,7 +187,7 @@ public class PlayerCharacterController : MonoBehaviour
         Vector2 horizontalVelocity = Vector2.zero;
         if (calculateXVelocity != null)
         {
-            horizontalVelocity = calculateXVelocity(xMovementInput);
+            horizontalVelocity = calculateXVelocity(xMovementInput, currentTerrain, currentMedium);
         }
         else
         {

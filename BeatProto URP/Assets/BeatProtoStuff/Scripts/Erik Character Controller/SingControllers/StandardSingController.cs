@@ -26,19 +26,12 @@ public class StandardSingController : MonoBehaviour
     {
         // We want to add the sing functionality of this class to the character controller.
         characterController = GetComponentInParent<PlayerCharacterController>();
-        
+        characterController.handleSing += HandleSing;        
     }
 
 
-    // Start is called before the first frame update
-    void Start()
+    bool HandleSing()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return true;
     }
 }
