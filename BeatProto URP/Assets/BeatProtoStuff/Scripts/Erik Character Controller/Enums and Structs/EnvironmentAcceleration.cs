@@ -1,4 +1,5 @@
 ﻿
+using System;
 /// <summary>
 /// Describes the Acceleration and Decelleration to expect from a specific type of Terrain/Medium.
 /// </summary>

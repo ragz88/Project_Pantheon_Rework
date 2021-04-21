@@ -38,12 +38,10 @@ public class PlayerCharacterController : MonoBehaviour
     private float wallHoldFallVelocity = 0;
 
     /// <summary>
-    /// Dictates whether or not the currently equipped jump is responsive to the amount of time the Jump button is held down.
-    /// If true, holding down jump makes the player character jump higher.
+    /// The maximum speed the player can fall at. Definied by the Jump Controller equipped at the time.
     /// </summary>
-    private bool holdJump = true;
+    private float maxFallVelocity = -5f;
 
-    
     /// <summary>
     /// Description of the current walls surrounding the player for wall jumping purposes. Either left, right or none.
     /// </summary>
@@ -157,6 +155,22 @@ public class PlayerCharacterController : MonoBehaviour
             wallHoldFallVelocity = value;
         }
     }
+
+    /// <summary>
+    /// Describes the maximum speed the player will fall at.
+    /// </summary>
+    public float MaxFallVelocity
+    {
+        get
+        {
+            return maxFallVelocity;
+        }
+
+        set
+        {
+            maxFallVelocity = value;
+        }
+    }
     #endregion
 
     // Start is called before the first frame update
@@ -169,19 +183,14 @@ public class PlayerCharacterController : MonoBehaviour
     void Update()
     {
         // Get Movement Input
-        float xMovementInput = Input.GetAxis("Horizontal");
+        float xMovementInput = Input.GetAxisRaw("Horizontal");
 
         AnalyseEnvironment();
 
         // Handle Jump
-        bool jumpInput = GetJumpInput();
-        Vector2 jumpVelocity = Vector2.zero;
+        Vector2 jumpVelocity = new Vector2(0, playerBody.velocity.y);
 
-        // Implies player is attempting to jump
-        if (jumpInput)
-        {
-            jumpVelocity = HandleJump();
-        }
+        jumpVelocity = HandleJump();
 
         // Calculates Horizontal Movement (Potentially Accounting For Friction)
         Vector2 horizontalVelocity = Vector2.zero;
@@ -236,6 +245,11 @@ public class PlayerCharacterController : MonoBehaviour
     private float CalculateFallVelocity()
     {
         float fallVelocity = playerBody.velocity.y;
+
+        if (fallVelocity < maxFallVelocity)
+        {
+            fallVelocity = maxFallVelocity;
+        }
 
         if (isSinging && singFallVelocity > fallVelocity)
         {
@@ -316,6 +330,10 @@ public class PlayerCharacterController : MonoBehaviour
         {
             grounded = true;
         }
+        else
+        {
+            grounded = false;
+        }
     }
 
     /// <summary>
@@ -337,7 +355,7 @@ public class PlayerCharacterController : MonoBehaviour
                 Debug.LogWarning("calculateWallJumpVelocity Delegate has no functionality assigned to it.");
             }
 
-            return Vector2.zero;
+            return new Vector2 (0, playerBody.velocity.y);
         }
         else
         {
@@ -350,34 +368,8 @@ public class PlayerCharacterController : MonoBehaviour
                 Debug.LogError("calculateJumpVelocity Delegate has no functionality assigned to it.");
             }
 
-            return Vector2.zero;
+            return new Vector2(0, playerBody.velocity.y);
         }
     }
 
-
-    /// <summary>
-    /// Examines holdJump and uses either GetButtonDown or GetButton when detecting Jump input in response.
-    /// </summary>
-    /// <returns></returns>
-    private bool GetJumpInput()
-    {
-        if (holdJump)
-        {
-            if (Input.GetButton("Jump"))
-            {
-                return true;
-            }
-
-            return false;
-        }
-        else
-        {
-            if (Input.GetButtonDown("Jump"))
-            {
-                return true;
-            }
-
-            return false;
-        }
-    }
 }

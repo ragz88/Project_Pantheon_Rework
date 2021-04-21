@@ -29,6 +29,12 @@ public class StandardSingController : MonoBehaviour
         characterController.handleSing += HandleSing;        
     }
 
+    private void OnDisable()
+    {
+        // We want to remove the sing functionality of this class to the character controller.
+       characterController.handleSing -= HandleSing;
+    }
+
 
     bool HandleSing()
     {

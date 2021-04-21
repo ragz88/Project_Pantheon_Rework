@@ -716,6 +716,54 @@ PrefabInstance:
     - {fileID: 780586636947921343, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
     - {fileID: 1761018331480139456, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b51350a66923f854ab17e284a50c59c0, type: 3}
+--- !u!1 &216804094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 216804095}
+  - component: {fileID: 216804096}
+  m_Layer: 0
+  m_Name: TerrainDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &216804095
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216804094}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1504717715}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &216804096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 216804094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e984b1822dcb54a40a0099358f548ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkDistance: 0.4
+  checkMask:
+    serializedVersion: 2
+    m_Bits: 8705
+  visualiseDebugGizmos: 1
 --- !u!1 &229429879
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,6 +839,54 @@ RectTransform:
   m_AnchoredPosition: {x: 97.7, y: 25}
   m_SizeDelta: {x: 294.72784, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &299070038
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 299070039}
+  - component: {fileID: 299070040}
+  m_Layer: 0
+  m_Name: JumpController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &299070039
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299070038}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1504717715}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &299070040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299070038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccd41482537c39244af1236dd4d91a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minJumpHeight: 1
+  maxJumpHeight: 3
+  minJumpTime: 1.5
+  maxFallVelocity: 100
+  gravityAugment: 0.4
 --- !u!1 &302735824
 GameObject:
   m_ObjectHideFlags: 0
@@ -2516,33 +2612,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e7ec104f231b3f4b8d099cf2af83039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 5
   accelerationSet:
   - terrainType: 0
     mediumType: 1
     moveSpeedModifier: 1
-    acceleration: 1
-    decceleration: 1
+    acceleration: 15
+    decceleration: 20
   - terrainType: 1
     mediumType: 1
     moveSpeedModifier: 1.3
-    acceleration: 1
-    decceleration: 1
-  - terrainType: 0
+    acceleration: 15
+    decceleration: 20
+  - terrainType: 2
+    mediumType: 1
+    moveSpeedModifier: 1
+    acceleration: 15
+    decceleration: 20
+  - terrainType: 2
     mediumType: 0
-    moveSpeedModifier: 0
-    acceleration: 0
-    decceleration: 0
-  - terrainType: 0
-    mediumType: 0
-    moveSpeedModifier: 0
-    acceleration: 0
-    decceleration: 0
-  - terrainType: 0
-    mediumType: 0
-    moveSpeedModifier: 0
-    acceleration: 0
-    decceleration: 0
+    moveSpeedModifier: 1
+    acceleration: 15
+    decceleration: 20
 --- !u!1 &1221431410
 GameObject:
   m_ObjectHideFlags: 0
@@ -2989,6 +3080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 127b3b8b41cd56c49b2d757736ad16bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 1504717710}
   dampTime: 0.2
   minBounds: {x: -24, y: -1}
   maxBounds: {x: 1000, y: 1000}
@@ -3368,7 +3460,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1504717710}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: bb1e8fbbfd5b7ea4f870ba875855e21d, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -3432,11 +3524,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1504717710}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.424, y: -5.118, z: 0}
+  m_LocalPosition: {x: -20.174, y: -5.118, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 1909633894}
   - {fileID: 1193820721}
+  - {fileID: 216804095}
+  - {fileID: 299070039}
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3450,11 +3544,11 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
+  m_Interpolate: 1
+  m_Constraints: 120
   m_CollisionDetection: 0
 --- !u!1001 &1577967446
 PrefabInstance:
@@ -3876,7 +3970,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1863438337}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a856783c2c1989b46aa979134e8caeda, type: 3}
   m_Name: 
@@ -3935,7 +4029,7 @@ GameObject:
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &1893472479
 CapsuleCollider:
   m_ObjectHideFlags: 0

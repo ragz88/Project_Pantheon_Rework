@@ -34,11 +34,17 @@ public class AccelerationMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        // We want to add the sing functionality of this class to the character controller.
+        // We want to add the movement functionality of this class to the character controller.
         characterController = GetComponentInParent<PlayerCharacterController>();
         characterController.calculateXVelocity += CalculateMovementVector;
 
         playerBody = characterController.gameObject.GetComponent<Rigidbody>();
+    }
+
+    private void OnDisable()
+    {
+        // We want to remove the movement functionality of this class to the character controller.
+        characterController.calculateXVelocity -= CalculateMovementVector;
     }
 
     Vector2 CalculateMovementVector(float xInput, TerrainType currentTerrain, MediumType currentMedium)

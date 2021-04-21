@@ -3,7 +3,7 @@
 public class CameraController3D : MonoBehaviour
 {
 
-    private GameObject target;
+    public GameObject target;
 
     public float dampTime;
 
@@ -15,8 +15,9 @@ public class CameraController3D : MonoBehaviour
 
     void Start()
     {
-        if (PlayerController3D.pController3D.playerFound)
-            target = PlayerController3D.pController3D.player;
+        /*if (PlayerController3D.pController3D.playerFound)
+            target = PlayerController3D.pController3D.player;*/
+
     }
 
 

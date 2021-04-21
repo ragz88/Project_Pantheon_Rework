@@ -137,6 +137,11 @@ public class WaterColliders : MonoBehaviour
                 {
                     gameObject.tag = "Ice";
                 }
+                // Deals with puddles
+                else
+                {
+                    gameObject.tag = "Ice";
+                }
             }
 
             if (!freezingComplete)
@@ -378,6 +383,11 @@ public class WaterColliders : MonoBehaviour
                     else if (isDeepWater)
                     {
                         gameObject.tag = "DeepWater";
+                    }
+                    // Deals with Puddles
+                    else
+                    {
+                        gameObject.tag = "Water";
                     }
                 }
             }
