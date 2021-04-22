@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerrainDetectorSC : MonoBehaviour
+public class WallDetectorSC : MonoBehaviour
 {
     [Tooltip("The distance the spherecast will travel in search of ground.")]
     /// <summary>
-    /// The distance the spherecast will travel in search of ground
+    /// The distance the spherecasts will travel in search of walls
     /// </summary>
     [SerializeField]
     private float checkDistance = 1f;
@@ -25,7 +25,7 @@ public class TerrainDetectorSC : MonoBehaviour
     /// </summary>
     [SerializeField]
     private bool visualiseDebugGizmos = false;
-    
+
     /// <summary>
     /// The character controller for the player character that will be singing. This class should be a child of said character object.
     /// </summary>
@@ -39,14 +39,14 @@ public class TerrainDetectorSC : MonoBehaviour
     private void OnEnable()
     {
         characterController = GetComponentInParent<PlayerCharacterController>();
-        characterController.detectTerrain += DetectTerrain;
+        characterController.detectWalls += DetectWalls;
 
         characterCollider = characterController.gameObject.GetComponent<CapsuleCollider>();
     }
 
     private void OnDisable()
     {
-        characterController.detectTerrain -= DetectTerrain;
+        characterController.detectWalls -= DetectWalls;
     }
 
     void OnDrawGizmos()
@@ -56,34 +56,40 @@ public class TerrainDetectorSC : MonoBehaviour
         // Shows Spherecast in the inspector
         if (visualiseDebugGizmos)
         {
-            Gizmos.color = new Color(1, 0.8f, 0.4f, 0.6f);
-            Gizmos.DrawSphere(characterCollider.transform.position - (characterCollider.transform.up * checkDistance), characterCollider.bounds.size.x/2);
+            Gizmos.color = new Color(0.3f, 0.9f, 0.4f, 0.6f);
+            Gizmos.DrawSphere(characterCollider.transform.position - (characterCollider.transform.right * checkDistance), characterCollider.bounds.size.y / 4);
+            Gizmos.DrawSphere(characterCollider.transform.position + (characterCollider.transform.right * checkDistance), characterCollider.bounds.size.y / 4);
         }
     }
 
-    TerrainType DetectTerrain()
+    WallDirection DetectWalls()
     {
         // Stores information about what our spherecast hit.
         RaycastHit hit;
 
-        // Cast a sphere of the character's width slightly below them in seach of ground.
-        bool hitSomething = Physics.SphereCast(characterCollider.transform.position, characterCollider.bounds.size.x / 2,
-            -1 * characterCollider.transform.up, out hit, checkDistance, checkMask);
+        // Cast a sphere, half the character's height in diameter, out to the right of the character's centre in search of walls
+        bool hitSomething = Physics.SphereCast(characterCollider.transform.position, characterCollider.bounds.size.y / 4,
+            characterCollider.transform.right, out hit, checkDistance, checkMask);
 
         if (hitSomething)
         {
-            if (hit.collider.gameObject.CompareTag("Ice"))
-            {
-                return TerrainType.Ice;
-            }
-            else
-            {
-                return TerrainType.Standard;
-            }
+            return WallDirection.Right;
         }
         else
         {
-            return TerrainType.None;
+            // If nothing was found, we check the other direction
+            // Cast a sphere, half the character's height in diameter, out to the left of the character's centre in search of walls
+            hitSomething = Physics.SphereCast(characterCollider.transform.position, characterCollider.bounds.size.y / 4,
+                -1 * characterCollider.transform.right, out hit, checkDistance, checkMask);
+
+            if (hitSomething)
+            {
+                return WallDirection.Left;
+            }
+            else
+            {
+                return WallDirection.None;
+            }
         }
     }
 }

@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 1109683703976745872}
   - component: {fileID: 1109683703976745879}
   - component: {fileID: 1109683703976745878}
-  m_Layer: 0
-  m_Name: SingLock3D (1)
+  m_Layer: 11
+  m_Name: SingLock3D
   m_TagString: Lock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

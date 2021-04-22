@@ -64,7 +64,17 @@ public class AccelerationMovement : MonoBehaviour
             finalXMovement = DeccelerateMovement(xInput);
         }
 
+
         return new Vector2(finalXMovement,0);
+    }
+
+    /// <summary>
+    /// Returns the change in velocity this frame's acceleration would cause, based on the current terrain/medium and deltaTime
+    /// </summary>
+    /// <returns></returns>
+    private float GetDeltaX(float xInput)
+    {
+        return (currentAcceleration * Time.deltaTime * xInput);
     }
 
 
@@ -207,10 +217,10 @@ public class AccelerationMovement : MonoBehaviour
     {
         int index = -1;
 
-        // We loop through the accelerationSet array looking for a matching terrain, and store the index and break out if we find one
+        // We loop through the accelerationSet array looking for a matching medium, and store the index and break out if we find one
         for (int i = 0; i < accelerationSet.Length; i++)
         {
-            if (accelerationSet[i].mediumType == medium)
+            if (accelerationSet[i].mediumType == medium && accelerationSet[i].terrainType == TerrainType.None)
             {
                 index = i;
                 break;

@@ -43,6 +43,13 @@ public class PlayerCharacterController : MonoBehaviour
     private float maxFallVelocity = -5f;
 
     /// <summary>
+    /// Set to true when player's last jump was off of a wall, prioritising the walljump calculations over the standard jump
+    /// calculations. Set to false again when the player lands on the ground.
+    /// </summary>
+    private bool prioritiseWallJump = false;
+
+
+    /// <summary>
     /// Description of the current walls surrounding the player for wall jumping purposes. Either left, right or none.
     /// </summary>
     private WallDirection currentWalls = WallDirection.None;
@@ -67,7 +74,7 @@ public class PlayerCharacterController : MonoBehaviour
     public delegate Vector2 CalculateWallJumpVelocity(WallDirection wallDirection);
     public delegate WallDirection DetectWalls();
     public delegate TerrainType DetectTerrain();
-    public delegate bool HandleSing();
+    public delegate bool HandleSing(bool grounded);
 
 
     /// <summary>
@@ -171,6 +178,25 @@ public class PlayerCharacterController : MonoBehaviour
             maxFallVelocity = value;
         }
     }
+
+    /// <summary>
+    /// Set to true when player's last jump was off of a wall, prioritising the walljump calculations over the standard jump
+    /// calculations. Set to false again when the player lands on the ground.
+    /// </summary>
+    public bool PrioritiseWallJump
+    {
+        get
+        {
+            return prioritiseWallJump;
+        }
+
+        set
+        {
+            prioritiseWallJump = value;
+        }
+    }
+
+    
     #endregion
 
     // Start is called before the first frame update
@@ -197,6 +223,7 @@ public class PlayerCharacterController : MonoBehaviour
         if (calculateXVelocity != null)
         {
             horizontalVelocity = calculateXVelocity(xMovementInput, currentTerrain, currentMedium);
+      
         }
         else
         {
@@ -207,7 +234,7 @@ public class PlayerCharacterController : MonoBehaviour
         //Checks if player is both trying to and able to sing.
         if (handleSing != null)
         { 
-            isSinging = handleSing();
+            isSinging = handleSing(grounded);
         }
         else
         {
@@ -281,7 +308,7 @@ public class PlayerCharacterController : MonoBehaviour
         // for this frame.
         if (jumpVelocity.x != 0)
         {
-            finalVelocity = jumpVelocity;
+            finalVelocity = horizontalVelocity + jumpVelocity;
         }
         // Otherwise, we naturally combine the x and y velocities resulting from movement inputs
         else
@@ -289,11 +316,13 @@ public class PlayerCharacterController : MonoBehaviour
             finalVelocity = horizontalVelocity + jumpVelocity;
         }
 
+        //finalVelocity = horizontalVelocity + jumpVelocity;
+
         // Finally, we check if the player is currently falling (has a negative y velocity) and thus account for any fall 
         // augmentations that are currently active.
         if (playerBody.velocity.y < 0 && jumpVelocity.y < 0)
         {
-            playerBody.velocity = new Vector2 (playerBody.velocity.x, fallVelocity);
+             finalVelocity = new Vector2 (finalVelocity.x, fallVelocity);
         }
 
 
@@ -344,7 +373,7 @@ public class PlayerCharacterController : MonoBehaviour
     private Vector2 HandleJump()
     {
         // Implies this is the first frame in which a jump has happened from the wall
-        if (!grounded && (currentWalls != WallDirection.None))
+        if (!grounded && (currentWalls != WallDirection.None) || !grounded && prioritiseWallJump)
         {
             if (calculateWallJumpVelocity != null)
             {
@@ -353,12 +382,16 @@ public class PlayerCharacterController : MonoBehaviour
             else
             {
                 Debug.LogWarning("calculateWallJumpVelocity Delegate has no functionality assigned to it.");
+
+                return calculateJumpVelocity(grounded);
             }
 
-            return new Vector2 (0, playerBody.velocity.y);
         }
         else
         {
+            // Implies we've landed on the ground if a wall jump had happened previously
+            prioritiseWallJump = false;
+
             if (calculateJumpVelocity != null)
             {
                 return calculateJumpVelocity(grounded);
@@ -371,5 +404,4 @@ public class PlayerCharacterController : MonoBehaviour
             return new Vector2(0, playerBody.velocity.y);
         }
     }
-
 }

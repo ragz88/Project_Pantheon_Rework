@@ -7,11 +7,24 @@ using UnityEngine;
 /// </summary>
 public class WaterSingCancel : MonoBehaviour
 {
+    // MAKE DYNAMIC!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Use inheretance?
+
+    /// <summary>
+    /// The current SingController being used by the player
+    /// </summary>
+    private SingController_GroundReset singController;
+
+    private void Start()
+    {
+        singController = GetComponentInParent<SingController_GroundReset>();
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Water") || other.gameObject.CompareTag("DeepWater"))
         {
-            PlayerController3D.pController3D.singTime = 0;
+            singController.ResetCurrentSingTime();
         }
     }
 }

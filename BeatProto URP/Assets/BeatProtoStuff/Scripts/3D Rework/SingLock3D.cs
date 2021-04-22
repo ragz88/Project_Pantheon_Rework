@@ -80,23 +80,19 @@ public class SingLock3D : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "SingCollider")
-        {
-            unlockedTimeRemaining = stayUnlockedTime;
-            meshRend.material.color = unlockedColor;
-            unlocked = true;
-            countDownText.text = ((int)unlockedTimeRemaining + 1).ToString();
-        }
-    }
+        unlockedTimeRemaining = stayUnlockedTime;
+        meshRend.material.color = unlockedColor;
+        unlocked = true;
+        countDownText.text = ((int)unlockedTimeRemaining + 1).ToString();
+    }  
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.name == "SingCollider")
-        {
-            unlockedTimeRemaining = stayUnlockedTime;
-            countDownText.text = ((int)unlockedTimeRemaining + 1).ToString();
-            //singCollision = true;
-        }
+        
+         unlockedTimeRemaining = stayUnlockedTime;
+         countDownText.text = ((int)unlockedTimeRemaining + 1).ToString();
+         //singCollision = true;
+        
     }
 
     private void OnTriggerExit(Collider other)
