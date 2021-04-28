@@ -83,7 +83,47 @@ public class AccelerationMovement : MonoBehaviour
     /// </summary>
     private float AccelerateMovement(float xInput)
     {
-        // Player has not reached max speed, or is still moving in the opposite direction of the new movement input
+        // Calculate what the player's new speed would be if we accelerated them in the requested direction
+        float changingSpeed = playerBody.velocity.x + (currentAcceleration * Time.deltaTime * xInput);
+
+        // The maximum possible speed obtainable by standard movement in the direction chosen by the player.
+        float maxSpeed = moveSpeed * currentSpeedModifier * Mathf.Sign(xInput);
+
+        // Player trying to move left, but has yet to reach maximum left speed
+        if (xInput < 0 && playerBody.velocity.x > maxSpeed)
+        {
+            // Ensure that our acceleration does not push the player over the maximum speed
+            if (changingSpeed >= maxSpeed)
+            {
+                return changingSpeed;
+            }
+            else
+            {
+                return maxSpeed;
+            }
+        }
+        // Player trying to move right, but has yet to reach maximum right speed
+        else if (xInput > 0 && playerBody.velocity.x < maxSpeed)
+        {
+            // Ensure that our acceleration does not push the player over the maximum speed
+            if (changingSpeed <= maxSpeed)
+            {
+                return changingSpeed;
+            }
+            else
+            {
+                return maxSpeed;
+            }
+        }
+        else
+        {
+            // This will allow players to maintain speeds above maximum. Do we want that?
+            // If not, we'll need to trigger a deceleration here.
+            return playerBody.velocity.x;
+        }
+        
+        
+        /*// Player has not reached max speed, or is still moving in the opposite direction of the new movement input
         if ((Mathf.Abs(playerBody.velocity.x) < moveSpeed * currentSpeedModifier) || (Mathf.Sign(playerBody.velocity.x) != Mathf.Sign(xInput)))
         {
             float changingSpeed = playerBody.velocity.x + (currentAcceleration * Time.deltaTime * xInput);
@@ -102,7 +142,7 @@ public class AccelerationMovement : MonoBehaviour
         else
         {
             return (xInput * moveSpeed * currentSpeedModifier);
-        }
+        }*/
     }
 
     /// <summary>

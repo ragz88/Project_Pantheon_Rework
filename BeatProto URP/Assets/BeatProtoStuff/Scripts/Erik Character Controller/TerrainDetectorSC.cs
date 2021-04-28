@@ -57,7 +57,7 @@ public class TerrainDetectorSC : MonoBehaviour
         if (visualiseDebugGizmos)
         {
             Gizmos.color = new Color(1, 0.8f, 0.4f, 0.6f);
-            Gizmos.DrawSphere(characterCollider.transform.position - (characterCollider.transform.up * checkDistance), characterCollider.bounds.size.x/2);
+            Gizmos.DrawSphere(characterCollider.transform.position - (characterCollider.transform.up * checkDistance), characterCollider.bounds.size.x/2.15f);
         }
     }
 
@@ -67,7 +67,7 @@ public class TerrainDetectorSC : MonoBehaviour
         RaycastHit hit;
 
         // Cast a sphere of the character's width slightly below them in seach of ground.
-        bool hitSomething = Physics.SphereCast(characterCollider.transform.position, characterCollider.bounds.size.x / 2,
+        bool hitSomething = Physics.SphereCast(characterCollider.transform.position, characterCollider.bounds.size.x / 2.15f,
             -1 * characterCollider.transform.up, out hit, checkDistance, checkMask);
 
         if (hitSomething)

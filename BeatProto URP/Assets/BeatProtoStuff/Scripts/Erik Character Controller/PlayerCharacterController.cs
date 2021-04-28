@@ -273,10 +273,10 @@ public class PlayerCharacterController : MonoBehaviour
     {
         float fallVelocity = playerBody.velocity.y;
 
-        if (fallVelocity < maxFallVelocity)
+        /*if (fallVelocity < maxFallVelocity)
         {
             fallVelocity = maxFallVelocity;
-        }
+        }*/
 
         if (isSinging && singFallVelocity > fallVelocity)
         {
@@ -308,7 +308,7 @@ public class PlayerCharacterController : MonoBehaviour
         // for this frame.
         if (jumpVelocity.x != 0)
         {
-            finalVelocity = horizontalVelocity + jumpVelocity;
+            finalVelocity = jumpVelocity;
         }
         // Otherwise, we naturally combine the x and y velocities resulting from movement inputs
         else
@@ -348,6 +348,7 @@ public class PlayerCharacterController : MonoBehaviour
         if (detectWalls != null)
         {
             currentWalls = detectWalls();
+            print(currentWalls.ToString());
         }
         else
         {
@@ -363,6 +364,7 @@ public class PlayerCharacterController : MonoBehaviour
         {
             grounded = false;
         }
+
     }
 
     /// <summary>
