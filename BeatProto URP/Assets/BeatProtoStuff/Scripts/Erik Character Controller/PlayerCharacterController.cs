@@ -28,6 +28,11 @@ public class PlayerCharacterController : MonoBehaviour
     private bool isHoldingWall = false;
 
     /// <summary>
+    /// Stores the final calculated velocity each frame.
+    /// </summary>
+    private Vector2 finalVelocity;
+
+    /// <summary>
     /// Describes the speed the player will fall at when singing.
     /// </summary>
     private float singFallVelocity = 0;
@@ -196,6 +201,41 @@ public class PlayerCharacterController : MonoBehaviour
         }
     }
 
+
+    public Vector2 FinalVelocity
+    {
+        get
+        {
+            return finalVelocity;
+        }
+    }
+
+
+    public bool IsHoldingWall
+    {
+        get
+        {
+            return isHoldingWall;
+        }
+    }
+
+    public WallDirection CurrentWalls
+    {
+        get
+        {
+            return currentWalls;
+        }
+    }
+
+
+    public bool Singing
+    {
+        get
+        {
+            return isSinging;
+        }
+    }
+
     
     #endregion
 
@@ -263,6 +303,19 @@ public class PlayerCharacterController : MonoBehaviour
         playerBody.velocity = playerMovement;
     }
 
+
+    private void FixedUpdate()
+    {
+        if (detectWalls != null)
+        {
+            currentWalls = detectWalls();
+        }
+        else
+        {
+            Debug.LogWarning("detectWalls Delegate has no functionality assigned to it.");
+        }
+    }
+
     /// <summary>
     /// Checks for various actions that could change the player's fall speed, such as wall grabbing and singing.
     /// Then returns a float that represents the correct fall velocity for the player.
@@ -302,7 +355,7 @@ public class PlayerCharacterController : MonoBehaviour
     /// <returns></returns>
     private Vector2 CalculateFinalVelocity(Vector2 horizontalVelocity, Vector2 jumpVelocity, float fallVelocity)
     {
-        Vector2 finalVelocity = Vector2.zero;
+        finalVelocity = Vector2.zero;
 
         // This implies a jump was done off of a wall, and its x velocity must be prioritised over the standard movement velocity
         // for this frame.
@@ -345,15 +398,15 @@ public class PlayerCharacterController : MonoBehaviour
             Debug.LogError("detectTerrain Delegate has no functionality assigned to it.");
         }
 
+        /*    Had to be moved into Fixed Update
         if (detectWalls != null)
         {
-            currentWalls = detectWalls();
-            print(currentWalls.ToString());
+            //currentWalls = detectWalls();
         }
         else
         {
             Debug.LogWarning("detectWalls Delegate has no functionality assigned to it.");
-        }
+        }*/
 
         // Implies the player is standing on something
         if (currentTerrain != TerrainType.None)

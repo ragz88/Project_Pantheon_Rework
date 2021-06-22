@@ -62,6 +62,17 @@ public class BuoyancyForceController : MonoBehaviour
     private Rigidbody playerRB;
 
 
+    /// <summary>
+    /// The player's animation controlling script. Assigned on trigger entry.
+    /// </summary>
+    private PlayerAnimManager animManager;
+
+    /// <summary>
+    /// Stores information about whether the water is frozen or not.
+    /// </summary>
+    WaterController waterController;
+
+
 
     private void Start()
     {
@@ -89,12 +100,12 @@ public class BuoyancyForceController : MonoBehaviour
             Debug.LogWarning("Trigger Collider not found in water source " + gameObject.name);
         }
 
-        
+        waterController = GetComponentInParent<WaterController>();
     }
 
 
     private void OnTriggerStay(Collider other)
-    {        
+    {
         if (other.CompareTag("Player"))
         {
             // We need to cache a reference to the player's collider the first time we interact with it.
@@ -113,14 +124,11 @@ public class BuoyancyForceController : MonoBehaviour
                 playerRB = other.gameObject.GetComponent<Rigidbody>();
             }
 
-            // Will place more accurately once all animations are decided on.
-            PlayerController3D.pController3D.SetSwimming(true);
-
             // Visualises the 'Dead Zone'
             /*Debug.DrawLine(new Vector3(transform.position.x, waterSurfaceYPos, transform.position.z), 
                 new Vector3(transform.position.x, waterSurfaceYPos - (buoyancyDepth * playerCollider.height), transform.position.z),
                 Color.magenta);*/
-            
+
             // Player is below 'dead zone' and must swim upwards
             if ((waterSurfaceYPos - other.transform.position.y) > (buoyancyDepth * playerCollider.height * 0.55f) && playerRB.velocity.y < maxYVelocity)
             {
@@ -136,6 +144,25 @@ public class BuoyancyForceController : MonoBehaviour
                     dynamicCollider.enabled = true;
                 }
             }
+
+            if (waterController.waterState == WaterState.Frozen)
+            {
+                animManager.Swimming = false;
+            }
+        }
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && waterController.waterState != WaterState.Frozen)
+        {
+            animManager = other.GetComponentInChildren<PlayerAnimManager>();
+
+            if (animManager != null)
+            {
+                animManager.Swimming = true;
+            }
         }
     }
 
@@ -145,7 +172,11 @@ public class BuoyancyForceController : MonoBehaviour
         // If the player leaves the water, we'll deactivate our invisible floor and tell them to stop swimming.
         if (other.CompareTag("Player"))
         {
-            PlayerController3D.pController3D.SetSwimming(false);
+            if (animManager != null)
+            {
+                animManager.Swimming = false;
+            }
+
             dynamicCollider.enabled = false;
         }
     }

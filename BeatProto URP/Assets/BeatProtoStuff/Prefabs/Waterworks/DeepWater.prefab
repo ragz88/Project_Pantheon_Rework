@@ -202,8 +202,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fc28a8b16d7be84893d3aca5e76642b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buoyancyAcceleration: 120
-  buoyancyDepth: 0.75
+  buoyancyAcceleration: 100
+  buoyancyDepth: 0.4
   velocityThreshold: 0.6
   dynamicCollider: {fileID: 1630334779358469231}
   maxYVelocity: 3.5

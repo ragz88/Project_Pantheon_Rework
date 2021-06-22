@@ -15,6 +15,13 @@ public class WaterSingCancel : MonoBehaviour
     /// </summary>
     private SingController_GroundReset singController;
 
+
+    /// <summary>
+    /// The script controlling the animations on our player character.
+    /// </summary>
+    [SerializeField]
+    private PlayerAnimManager animManager;
+
     private void Start()
     {
         singController = GetComponentInParent<SingController_GroundReset>();
@@ -25,6 +32,15 @@ public class WaterSingCancel : MonoBehaviour
         if (other.gameObject.CompareTag("Water") || other.gameObject.CompareTag("DeepWater"))
         {
             singController.ResetCurrentSingTime();
+            animManager.Submerged = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Water") || other.gameObject.CompareTag("DeepWater"))
+        {
+            animManager.Submerged = false;
         }
     }
 }
